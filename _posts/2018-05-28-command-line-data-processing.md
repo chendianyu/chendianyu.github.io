@@ -28,7 +28,6 @@ tail -n +<num> test.txt   ## 显示从第 `<num>` 行开始的所有行（注意
 # cloumn
 Sometimes it's difficult to see which elements belong to a particular column, 
 so we use `column` to help us to visualize
-## Options
 * `-t` : treat data as table  
 * `-s` : 指出文件的分隔符（默认为 **TAB**）  
 
@@ -40,8 +39,8 @@ so we use `column` to help us to visualize
   * `1,3` : 1，3列  
   * `-3` : 等价于1-3列  
   * `3-` : 3-最后列  
-  * `-` : 所有列
-## Warning
+  * `-` : 所有列  
+#### Warning
 `cut` 不能实现列的重排序，所以诸如 `8,1-3` 这样的形式仍会按照 `1-3,8` 返回列
 
 # sort
@@ -74,7 +73,7 @@ grep <pattern> <files>
 * `-E` : 调用ERE  
 * `-c` : 返回匹配行的行数  
 * `-o` : 仅返回匹配的部分，而非整行  
-* `-h` : 同时处理**多个文件**时，`grep` 默认返回**文件名：匹配行**的形式，使用 `-h` 可以避免输出文件名
+* `-h` : 同时处理**多个文件**时，`grep` 默认返回**文件名：匹配行**的形式，使用 `-h` 可以避免输出文件名  
 ## Regular Expression
 `grep` 既能接受普通的字符串作为 `<pattern>`， 也能够使用正则表达式  
 包括 ：*POSIX Basic Regular Expression* (BRE) 和 *POSIX Extended Regular Expression* (ERE)
@@ -83,5 +82,5 @@ grep <pattern> <files>
 **Basic Synatx** : `awk '<pattern> { <action> }' <file>`  
 `<pattern>` is an expression or regular expression pattern (regular expressions are in **slashes (/)**)  
 we can chain multiple pattern-action pairs, separated by **semicolons (;)**  
-### Options
+  
 * `-F` : 指定分隔符（默认为若干个空格，包括TAB）  
