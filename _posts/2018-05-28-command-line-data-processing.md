@@ -13,14 +13,14 @@ tags:
 <!-- more -->
 
 # head
-```
+```shell
 head <file>
 head -n 3 test.txt`       ## 等价于 `head -n3 test.txt` 等价于 `head -3 test.txt`  
 head -n -<num> test.txt   ## 显示除倒数 `<num>` 行外的其他行
 ```
 
 # tail
-``` 
+```shell 
 tail <file>
 tail -n +<num> test.txt   ## 显示从第 `<num>` 行开始的所有行（注意与 `head` 在这一点上的区别）
 ```
@@ -39,8 +39,9 @@ so we use `column` to help us to visualize
   * `1,3` : 1，3列  
   * `-3` : 等价于1-3列  
   * `3-` : 3-最后列  
-  * `-` : 所有列  
-#### Warning
+  * `-` : 所有列
+
+## Warning
 `cut` 不能实现列的重排序，所以诸如 `8,1-3` 这样的形式仍会按照 `1-3,8` 返回列
 
 # sort
@@ -58,7 +59,7 @@ so we use `column` to help us to visualize
 * `-i` : 忽略大小写  
 
 # grep
-```
+```shell
 grep <pattern> <files>
 # (The quotes around the *pattern* aren't required, but it's safest to use quotes to avoid conflict)  
 # `grep` returns any lines that match the pattern, even ones that only **partially match**
@@ -74,6 +75,7 @@ grep <pattern> <files>
 * `-c` : 返回匹配行的行数  
 * `-o` : 仅返回匹配的部分，而非整行  
 * `-h` : 同时处理**多个文件**时，`grep` 默认返回**文件名：匹配行**的形式，使用 `-h` 可以避免输出文件名  
+
 ## Regular Expression
 `grep` 既能接受普通的字符串作为 `<pattern>`， 也能够使用正则表达式  
 包括 ：*POSIX Basic Regular Expression* (BRE) 和 *POSIX Extended Regular Expression* (ERE)
