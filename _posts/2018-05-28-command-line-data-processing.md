@@ -25,6 +25,33 @@ tail <file>
 tail -n +<num> test.txt   ## 显示从第 `<num>` 行开始的所有行（注意与 `head` 在这一点上的区别）
 ```
 
+# tr
+强大的文件清理工具，可快速实现sed的一些基本功能
+```shell
+tr <set1> [set2]    # 要注意的是set中的字母是单个单个对应
+tr 'abc' 'ABC'      # 指将a转换成A，b转换成B，c转换成C，而不是指出现abc转成ABC
+```
+* `-c`: use the complement of SET1  
+* `-d`: delete characters in SET1, do not translate  
+* `-s`: 在set1中列举的字符，如果原文本中出现连续重复，则进行压缩只保留单个字符  
+  
+set1或2可以使用内置的`[:class:]`参数，从而实现更方便的指定：  
+* `[:alnmu:]`: all letters and digits  
+* `[:alpha:]`: all letters  
+* `[:blank:]`: all horizontal whitespace, 即空格和制表符  
+* `[:digit:]`: all digits  
+* `[:lower:]`: all lower case letters  
+* `[:punct:]`: 所有标点符号  
+* `[:space:]`: all horizontal or vertical whitespace  
+* `[:upper:]`: all upper case letters  
+  
+# wc  
+```shell
+wc <file>    # print newline, word, and byte counts for each file
+# 对应 `-l`, `-w`, `-m` 参数  
+# `-L` 则输出最长行的字符数  
+```  
+
 # cloumn
 Sometimes it's difficult to see which elements belong to a particular column, 
 so we use `column` to help us to visualize
@@ -45,18 +72,20 @@ so we use `column` to help us to visualize
 `cut` 不能实现列的重排序，所以诸如 `8,1-3` 这样的形式仍会按照 `1-3,8` 返回列
 
 # sort
-* `-t` : 指定分隔符（默认为 `blank characters`， 包括 `TAB` 和 `Space`）  
-* `-k<start>,<end>` : 指定用于排序的列的范围（即从`<start>`到`<end>`列）  
+* `-t`: 指定分隔符（默认为 `blank characters`， 包括 `TAB` 和 `Space`）  
+* `-k<start>,<end>`: 指定用于排序的列的范围（即从`<start>`到`<end>`列）  
 *eg :* `sort -k1,2 test.txt` `sort -k1,1 test.txt`  
-* `-n` : 按照数值顺序排序，而非字母表顺序  
-* `-r` : 逆序，即降序（默认为升序）  
-* `-V` : 智能化字母表排序，能理解字符串中的数字，特别适合如 `chr1, chr2, ... ,chr22` 等的排序  
-**trick** : `-n`, `-r` 以及 `-V` 既可以直接单独使用，表示对排序所用的全部列均有作用，
+* `-f`: 忽略大小写  
+* `-n`: 按照数值顺序排序，而非字母表顺序  
+* `-r`: 逆序，即降序（默认为升序）  
+* `-V`: 智能化字母表排序，能理解字符串中的数字，特别适合如 `chr1, chr2, ... ,chr22` 等的排序  
+**trick**: `-n`, `-r` 以及 `-V` 既可以直接单独使用，表示对排序所用的全部列均有作用，
 也可以放在 `-k` 指定的列后，如 `sort -k1,1nrV test.txt` 表示针对第一列
 
 # uniq
-* `-c` : 计数  
-* `-i` : 忽略大小写  
+* `-c`: 计数  
+* `-i`: 忽略大小写  
+* `-d`: 仅打印重复行
 
 # grep
 ```shell
