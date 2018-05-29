@@ -4,6 +4,9 @@ description: Quick and lightweight data processing by Linux command line tools
 categories:
  - Linux
 tags:
+ - Linux
+ - command line
+ - data processing
 ---
 
 > 我们有很多工具可以用于数据操作，例如 **Pandas** 或者 **Tidyverse**，但有时候我们只需要对数据有个大概了解或者进行一次性的简单操作，
