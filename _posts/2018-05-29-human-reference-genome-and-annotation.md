@@ -23,8 +23,8 @@ each donor              \-- from wikipedia
 的版本是相似的，但是仍存在一定的差异。此外，还有一些项目会针对这些版本进行一些定制化或者改进，例如千人基因组计划等  
   
 首先让我们看一下不同机构之间参考基因组的对应关系：  
-| NCBI | UCSC | ENSEMBL |
-| --- | --- | --- |
-| GRCh37 | hg19 | ENSEMBL release_59/61/64/68/69/75 |
+| NCBI | UCSC | ENSEMBL |  
+| --- | --- | --- |  
+| GRCh37 | hg19 | ENSEMBL release_59/61/64/68/69/75 |  
 | GRCh38 | hg38 | ENSEMBL release_76/77/78/80/81/82 |
   
