@@ -1,5 +1,5 @@
 ---
-title: Introduction to Human Reference Genome and Annotation
+title: Introduction to Human Reference Genome
 categories:
  - NGS
 tags:
@@ -25,8 +25,8 @@ each donor              \-- from wikipedia
 
 | NCBI | UCSC | ENSEMBL |  
 | --- | --- | --- |  
-| GRCh37 | hg19 | ENSEMBL release_59/61/64/68/69/75 |  
-| GRCh38 | hg38 | ENSEMBL release_76/77/78/80/81/82 |  
+| GRCh37 | hg19 | ENSEMBL 59/61/64/68/69/75 |  
+| GRCh38 | hg38 | ENSEMBL 76/77/78/80/81/82 |  
 
 # 提供参考基因组的机构  
 ## The Genome Reference Consortium (GRC)
@@ -34,12 +34,13 @@ NCBI 旗下的 GRC 尽最大努力为我们提供最完善的人类参考基因�
 此外，它还以 `patch` 的形式修正某些区域，例如你会看到 `GRCh37.p7` 这样的版本号。通过这种方式，既可以保证整个染色体坐标的稳定性，同时提供更加准确的碱基组成。  
   
 ## UCSC  
-UCSC本身并不会进行基因组的测序及组装，它只是将GRC的版本进行了一定的调整，例如在染色体编号之前加上 `chr` 等，具体的我们会在接下来各版本参考基因组中进行更详细的说明。
+UCSC 本身并不会进行基因组的测序及组装，它只是将 GRC 的版本进行了一定的调整，例如在染色体编号之前加上 `chr` 等。需要注意的是 UCSC 给出的基因组版本是 `zero-based coordinate system`。 其他具体的调整我们会在接下来各版本参考基因组中进行更详细的说明。  
   
-## ENSEMBL  
+## ENSEMBL
+ENSEMBLE 同样是使用来自 GRC 给出的参考基因组。与 UCSC 不同的是，其使用的是 `one-based coordinate system`。
 
 # Reference Genome
-## hg19/GRCh37/b37/ENSEMBL release_59/61/64/68/69/75
+## GRCh37/hg19/b37/ENSEMBL 59/61/64/68/69/75
 * GRCh37 中包含  
   * 24条基本完整的染色体序列，即 1-22, X, Y  
   * 完整的线粒体序列  
@@ -63,8 +64,10 @@ UCSC本身并不会进行基因组的测序及组装，它只是将GRC的版本�
   * A human herpesvirus (疱疹病毒) 4 type 1 sequence，命名为 `NC_007605`  
   * "decoy" sequence (诱饵序列)（命名为 `hs37d5`） 来自HuRef、BAC和质粒克隆和NA12878，可以提高序列比对的正确率  
   * Y染色体上 `pseudo-autosomal regions (PAR)` 被masked (用 `N`代替)，所以X染色体上对应区域可能被视为二倍体  
+  以上这些变化使得该套序列能够减少假阳性，且与b37兼容，从而成为序列比对和变异识别的最佳之选  
   
-以上这些变化该套序列能够减少假阳性，且与b37兼容，从而成为序列比对和变异识别的最佳之选
+## GRCh38/hg38/ENSEMBL 76/77/78/80/81/82
+
   
 # Ref
 1. https://genestack.com/blog/2016/07/12/choosing-a-reference-genome/  
