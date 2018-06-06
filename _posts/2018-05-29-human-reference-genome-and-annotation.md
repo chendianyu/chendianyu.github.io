@@ -5,7 +5,7 @@ categories:
 tags:
  - NGS
  - reference
- - annotation
+ - Genome
 ---
 
 当我们进行NGS数据分析时，通常我们需要将测序得到的reads比对至参考基因组上（reference genome）。目前有多家机构提供不同版本的参考基因组，针对我们
@@ -63,6 +63,7 @@ UCSC本身并不会进行基因组的测序及组装，它只是将GRC的版本�
   * A human herpesvirus (疱疹病毒) 4 type 1 sequence，命名为 `NC_007605`  
   * "decoy" sequence (诱饵序列)（命名为 `hs37d5`） 来自HuRef、BAC和质粒克隆和NA12878，可以提高序列比对的正确率  
   * Y染色体上 `pseudo-autosomal regions (PAR)` 被masked (用 `N`代替)，所以X染色体上对应区域可能被视为二倍体  
+  
 以上这些变化该套序列能够减少假阳性，且与b37兼容，从而成为序列比对和变异识别的最佳之选
   
 # Ref
