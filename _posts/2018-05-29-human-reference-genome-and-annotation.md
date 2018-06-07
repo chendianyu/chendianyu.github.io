@@ -9,7 +9,7 @@ tags:
 ---
 
 当我们进行NGS数据分析时，通常我们需要将测序得到的reads比对至参考基因组上（reference genome）。目前有多家机构提供不同版本的参考基因组，针对我们
-的需求，我们应当选择合适的参考基因组。此外，选择哪个参考基因组将会影响到后续对基因组注释的选择。接下来，让我们来了解一下不同的参考基因组及注释。
+的需求，我们应当选择合适的参考基因组。此外，选择哪个参考基因组将会影响到后续对基因组注释的选择。接下来，让我们来了解一下不同的参考基因组。
 
 <!-- more -->
 
@@ -30,8 +30,7 @@ each donor              \-- from wikipedia
 
 # 提供参考基因组的机构  
 ## The Genome Reference Consortium (GRC)
-NCBI 旗下的 GRC 尽最大努力为我们提供最完善的人类参考基因组。除了基础的版本外，它还提供了 `alternate loci` 以表示那些过于复杂而无法用单条通路表示的区域。GRC 版本的基因组是 `one-based coordinate system`。
-此外，它还以 `patch` 的形式修正某些区域，例如你会看到 `GRCh37.p7` 这样的版本号。通过这种方式，既可以保证整个染色体坐标的稳定性，同时提供更加准确的碱基组成。  
+NCBI 旗下的 GRC 致力于为我们提供最完善的人类参考基因组。GRC 版本的基因组是 `one-based coordinate system`。除了基础的组装外，它还提供了 `alternate loci` 以表示那些过于复杂而无法用单条通路表示的区域。此外，它还以 `patch` 的形式修正某些区域，例如你会看到 `GRCh37.p7` 这样的版本号。通过这种方式，既可以保证整个染色体坐标的稳定性，同时提供更加准确的碱基组成。  
   
 ## UCSC  
 UCSC 本身并不会进行基因组的测序及组装，它只是将 GRC 的版本进行了一定的调整，例如在染色体编号之前加上 `chr` 等。需要注意的是 UCSC 给出的基因组版本是 `zero-based coordinate system`。 其他具体的调整我们会在接下来各版本参考基因组中进行更详细的说明。  
@@ -105,5 +104,4 @@ BWA 作者 Heng Li 在其[博客](http://lh3.github.io/2017/11/13/which-human-re
 3. https://wiki.dnanexus.com/Scientific-Notes/human-genome  
 4. https://software.broadinstitute.org/gatk/documentation/article?id=11011  
 5. https://software.broadinstitute.org/gatk/documentation/article?id=11010  
-
-
+6. http://www.zxzyl.com/archives/829  
