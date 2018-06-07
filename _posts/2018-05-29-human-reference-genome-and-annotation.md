@@ -93,12 +93,17 @@ BWA 作者 Heng Li 在其[博客](http://lh3.github.io/2017/11/13/which-human-re
 * hg38/hg38.fa.gz from [UCSC](http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/): 1, 3 and 5  
 * GCA_000001405.15_GRCh38_genomic.fna.gz from [NCBI](https://www.ncbi.nlm.nih.gov/projects/genome/guide/human/): 1, 3, 5 and 6  
 * Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz from [EnsEMBL](http://ftp.ensembl.org/pub/current_fasta/homo_sapiens/dna/): 3  
-* Homo_sapiens.GRCh38.dna.toplevel.fa.gz from [EnsEMBL](http://ftp.ensembl.org/pub/current_fasta/homo_sapiens/dna/): 1, 2 and 3.
+* Homo_sapiens.GRCh38.dna.toplevel.fa.gz from [EnsEMBL](http://ftp.ensembl.org/pub/current_fasta/homo_sapiens/dna/): 1, 2 and 3
   
 **当然，怎么选择参考基因组还是需要根据具体的情况来判定，包括实验室或者公司之前使用的情况，不同版本对应的注释文件情况等等**  
+  
+# Glossary  
 
 # Ref
 1. https://genestack.com/blog/2016/07/12/choosing-a-reference-genome/  
 2. http://lh3.github.io/2017/11/13/which-human-reference-genome-to-use  
 3. https://wiki.dnanexus.com/Scientific-Notes/human-genome  
+4. https://software.broadinstitute.org/gatk/documentation/article?id=11011  
+5. https://software.broadinstitute.org/gatk/documentation/article?id=11010  
+
 
