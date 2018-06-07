@@ -30,7 +30,7 @@ each donor              \-- from wikipedia
 
 # 提供参考基因组的机构  
 ## The Genome Reference Consortium (GRC)
-NCBI 旗下的 GRC 尽最大努力为我们提供最完善的人类参考基因组。除了基础的版本外，它还提供了 `alternate loci` 以表示那些过于复杂而无法用单条通路表示的区域。
+NCBI 旗下的 GRC 尽最大努力为我们提供最完善的人类参考基因组。除了基础的版本外，它还提供了 `alternate loci` 以表示那些过于复杂而无法用单条通路表示的区域。GRC 版本的基因组是 `one-based coordinate system`。
 此外，它还以 `patch` 的形式修正某些区域，例如你会看到 `GRCh37.p7` 这样的版本号。通过这种方式，既可以保证整个染色体坐标的稳定性，同时提供更加准确的碱基组成。  
   
 ## UCSC  
@@ -57,7 +57,7 @@ ENSEMBLE 同样是使用来自 GRC 给出的参考基因组。与 UCSC 不同的
 * b37 (1000 Genomes Project Phase I)  
   * 24条基本完整的染色体序列，命名为 `1`-`22`, `X`, `Y`  
   * 使用来自GRCh37的线粒体，命名为 `MT`  
-  * `unlocalized sequences`及`unplaced sequences`使用accession number命名，未包含 `alternate loci` 序列  
+  * `unlocalized sequences`及`unplaced sequences`使用 `accession number` 命名，未包含 `alternate loci` 序列  
 这些约定在之后的 `ENSEMBL genome browser`, `the NCBI dbSNP` (in VCF files), `the Sanger COSMIC` (in VCF files) 等中得以继承。后续多数新的项目更倾向于该标准  
 * b37+decoy / hs37d5 (1000 Genomes Project Phase II)  
 可以理解为b37的升级版，做了一些调整：  
@@ -67,8 +67,36 @@ ENSEMBLE 同样是使用来自 GRC 给出的参考基因组。与 UCSC 不同的
   以上这些变化使得该套序列能够减少假阳性，且与b37兼容，从而成为序列比对和变异识别的最佳之选  
   
 ## GRCh38/hg38/ENSEMBL 76/77/78/80/81/82
-
+相较于 GRCh37，GRCh38 的碱基组成以及坐标位置都有所变化，此外添加了更多的 ALT contig，因此两者之间存在不小的差异。从2013年12月以来，38版本的基因组
+及相关的注释其实都已经很完善了，因此会建议新的项目都是用该版本的参考基因  
   
+# Which one to choose?  
+BWA 作者 Heng Li 在其[博客](http://lh3.github.io/2017/11/13/which-human-reference-genome-to-use)中给出了他的建议：  
+* 如果使用37版本的参考基因组，则选择 `hs37-1kg`：  
+`ftp://ftp-trace.ncbi.nih.gov/1000genomes/ftp/technical/reference/human_g1k_v37.fasta.gz`  
+* 如果使用37版本的参考基因组，且认为诱饵序列有助于之后的分析，则选择 `hs37d5`：  
+`ftp://ftp-trace.ncbi.nih.gov/1000genomes/ftp/technical/reference/phase2_reference_assembly_sequence/hs37d5.fa.gz`  
+* 如果使用的是38版本的参考基因组，则选择：  
+`ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/001/405/GCA_000001405.15_GRCh38/seqs_for_alignment_pipelines.ucsc_ids/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna.gz`  
+  
+他列举了不同版本参考基因组中存在的问题，包括：  
+1. 包含 `ALT` contig。这些序列中有很大部分侧翼序列与 `primary human assembly` 中的序列基本一致，大部分序列比对软件给到这些区域的 map quality 值为0，这就导致了后续变异识别以及其他分析的敏感性下降。可以通过选择 `ALT-aware` 的软件解决这个问题，但目前主流的软件并不支持  
+2. `Padding ALT contigs`，当中有大量的 `N` 碱基，类似于1带来的问题  
+3. 包含 `multi-placed` 的序列。例如 X 染色体上的 PAR 也放在 Y 染色体上。如果使用同时包含这两部分的参考基因组，就无法使用标准流程对这块区域进行变异识别。还有像在 GRCh38 中，部分 `alpha satellites` 被放置多次。正确的解决方法时间 Y 染色体上的 PAR 区域以及 alpha repeats 多出来的拷贝 hard maseked  
+4. [rCRS](https://en.wikipedia.org/wiki/Cambridge_Reference_Sequence) 线粒体序列的使用。`rCRS` 在群体遗传性中大量使用，而 GRCh37 所使用的线粒体序列要比它长2bp，这可能导致在进行线粒体系统进化分析时出现问题。GRCh38 使用的则是 rCRS  
+5. 将半模糊的 [IUB codes](http://biocorp.ca/IUB.php) 转换成了 `N`，虽然总体而言影响不大，因为人类染色体序列中只有极少部分这样的碱基  
+6. 用 `accession number` 代替染色体名字进行命名，不够直观  
+7. 没有包含 `unplaced and unlocalized contigs`  
+  
+具体到个版本参考基因组，问题就是这样的：  
+* hg19/chromFa.tar.gz from [UCSC](http://hgdownload.soe.ucsc.edu/goldenPath/hg19/bigZips/): 1, 3, 4 and 5  
+* hg38/hg38.fa.gz from [UCSC](http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/): 1, 3 and 5  
+* GCA_000001405.15_GRCh38_genomic.fna.gz from [NCBI](https://www.ncbi.nlm.nih.gov/projects/genome/guide/human/): 1, 3, 5 and 6  
+* Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz from [EnsEMBL](http://ftp.ensembl.org/pub/current_fasta/homo_sapiens/dna/): 3  
+* Homo_sapiens.GRCh38.dna.toplevel.fa.gz from [EnsEMBL](http://ftp.ensembl.org/pub/current_fasta/homo_sapiens/dna/): 1, 2 and 3.
+  
+**当然，怎么选择参考基因组还是需要根据具体的情况来判定，包括实验室或者公司之前使用的情况，不同版本对应的注释文件情况等等**  
+
 # Ref
 1. https://genestack.com/blog/2016/07/12/choosing-a-reference-genome/  
 2. http://lh3.github.io/2017/11/13/which-human-reference-genome-to-use  
