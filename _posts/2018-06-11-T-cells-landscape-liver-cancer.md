@@ -22,7 +22,10 @@ tags:
 作者首先对6位未经过治疗的 HCC 患者的肿瘤样本进行混池外显子组和转录组测序来获得他们的基本特征，并利用 Opal multicolor IHC staining 描绘不同亚型 T 细胞的存在。值得一提的是，作者发现肿瘤中心 CD8+ T cell 的数量远低于外皮层，而 FOXP3+ regulatory T 细胞则没有这一现象，表明 **CD8+ T cell 浸润效率低**。  
 之后，作者对 CD3+CD4+ 和 CD3+CD8+ T 细胞进行分选，并将 CD4+ T 细胞进一步分为 CD25- 和 CD25high。肿瘤中 CD4+CD25high 群体占所有 CD4+ 细胞的比例要远高于正常组织和外周血，表明**肿瘤微环境中可能存在 Tregs 的富集**。  
 为方便起见，我们将分别来自外周血，相邻正常组织以及肿瘤组织的 CD8+ cytotoxic T cells 记为 PTC，NTC 和 TTC；CD4+CD25- T cells 记为 PTH，NTH 和 TTH；CD4+CD25high T cells 记为 PTR，NTR 和 TTR。  
-分选出来的5063个细胞的转录组数据结果如下图所示。从图中我们可以看到：  
+分选出来的5063个细胞的转录组数据结果如下图所示：  
+![scRNA_seq](/img/2018-06-11-T-cells-landscape-liver-cancer/scRNA_seq.png)  
+  
+从图中我们可以看到：  
 * 一些情况下，不同组的细胞会混在一起，如部分 TTC 和 NTC，表明它们有相似的功能属性  
 * PTC 细胞被分成两个明显的分支，与血液中同时存在初始和活化 CD8+ T 细胞一致  
 * TTH 表现出高度多样性，其中小部分与 TTR 类似  
