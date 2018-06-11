@@ -33,3 +33,27 @@ tags:
 以上发现的 T 细胞复杂的内部组成表明**通过单细胞技术仔细剖析肿瘤相关 T 细胞很有必要**。  
   
 # T 细胞聚类和亚型分析  
+利用 SC3 包中的 `spectral clustering method` 对 T 细胞进行无监督聚类，最后得到11个类，其中5个为 CD8+ 细胞，另6个为 CD4+ 细胞，每个类别均有其特异的特征基因。结果如下图所示：  
+![subtypes](/img/2018-06-11-T-cells-landscape-liver-cancer/subtypes.png)  
+![CD8_signature_genes](/img/2018-06-11-T-cells-landscape-liver-cancer/CD8_signature_genes.png)  
+  
+**不同的 CD8+ 细胞簇在不同病人各组织中分布的模式具有可比性**。如下图所示，表达 CCR7 的初始 T 细胞（C1）和表达 CX3CR1 效应记忆 T 细胞（C2）主要在外周血中相对较为常见；而 MAIT 细胞（C3）在邻近的正常肝组织所占比例最高，其在 HCC 中所占比例显著降低。对 TCGA 队列分析发现 HCC 肿瘤中 MAIT 细胞标志基因 SLC4A10 的表达显著低于对应正常样本，表明 **MAIT 细胞的减少在肝癌中很常见**。此外，TCGA 队列中，HCC 低 SLC4A10 表达量与不良预后相关。综上，这些结果表明 **HCC 肿瘤微环境中一大特征便是 CD8+ T 细胞的差异化分布**。  
+![CD8_distribution](/img/2018-06-11-T-cells-landscape-liver-cancer/CD8_distribution.png)  
+  
+类似地，作者找出了6种不同的 CD4+ T 细胞簇。其中 C8_CD4_CTLA4 是一种 FOXP3+ Tregs，高表达 FOXP3 及其他多种 Treg 相关基因如 TNFRSF9，TIGIT 和 CTLA4，其主要组成是从肿瘤中分选出的 CD4+CD25high 细胞 （TTR）。这些细胞更倾向于在肿瘤中富集，如下图所示。  
+![C8_CD4-CTLA4](/img/2018-06-11-T-cells-landscape-liver-cancer/C8_CD4-CTLA4.png)  
+  
+# 与 HCC 浸润 Tregs 和 耗竭 CD8+ T细胞相关基因的鉴定和确认  
+从上面的结果我们知道 CTLA4high Tregs 在肿瘤中富集，另外根据下图，我们可以看到，高表达耗竭标志基因 CTLA4，PDCD1 和 HAVCR2 的 C4_CD8-LAYN 亚型同样在肿瘤中富集。 由于这两种 T 细胞亚组表达的共抑制受体如 PDCD1 和 TIGIT 等是癌症免疫治疗的靶标，因此作者主要针对这些类型的细胞进行后续的分析。  
+![CD8_cancer_enrichment](/img/2018-06-11-T-cells-landscape-liver-cancer/CD8_cancer_enrichment.png)  
+  
+作者共鉴定出401个肿瘤浸润 Tregs 特异性表达的基因，包括 FOXP3，CTLA4，TNFRSF18，TNFRSF4 和 CCR8 等。这些基因与之前其他针对黑色素瘤，乳腺癌，结直肠癌以及肺癌的研究所发现的基因存在明显的重合。33个之前发现的常见 Treg 特征基因，有31个在本次研究中也被找到；剩下两个表达量提升相对较低。因此，尽管病人样本数量有限，**单细胞测序仍能够对这些 TILs 进行详细的刻画**。此外，有146个基因是本数据集中特有的。  
+之后，作者对肿瘤浸润耗竭 CD8+ T 细胞也做了分析，对比耗竭和未耗竭 TTC 细胞，得到了82个 耗竭特异性基因。不少已知的耗竭标志基因如 HAVCR2，PDCD1，ENTPD1，CTLA4，TIGIT，TNFRSF9 和 CD27 等都排名靠前；除此之外也包含了相对描述较少的基因如 MYO7A，WARS 和 CXCL13，及新的标志基因如 LAYN，PHLDA1 和 SNAP47。利用这些基因评估耗竭状态，发现处于晚期的病人相对其他人呈现出更高的耗竭水平。另外值得注意的一点是，有22个基因在肿瘤浸润 Tregs 中也高表达。  
+综上，本研究**既验证了之前研究所发现的与肿瘤浸润耗竭 CD8+ T 细胞和 Tregs 相关的基因，还进一步发现了更多的标志基因**。  
+  
+# 血液分离出来的 CD8+ T 细胞和 Tregs 一旦激活，诱导 LAYN 表达  
+LAYN，编码透明质酸受体抗体，最近被报道在从肺癌和结直肠癌分离出来的 Tregs 中高表达，但其功能尚未被充分研究。根据本研究的数据，**LAYN 在肿瘤 Tregs (C8_CD4-CTLA4) 和耗竭 TTC 细胞 (C4_CD8-LAYN) 中特异性高表达**。此外，通过对 TCGA HCC 存活率数据与标准化后的 LAYN 表达量的相关分析发现，**LAYN 的高表达量与无病存活率的降低相关**。  
+由于 LAYN 编码细胞表面蛋白，因此作者利用流式细胞仪对从人类外周血单核细胞 （PBMCs）分离得到的 CD8+ 和 Tregs 中该蛋白的表达量进行了验证分析，发现在静止期，LAYN 不在 CD14+ myeloid cells，B cells，CD4+ T cells，Tregs 或 CD8+ T cells 中表达；但当 T 细胞被抗 CD3 和 抗 CD28 抗体激活两天后，可以很容易地在超过30%的 Tregs 和 CD8+ T 细胞中检测到 LAYN，虽然其在 CD4+ T 细胞中的表达量仅微微上调。这些数据与之前发现的 LAYN mRNA 在肿瘤浸润 CD8+ 和 Tregs 表达上调相符。  
+虽然 FOXP3 是人类 T 细胞中调控 Treg 分化和功能的主要转录因子，但其在 CD4+ T 细胞中也能瞬时表达上调；另一个转录因子 Helios，最近被报道能够稳定 FOXP3 的表达以及 Tregs 的抑制作用。因此，作者检测了 FOXP3+ 和 FOXP3+Helios+ Tregs 中 LAYN 的表达情况，发现其更倾向于在双阳性细胞中表达上调，表明**LAYN 的表达与更抑制性和稳定的 Tregs 相关**。  
+由于之前从未在 HCC 中报道过 LAYN 与 肿瘤浸润耗竭 CD8+ T 细胞之间的联系，因此作者又做了体外试验，发现 CD8 T 细胞被激活1天后，就诱导表达了 LAYN 蛋白，且能持续存在之第6天。在 PD-1+ 和 PD-1- CD8+ T 细胞中，均能检测到 LAYN。值得注意的是 LAYN 仅在 LAG-3 阴性 CD8+ T 细胞中表达。之前研究表明 LAG3+CD8+ T 细胞代表耗竭 CD8+ T 细胞的一种独特的亚型，因此 LAYN 和 LAG-3 的互斥表明 LAYN 可能是另一种 CD8+ T 细胞亚型的标志基因。  
+为了揭示 LAYN 在 CD8+ T 细胞中可能起到的作用，作者利用逆转录病毒调控 LAYN 在上述细胞中高表达以模拟肿瘤浸润 CD8+ T 细胞中的情境，发现 LAYN 过表达的细胞相较对照组生成的 IFN-γ 明显减少，表明其可能**发挥抑制作用**。
