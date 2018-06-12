@@ -64,9 +64,19 @@ TCR 经常被用作确定 T 细胞祖源的唯一标识符，因此作者用 Tra
 肿瘤组织中 T 细胞相较血液和正常组织的克隆富集看起来可能是由于肿瘤微环境下局部性的 T 细胞增殖和活化导致，这和之前的研究结果一致。但我们仍无法排除这些克隆 T 细胞是在外周淋巴器官中扩增后迁移至肿瘤这一可能性。由于这些病人都是 HBV 阳性患者，克隆 T 细胞也可能是在慢性感染下，T 细胞活化以应对病毒抗原得结果，不过这样的话相邻 HBV+ 正常组织也应该有类似的克隆富集现象，但事实上并没有，所以排除了这一可能。  
 综上，**TCR 信息与不同状态 T 细胞之间存在关联。在 HCC 中，CD8+ T 细胞和 Tregs 可能存在克隆扩增**。  
   
-# 
+# 利用拟时间状态转换及克隆性 TCRs 寻找亚组之间的关联
 获得大量 T 细胞的转录本数据和 TCR 信息，使得我们能够深入理解这些细胞的功能状态和相互之间的关系。作者利用 `Monocle 2` 算法将 CD8+ T 细胞或 CD4+ T helper 细胞拟时间排序研究其发展轨迹。此外还用了 EMBEDRR，SCORPIUS 和 TSCAN 等算法进行比较。  
-对于 CD8+ T 细胞，作者移除了 MAIT（C3）细胞，因为它们的 TCR 特征不同。根据表达谱相似性，不同的细胞簇形成了一个拟时间的相对过程。如下图所示，以 C1_CD8-LEF1 cells (naive CD8+ T cells) 开始, 之后是 C2_CD8-CX3CR1 (effector memory CD8+ T cells)， C5_CD8-GZMK, 至 C4_CD8-LAYN cells (exhausted CD8+ T cells) 为止。所以 **T 细胞状态是从活化到耗竭为止**。  
+对于 CD8+ T 细胞，作者移除了 MAIT（C3）细胞，因为它们的 TCR 特征不同。根据表达谱相似性，不同的细胞簇形成了一个拟时间化的相对发展过程。如下图所示，以 C1_CD8-LEF1 cells (naive CD8+ T cells) 开始, 之后是 C2_CD8-CX3CR1 (effector memory CD8+ T cells)， C5_CD8-GZMK, 至 C4_CD8-LAYN cells (exhausted CD8+ T cells) 为止。所以 **T 细胞状态是从活化到耗竭为止**。  
+![CD8_pseudotime](/img/2018-06-11-T-cells-landscape-liver-cancer/CD8_pseudotime.png)  
+  
+从上图中我们看到，C5_CD8-GZMK 细胞呈现出处于效应和耗竭 T 细胞的中间状态。通过对其进行克隆性分析，发现那些来自同一祖先的相同的 TCRs 分布在不同的细胞簇中，如下图所示。在共计61个至少两种细胞簇共享的 TCR 对中，有30种是 C2_CD8-CX3CR1 和 C5_CD8-GZMK 共享的，有20种则是 C5_CD8-GZMK 和 C4_CD8-LAYN 共享的，而其他细胞簇之间共享的 TCR 对不超过5个，进一步证明 **过渡期的 C5_CD8-GZMK 与效应细胞和耗竭细胞之间的发育联系**。  
+![CD8_shared_TCR](/img/2018-06-11-T-cells-landscape-liver-cancer/CD8_shared_TCE.png)  
+  
+类似地，作者对 CD4+ T helper 也做了分析，结果如下图所示。C6_CD4-CCR7 naive T cells 和 C9_CD4-GZMA T helper cells 在主干处聚集，而 C10_CD4-CXCL13 (exhausted CD4+ T cells) 和 C11_CD4-GNLY (cytotoxic CD4+ T cells 则分居拟时间轨迹的不同方向，说明这两者之间的功能分化。共享 TCR 序列分析发现绝大部分共享 TCRs 发生在 C9_CD4-GZMA 和 C10_CD4-CXCL13 以及 C9_CD4-GZMA 和 C11_CD4-GNLY 之间；而 C10_CD4-CXCL13 和 C11_CD4-GNLY 之间几乎没有。  
+![CD4_pseudotime](/img/2018-06-11-T-cells-landscape-liver-cancer/CD4_pseudotime.png)  
+
+基于拟时间轨迹和 TCR 的分析，作者推测**耗竭 CD4 和 CD8 T 细胞分别与具有 GZMA 和 GZMK 标志基因的中间态细胞关联更紧密，而不是效应细胞群体**。至于将这些中间态细胞作为免疫治疗靶标，以使它们向效应细胞而不是耗竭细胞方向转化这一策略是否有效，仍需要更多的研究。  
+
 
   
 # REF  
