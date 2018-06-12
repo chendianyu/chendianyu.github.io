@@ -73,11 +73,19 @@ TCR 经常被用作确定 T 细胞祖源的唯一标识符，因此作者用 Tra
 ![CD8_shared_TCR](/img/2018-06-11-T-cells-landscape-liver-cancer/CD8_shared_TCE.png)  
   
 类似地，作者对 CD4+ T helper 也做了分析，结果如下图所示。C6_CD4-CCR7 naive T cells 和 C9_CD4-GZMA T helper cells 在主干处聚集，而 C10_CD4-CXCL13 (exhausted CD4+ T cells) 和 C11_CD4-GNLY (cytotoxic CD4+ T cells 则分居拟时间轨迹的不同方向，说明这两者之间的功能分化。共享 TCR 序列分析发现绝大部分共享 TCRs 发生在 C9_CD4-GZMA 和 C10_CD4-CXCL13 以及 C9_CD4-GZMA 和 C11_CD4-GNLY 之间；而 C10_CD4-CXCL13 和 C11_CD4-GNLY 之间几乎没有。  
-![CD4_pseudotime](/img/2018-06-11-T-cells-landscape-liver-cancer/CD4_pseudotime.png)  
+![CD4_T_helper_pseudotime](/img/2018-06-11-T-cells-landscape-liver-cancer/CD4_T_helper_pseudotime.png)  
 
 基于拟时间轨迹和 TCR 的分析，作者推测**耗竭 CD4 和 CD8 T 细胞分别与具有 GZMA 和 GZMK 标志基因的中间态细胞关联更紧密，而不是效应细胞群体**。至于将这些中间态细胞作为免疫治疗靶标，以使它们向效应细胞而不是耗竭细胞方向转化这一策略是否有效，仍需要更多的研究。  
 
-
+# 耗竭 CD8+ T 细胞和 Tregs 在 HCC 微环境中的克隆富集  
+过去公认肿瘤微环境中的 T 细胞倾向于成为耗竭或者受 Treg 抑制，从而避免这些细胞诱发 T 细胞介导的肿瘤细胞杀伤。本研究实验数据发现，肿瘤微环境中效应 CD8+ T 细胞数量极少，而耗竭状态的细胞更多。此外，相较于早期患者，晚期患者中耗竭 CD8+ T 细胞呈现增长的趋势。此外，如下图所示，克隆性 CD8+ T 细胞更可能表现出耗竭的表型，尤其是在晚期 HCC 肿瘤中；高克隆性群体（每个克隆细胞数多于4个）相较非克隆性群体更可能表现为耗竭状态。  
+![colonal_TTC](/img/2018-06-11-T-cells-landscape-liver-cancer/colonal_TTC.png)  
+  
+除了耗竭 CD8+ T 细胞，之前有研究在结直肠和前列腺癌中检测出 CD8+FOXP3+ 调节 T 细胞。在本研究中，也发现有少量耗竭 CD8+ T 细胞表达 Treg 标志基因 FOXP3。根据 TCR 分析，这些 FOXP3+ 细胞中有部分与 FOXP3- 耗竭 CD8+ T 细胞具有相同的 TCR，表明**这些 FOXP3+ 细胞在发育上与典型的 FOXP3- 耗竭 T 细胞存在关联**。此外，如下图所示，这些细胞的表达谱与 Treg 和 cytolytic 相似，能够表达 Treg 标志基因如 FOXP3，CTLA4，TNFRSF18 和 TNFRSF9 以及 溶细胞相关基因 PRF1，GZMA 和 NKG7，表明这些细胞**同时具有抑制和杀伤细胞的能力**。综上表明，**HCC 微环境能够推动浸润 CD8+ T 细胞向耗竭状态转换，且偶尔能使之获得抑制功能**。  
+HCC 微环境中高比例的克隆性扩增的 Treg 可能代表另一种抑制效应 CD8+ T 细胞介导的杀伤作用的机制。作者对肿瘤浸润性 CD4+ T 细胞也做了拟时间和 TCR 分析（下图），发现虽然肿瘤浸润性 Tregs (C8_CD4-CTLA4) 与 耗竭 CD4 T 细胞 (C10_CD4-CXCL13) 之间在发育轨迹上很接近，但仅共享极有限的 TCRs。  
+![CD4_pseudotime](/img/2018-06-11-T-cells-landscape-liver-cancer/CD4_pseudotime.png)  
+  
+绝大部分（71/87）肿瘤特异性 Treg 克隆是唯一的，表明其与其他肿瘤浸润 CD4 T helper 细胞之间具有相互独立的发育路径。这与肿瘤相关耗竭 CD8+ T 细胞不同，后者与肿瘤中 CD8 T 细胞的其他簇共享大量常见的 TCRs。Tregs 和耗竭 CD4 T 细胞簇均只有少量常见 T 细胞克隆表明耗竭 CD4 T 细胞可能向可诱导 Tregs 转换。
   
 # REF  
 1. Zheng C, *et al*. Landscape of Infiltrating T Cells in Liver Cancer Revealed by Single-Cell Sequencing. Cell, 2017, 169:1342-1356. doi: 10.1016/j.cell.2017.05.035.
