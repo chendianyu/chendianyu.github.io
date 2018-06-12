@@ -70,7 +70,7 @@ TCR 经常被用作确定 T 细胞祖源的唯一标识符，因此作者用 Tra
 ![CD8_pseudotime](/img/2018-06-11-T-cells-landscape-liver-cancer/CD8_pseudotime.png)  
   
 从上图中我们看到，C5_CD8-GZMK 细胞呈现出处于效应和耗竭 T 细胞的中间状态。通过对其进行克隆性分析，发现那些来自同一祖先的相同的 TCRs 分布在不同的细胞簇中，如下图所示。在共计61个至少两种细胞簇共享的 TCR 对中，有30种是 C2_CD8-CX3CR1 和 C5_CD8-GZMK 共享的，有20种则是 C5_CD8-GZMK 和 C4_CD8-LAYN 共享的，而其他细胞簇之间共享的 TCR 对不超过5个，进一步证明 **过渡期的 C5_CD8-GZMK 与效应细胞和耗竭细胞之间的发育联系**。  
-![CD8_shared_TCR](/img/2018-06-11-T-cells-landscape-liver-cancer/CD8_shared_TCE.png)  
+![CD8_shared_TCR](/img/2018-06-11-T-cells-landscape-liver-cancer/CD8_shared_TCR.png)  
   
 类似地，作者对 CD4+ T helper 也做了分析，结果如下图所示。C6_CD4-CCR7 naive T cells 和 C9_CD4-GZMA T helper cells 在主干处聚集，而 C10_CD4-CXCL13 (exhausted CD4+ T cells) 和 C11_CD4-GNLY (cytotoxic CD4+ T cells 则分居拟时间轨迹的不同方向，说明这两者之间的功能分化。共享 TCR 序列分析发现绝大部分共享 TCRs 发生在 C9_CD4-GZMA 和 C10_CD4-CXCL13 以及 C9_CD4-GZMA 和 C11_CD4-GNLY 之间；而 C10_CD4-CXCL13 和 C11_CD4-GNLY 之间几乎没有。  
 ![CD4_T_helper_pseudotime](/img/2018-06-11-T-cells-landscape-liver-cancer/CD4_T_helper_pseudotime.png)  
