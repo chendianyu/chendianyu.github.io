@@ -172,8 +172,169 @@ chr2    5000    10000   another_feature 0   +
 >>> gff[3]          # 由于原文件是 gff 格式，1-based，因此就出现差了1的情况      
 '51'
 ```
+  
+## GFF，GTF attributes
+GFF 和 GTF 每行的最后一个字段都包含有大量有用的信息，这些信息将会以字典的形式存储在 `.attrs` 属性中，因此可以通过字典操作去对这些信息进行处理，包括添加，修改，删除等操作  
+```python
+>>> # original feature
+>>> print(gff)
+chr1        fake    mRNA    51      300     .       +       .       ID=mRNA1;Parent=gene1;
+
+>>> # original attributes
+>>> sorted(gff.attrs.items())
+[('ID', 'mRNA1'), ('Parent', 'gene1')]
+
+>>> # add some new attributes
+>>> gff.attrs['Awesomeness'] = "99"
+>>> gff.attrs['ID'] = 'transcript1'
+
+>>> # Changes in attributes are propagated to the printable feature
+
+>>> # for testing, we make sure keys are sorted. Not needed in practice.
+>>> gff.attrs.sort_keys = True
+>>> assert gff.attrs.sort_keys
+>>> print(gff)
+chr1        fake    mRNA    51      300     .       +       .       Awesomeness=99;ID=transcript1;Parent=gene1;
+```
+  
+# 过滤
+`.filter()` 方法允许你提供一个函数，该函数能够接受一个 Interval 对象作为其第一个参数，并返回 True 或者 False，从而实现对 BedTool 对象进行类 grep 的操作。filter() 方法会将提供给它的 `args` 和 `kwargs` 均传递给函数  
+```python  
+>>> # 匿名函数
+>>> a = pybedtools.example_bedtool('a.bed')
+>>> b = a.filter(lambda x: len(x) > 100)
+>>> print(b)
+chr1        150     500     feature3        0 
+>>>
+>>> # 更一般化的函数  
+>>> def len_filter(feature, L):
+...     "Returns True if feature is longer than L"
+...     return len(feature) > L  
+>>> a = pybedtools.example_bedtool('a.bed')
+>>> print(a.filter(len_filter, L=10))
+chr1        1       100     feature1        0       +
+chr1        100     200     feature2        0       +
+chr1        150     500     feature3        0       -
+chr1        900     950     feature4        0       +
+```
+  
+另外，在 `featurefuncs` 模块中包含一些用 `Cython` 预先写好的一些函数，能够实现更快的速度，例如 `greater_than()` 和 `less_than()` 等  
+```python
+>>> from pybedtools.featurefuncs import greater_than
+>>> a.filter(greater_than, 100)  
+```
+  
+# Each
+类似之前的 `filter()` 方法，`.each()` 方法也会对每个 feature 应用函数，并返回一个新的，可能经过修饰的 Interval  
+```python  
+>>> def normalize_count(feature, scalar=0.001):
+...     """
+...     assume feature's last field is the count
+...     """
+...     counts = float(feature[-1])
+...     normalized = round(counts / (len(feature) * scalar), 2)
+...
+...     # need to convert back to string to insert into feature
+...     feature.score = str(normalized)
+...     return feature
+>>> normalized = with_counts.each(normalize_count)
+>>> print(normalized)
+chr1        1       100     feature1        0.0     +       0
+chr1        100     200     feature2        10.0    +       1
+chr1        150     500     feature3        2.86    -       1
+chr1        900     950     feature4        20.0    +       1
+```
+  
+# 基因组  
+对于 bed 的操作，有时候需要提供基因组或染色体大小信息以避免得到的结果超过染色体的范围。`genome_registry` 模块中已经准备了一些常用基因组各染色体大小的信息，存储为有序字典，key 为染色体名称，value 则是 0-based 的起止坐标的 tuple  
+```python
+>>> from pybedtools import genome_registry
+>>> genome_registry.dm3['chr2L']
+(0, 23011544)
+```  
+  
+如果要在方法中指定基因组，可以是文件名，关键字或者自己提供的字典。有两个参数可以调用：
+* `g` 文件名或者字典  
+* `genome` 关键字或者字典  
+  
+```python
+>>> a = pybedtools.example_bedtool('a.bed')
+>>> b = a.slop(b=100, g='hg19.genome') 
+>>> c = a.slop(b=100, genome='hg19')    # 首先在 genome registry 中找，没有的话直接去 UCSC 中下载  
+>>> d = a.slop(b=100, g={'chr1':(1, 10000)})
+>>> e = a.slop(b=100, genome={'chr1':(1,100000)})
+```  
 
 # 操作符重载  
 为了方便起见，pybedtools 将 `+` 和 `-` 重载，以方便进行 intersection  
 * `+` 等价于 `intersect` 加上 `u` 参数 `a+b <=> a.intersect(b, u=True)`  
 * `-` 等价于 `intersect` 加上 `v` 参数 `a-b <=> a.intersect(b, v=True)`  
+  
+# 比较  
+有时候我们会对 feature 进行比较以确定它们是否存在重叠或者相对位置是什么样的，就会用到比较操作符 `<`, `<=`, `==`, `=>`, `>`，返回 True 或者 False。需要注意的是，这种比较会忽略染色体链。  
+以下是这些操作符的示意图  
+```python
+# a == b, a >= b, a <= b
+a ---------
+b ---------
+
+# a < b, a <= b
+a ----
+b       -----
+
+# a <= b
+a ----
+b     -----  (book-ended)
+
+# a >= b
+a     -----
+b ----      (book-ended)
+
+# a > b, a >= b
+a       ------
+b ----
+
+# a >= b
+a  ------------
+b  ---------
+
+# a >= b
+a   -----------
+b -------------
+
+# a <= b
+a -------------
+b   -----------
+
+# a <= b
+a  ---------
+b  ------------
+
+# a <= b
+a -----------
+b        -----------
+
+# a >= b
+a        -----------
+b -----------
+
+# undefined!
+a    ----
+b -----------
+
+# undefined!
+a -----------
+b    ----
+
+# a <= b
+a -----------
+b           -
+
+# a >= b
+a           -
+b -----------
+
+# a == b, a <= b, a >= b
+a -
+b -  (starts and stops are identical for all features)
+```
