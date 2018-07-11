@@ -29,8 +29,8 @@ pip install pybedtools
 ```  
   
 # Convention  
-* 用来表示起止位置的 integer values 一直都是 0-based，而不考虑文件格式，这就意味着所有的 `Interval` 对象都可以统一对待  
-* 用来表示起止位置的 string values 则根据对应的文件格式的要求进行调整  
+* integer values 一直都是 0-based，而不考虑文件格式，这就意味着所有的 `Interval` 对象的起止位置值都可以统一对待  
+* string values 则根据对应的文件格式的要求进行调整，原文件是什么样就什么样，哪怕表示的是起止坐标  
   
 # Design Principles 
 ## 自动创建和删除临时文件  
@@ -40,7 +40,30 @@ pip install pybedtools
 如果想要自己指定临时文件存放的目录，可通过 `pybedtools.set_tempdir(<path>)` 进行设置。  
   
 ## 取决于 bedtools 版本
-由于 BedTool 各种方法是对 bedtools 程序的封装，因此所能使用的各种方法以及参数取决于你当前安装的 bedtools 版本
+由于 BedTool 各种方法是对 bedtools 程序的封装，因此所能使用的各种方法以及参数取决于你当前安装的 bedtools 版本  
+  
+## 默认参数的设置  
+```python
+>>> # 1. 单个输入文件时  
+>>> result1 = a.merge(d=100, s=True)
+>>> result2 = a.merge(i=a.fn, d=100, s=True)  
+>>> result1 == result2
+True  
+>>> 
+>>> # 2. 多个输入文件时  
+>>> result3 = a.intersect(b)
+>>> result4 = a.intersect(a=a.fn, b=b.fn)    # 可以是文件名，也可以是 BedTool 对象
+>>> result3 == result4
+True
+```
+除了指向 Bed 文件的参数（`-i`, `-a`, `-b`）会根据输入智能化地确定对应的值外，其余的参数均为关键字参数，不设定默认值，不显式指定的话取决于所安装的 beedtools 所设定的默认值。  
+  
+## 串联命令  
+大部分的方法返回的结果是 BedTool 对象，可以直接继续调用方法，从而实现多个步骤串联起来，相当于 shell 中使用管道命令  
+```python  
+>>> a.intersect(b).merge().saveas('shared_merged.bed')  
+>>> # 等价于 intersectBed -a a.bed -b b.bed | merge -i stdin > shared_merged.bed  
+```  
 
 # BedTool Object
 一般来说，单个 `BedTool` 指向单个区间文件，可以是 BED, GFF, GTF, VCF, SAM, or BAM format 或者对应的压缩格式等。`BedTool` 对象封装了所用可用的 bedtools 程序，使之可以在 python 中进行调用。  
@@ -80,6 +103,77 @@ chr2    5000    10000   another_feature 0   +
 >>> c = a.intersect(b).moveto('intersection_of_a_and_b.bed')
 >>> 
 >>> # 3. 此外，对所有作用于 BedTool 并得到新的 BedTool 对象的方法，
->>> # 均有 output 参数，可直接保存结果，覆盖默认的创建临时中间文件的操作  
+>>> # 均有 output 参数，可直接保存结果，覆盖默认创建的临时中间文件的操作  
 >>> c = a.intersect(b, output='intersection_of_a_and_b.bed')
 ```
+  
+# Interval Object  
+`Interval` 对象是 pybedtools 表示 bed 等文件中一行数据时所使用的。可以通过索引和切片操作获取 BedTool 中的 Interval 对象  
+```python  
+>>> feature = a[0]
+>>> features = a[1:3]  
+```  
+  
+对于每个 Interval 对象，使用 print() 进行打印时输出的就是文件中原来的行，所以对于不同坐标标准的文件会自动变化  
+对于所有的 features, 不管最初存储的文件格式是哪一种（可通过 `.file_type` 属性获得）, 转成 Interval 后均有 `chrom`, `start`, `stop`, `name`, `score` 和 `strand` 属性：其中 `start` 和 `stop` 是 integer，均转成了 0-based, 其他的包括 `score` 均为 string，与原文件对应一致；如果对应的值缺失，标记为 `'.'`  
+  
+除了直接利用属性来获取对应字段之外，也可以利用位置或名字进行索引得到各个字段  
+```python  
+>>> feature[0]  
+'chr1'  
+>>> feature['start']
+1
+```
+  
+`.fields` 属性存储的是由原行切割后的 string 形式（包括坐标）构成的 list，所以在进行位置索引时实际上是对 fields 属性的 list 进行索引，所使用的位置索引值是其在原文件中的位置  
+```python
+>>> feature.fields  
+['chr1', '1', '100', 'feature1', '0', '+']
+```  
+进行位置索引时最后得到的是 string 形式，那么对于起止坐标值而言，像 gff 等格式就会导致存在差异了，这点需要注意，可以注意下后面的实例  
+
+通过 `len()` 函数可以获得 Interval 对象的长度  
+  
+## 实例  
+```python
+>>> gff = ["chr1",
+...        "fake",
+...        "mRNA",
+...        "51",   # <- start is 1 greater than start for the BED feature below
+...        "300",
+...        ".",
+...        "+",
+...        ".",
+...        "ID=mRNA1;Parent=gene1;"]
+>>> gff = pybedtools.create_interval_from_list(gff)
+>>>
+>>> bed = ["chr1",
+...        "50",
+...        "300",
+...        "mRNA1",
+...        ".",
+...        "+"]
+>>> bed = pybedtools.create_interval_from_list(bed)
+>>>
+>>> gff.file_type
+'gff'
+>>> bed.file_type
+'bed'
+>>>
+>>> bed.start
+50
+>>> bed[1]          # 注意到返回结果是个字符串，不过由于 bed 文件本身就是 0-based 的，所以值没有变化
+'50'
+>>>
+>>> gff.start
+50
+>>> gff['start']    # 用名字进行索引得到的还是整数，不受影响
+50
+>>> gff[3]          # 由于原文件是 gff 格式，1-based，因此就出现差了1的情况      
+'51'
+```
+
+# 操作符重载  
+为了方便起见，pybedtools 将 `+` 和 `-` 重载，以方便进行 intersection  
+* `+` 等价于 `intersect` 加上 `u` 参数 `a+b <=> a.intersect(b, u=True)`  
+* `-` 等价于 `intersect` 加上 `v` 参数 `a-b <=> a.intersect(b, v=True)`  
