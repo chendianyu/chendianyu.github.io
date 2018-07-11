@@ -50,3 +50,6 @@ Usage: `ln -s <oldfile> <newfile>`
 * 创建软链接时，链接计数 i_nlink 不会增加；  
 * 删除软链接并不影响被指向的文件，但若被指向的原文件被删除，则相关软连接被称为死链接（即 `dangling link`，若被指向路径文件被重新创建，死链接可恢复为正常的软链接）  
   
+# REF  
+1. https://www.ibm.com/developerworks/cn/linux/l-cn-hardandsymb-links/index.html  
+2. Linux 命令行与 shell 脚本编程大全（第三版）
