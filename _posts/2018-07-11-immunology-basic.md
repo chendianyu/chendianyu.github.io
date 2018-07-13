@@ -115,4 +115,5 @@ MALT 主要功能:
 根据重链抗原性的差异可将其分为5类：μ 链、γ 链、α 链、δ 链、ε 链，其与轻链形成的完整抗体分子分别被称为 IgM、IgG、IgA、IgD、IgE。不同类的抗体分子具有不同的特征，即便是同一类抗体，也会存在多个亚类。  
 轻链可分为 κ 链和 λ 链，对应 κ 型和 λ 型。一个天然抗体分子上两条轻链总是相同的，但同一个体内可存在分别带有 κ 链和 λ 链的抗体分子。  
 重链和轻链靠近 N 端的约110个氨基酸的序列变化很大，其他序列则相对恒定，分别成为可变区（variable region, V 区）和恒定区（constant region, C 区）。  
-重链和轻链的 V 区分别成为 VH 和 VL，它们各有3个区域氨基酸组成和排列顺序高度可变，称为高变区（hypervarible region, HVR）。该区域形成与抗原表位互补的空间构象，又称为互补决定区（complementary determining region, CDR）。
+重链和轻链的 V 区分别称为 VH 和 VL，它们各有3个区域氨基酸组成和排列顺序高度可变，称为高变区（hypervarible region, HVR）。该区域形成与抗原表位互补的空间构象，又称为互补决定区（complementary determining region, CDR），分别用 CDR1（HVR1）、CDR2（HVR2）和 CDR3（HVR3）表示，一般 CDR3 变化程度更高。VH 和 VL 共计6个 CDR 共同组成抗体的抗原结合部位，决定抗体的特异性，负责识别及结合抗原。V 区中 CDR 之外的区域变化不大，称为骨架区（framework region, FR）。VH 和 VL 各有4个骨架区，分别用 FR1、FR2、FR3 和 FR4 表示。  
+重链和轻链的 C 区分别称为 CH 和 CL，不同型（κ 或 λ ）的 CL 长度基本一致，但不同类的 CH 长度不一，其中 IgG、IgA 和 IgD 有
