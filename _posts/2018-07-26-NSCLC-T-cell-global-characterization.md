@@ -67,4 +67,13 @@ Monocle 成分1与 T 细胞毒性正相关，与初始性负相关，成分2则�
 针对 CD4-C9-CTLA4 分支进一步分析发现，根据与 Tregs 功能相关的基因的表达，该分支内存在相当程度的异质性。尤其是 TNFRSF9（4-1BB），一种已知的抗原特异性 Tregs 活化标志基因，呈现出显著的双峰表达分布（下图），可能代表**最近刚激活的和早就存在的两个群体**。  
 ![TNFRSF9](/img/2018-07-26-NSCLC-T-cell-global-characterization/TNFRSF9.png)  
   
-相较 TNFRSF9<sup>-</sup> 群体，TNFRSF9<sup>+</sup> 高表达260个基因，与之前提到的404个基因重叠。这些基因中包括免疫抑制功能相关的基因如 REL 和 LAYN，进一步证明 **TNFRSF9<sup>+</sup> 细胞不仅是经过抗原刺激的，而且是肿瘤功能性 Tregs 的主要组成部分**。对 TCGA LUAD 数据集的生存分析发现260个基因的特征集与更差的预后相关，而404个基因的特征集则无明显关联。
+相较 TNFRSF9<sup>-</sup> 群体，TNFRSF9<sup>+</sup> 高表达260个基因，与之前提到的404个基因重叠。这些基因中包括免疫抑制功能相关的基因如 REL 和 LAYN，进一步证明 **TNFRSF9<sup>+</sup> 细胞不仅是经过抗原刺激的，而且是肿瘤功能性 Tregs 的主要组成部分**。对 TCGA LUAD 数据集的生存分析发现260个基因的特征集与更差的预后相关（下图），而404个基因的特征集则无明显关联。因此，对于活化的肿瘤 Tregs 的临床意义，我们需要进一步的深入研究。  
+![TNFRSF9_survival](/img/2018-07-26-NSCLC-T-cell-global-characterization/TNFRSF9_survival.png)  
+  
+将来自所有肿瘤富集 T 细胞簇的特征基因作用于 TCGA LUAD 样本，作者发现病人们具有异质的肿瘤浸润淋巴细胞特征，但总体而言可以分为两大组（如下图，9种 T 细胞分支对应的特征基因）。组1中耗竭前 CD8<sup>+</sup> T cells(CD8-C4-GZMK)，未活化 Tregs(TNFRSF9<sup>-</sup> cells of CD4-C9-CTLA4) 和活化 CD4<sup>+</sup> cells (CD4-C5-EOMES)存在富集；组2中耗竭 T 细胞(CD8-C6-LAYN 和 CD4-C7-CXCL13) 以及活化 Tregs(TNFRSF9<sup>+</sup> cells of CD4-C9-CTLA4)存在富集。对比发现组1病人相较组2具有更好的预后。因此，**T 细胞组成情况可能是一个用于人类 NSCLC 分型的重要标志**。  
+![LUAD_classify](/img/2018-07-26-NSCLC-T-cell-global-characterization/LUAD_classify.png)  
+  
+对 TIL 实施精细地分类为当下免疫治疗药物的选择性使用提供了机会。对目前临床试验中作为肿瘤免疫治疗靶标的基因进行分析发现，属于同一类别的靶标（例如效应分子中激活或抗 Treg）在数据集的细胞中呈现出不同的表达模式（下图）。例如 PDCD1，在耗竭 CD8<sup>+</sup> T 细胞（CD8-C6-LAYN），两类 CD4<sup>+</sup> T 细胞（CD4-C5-EOMES 和 CD4-C7-CXCL13）高表达，而 CTLA4 则在抑制性肿瘤 Tregs 和耗竭 CD8<sup>+</sup> T 细胞中高表达。以上结果与最近研究发现抗-CTLA4 和抗-PD1 分别靶向不同 TIL 群体实现肿瘤退化的结果一致。LAG3 基本上只在 CD8<sup>+</sup> T 细胞中表达，而 CD27 在所有肿瘤浸润 T 细胞中均表达。因此，**不同 T 细胞群体可能可以被不同的免疫疗法调节，而这类细胞子集的组成可能能够实现高效的病人分层**。  
+![target_genes_expression](/img/2018-07-26-NSCLC-T-cell-global-characterization/target_genes_expression.png)  
+  
+最后总结，本文献中作者对 NSCLC 患者进行高深度单细胞转录组测序分析，描绘出其 T 细胞图谱，找到了2个可能处于耗竭前状态的 CD8<sup>+</sup> T 细胞分支，能够在 LUAD 中预示更佳的预后表现。严重耗竭的 T 细胞由于其表观遗传学变化导致其对免疫检查点抑制产生抗性，因此耗竭前细胞可能可以替代成为免疫疗法的靶标。此外，由于组织间存在高度迁徙性效应 T 细胞，以及肿瘤内存在的耗竭前 T 细胞，可能使得 NSCLC 对免疫治疗呈现出积极的响应。耗竭 CD8<sup>+</sup> T 细胞，耗竭前细胞，以及活化的肿瘤 Tregs 的标志基因，都可能可以作为 LUAD 患者的临床标志物。由于不同的 T 细胞组成可能呈现不同的临床表征，因此整个 T 细胞分支的构建为病人分类提供了新的策略。
