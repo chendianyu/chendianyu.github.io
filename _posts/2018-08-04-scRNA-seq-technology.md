@@ -9,7 +9,7 @@ tags:
 
 # Smart-seq2
 **Smart-seq2** 的流程如下图所示：  
-![CITE-seq](/img/2018-08-04-scRNA-seq-technology/Smart-seq2.jpg)  
+![Smart-seq2](/img/2018-08-04-scRNA-seq-technology/Smart-seq2.jpg)  
   
 1. 裂解。使用相对较温和的方式（低渗溶液）裂解细胞。裂解液中包含了 free dNTPs 和具有 oligo-dT 的寡核苷酸序列（包含30nt的 oligo-dT 和25nt的通用5'锚定序列），后者能够起始具有 polyA 尾的 RNA 的 RT 反应。free dNTPs 能够提高 RT-PCR 的产量。  
 2. RT。当 RT 进行至 RNA 5'端时（合成是从5'-3'，对 RNA 模版而言是从其3'-5'），会在合成的 cDNA 3' 末端添加2-5个 untemplated nucleotides，而模版转换反应（template-switching reaction）正依赖于这几个碱基。TSO（template-switching oligos）3'末端会携带与这几个碱基互补的序列，与 RNA 连接，然后反转录酶实现模版转换，在 cDNA 3'端合成与 TSO 互补的序列。  
