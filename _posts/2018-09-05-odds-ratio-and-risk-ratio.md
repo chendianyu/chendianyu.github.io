@@ -1,5 +1,5 @@
 ---
-title: 比值比（odds ratio）与相对风险（relative risk）的差异
+title: 比值比（odds ratio）与相对风险（relative risk）
 description: odds ratio 与 relative risk 的定义和区别
 categories:
  - Statistic
