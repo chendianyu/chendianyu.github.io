@@ -9,22 +9,26 @@ tags:
 ---
 
 # Introduction  
-`SummarizedExperiment` class is used to store rectangular matrices of experimental results. Each object stores observations of one or more samples, along with additional meta-data describing both the observations (features) and samples (phenotypes)
-A key aspect of the `SummarizedExperiment` class is the **coordination of the meta-data and assays** when subsetting. For example, if you want to exclude a given sample you can do for both the meta-data and assay in one operation, which ensures the meta-data and observed data will remain in sync
-`SummarizedExperiment` is more flexible in it’s row information, allowing both `GRanges` based as well as those described by `arbitrary DataFrames`. This makes it ideally suited to a variety of experiments, particularly sequencing based experiments such as RNA-Seq and ChIp-Seq  
+`SummarizedExperiment` 类用于存储测序或者芯片试验的结果。 每个对象中包含一个或者多个样本的观察值，以及描述观察值（observations），即特征（features） 和样本（samples），即表型（phenotypes）的元数据（meta-data）。  
+`SummarizedExperiment` 类的一个重要特征是**元数据与实验数据的协调**，例如想要剔除某个样本，那么单个操作即可完成对元数据和试验的处理，确保元数据和观察值保持同步。  
+`SummarizedExperiment` 在其行信息更加灵活，可以是基于 `GRanges` 或者任意的 `DataFrame`。  
   
-# Anatomy of a SummarizedExperiment  
-The SummarizedExperiment package contains two classes: `SummarizedExperiment` and `RangedSummarizedExperiment`  
+# 解析 SummarizedExperiment  
+`SummarizedExperiment` 包中包含两个类：`SummarizedExperiment` 和 `RangedSummarizedExperiment`  
   
 * SummarizedExperiment
-  `SummarizedExperiment` is a matrix-like container where rows represent `features` of interest (e.g. genes, transcripts, exons, etc.) and columns represent `samples`. The objects contain one or more `assays`, each represented by a matrix-like object of numeric or other mode  
-  Information about features is stored in a `DataFrame` object, accessible using the function `rowData()`. Each row of the DataFrame provides information on the feature in the corresponding row of the SummarizedExperiment object. Columns of the DataFrame represent different attributes of the features of interest, e.g., gene or transcript IDs, etc.
+  `SummarizedExperiment` 是一个矩阵样的容器，每一行代表感兴趣的**特征**（feature），如基因，转录本，外显子等，每一列则代表**样本**（sample）。每个对象可以包含一个或者多个**实验**（assay），而它们每一个则用类矩阵的对象表示。  
+  特征相关的信息存储在一个数据框（DataFrame）对象中，可以通过函数 `rowData()` 来获取。数据框的每一行提供了 `SummarizedExperiment` 对象中对应每一行特征的信息，数据框中的每一列则提供了感兴趣的特征属性，例如基因或者转录本的 ID 等。  
+
 * RangedSummarizedExperiment  
-  `RangedSummarizedExperiment` is the child of the SummarizedExperiment class, so all the methods on SummarizedExperiment also work on a RangedSummarizedExperiment  
-  The fundamental difference between the two classes is that the rows of a RangedSummarizedExperiment object represent `genomic ranges` of interest instead of a DataFrame of features. The RangedSummarizedExperiment ranges are described by a `GRanges` or a `GRangesList` object, accessible using the `rowRanges()` function  
+  `RangedSummarizedExperiment` 是 `SummarizedExperiment` 的子类，所以后者所有的方法在 `RangedSummarizedExperiment` 中也适用。  
+  两者最主要的区别在于 `RangedSummarizedExperiment` 中的每一行均为 `genomic ranges`，而不是 包含特征的数据框. 这些 genomic ranges 通过 `GRanges` 或 `GRangesList` 对象描述，可通过 `rowRanges()` 函数来获取。  
   
-## Assay  
-To retrieve the experiment data from a SummarizedExperiment object one can use the `assays()` accessor. An object can have multiple assay datasets, each of which can be accessed using the `$` operator  
+下图是 `SummarizedExperiment` 对象的示意图，并对行列之间的关系进行了高亮。  
+![SummarizedExperiment](/img/2018-09-07-SummarizedExperiment/SummarizedExperiment.svg)  
+  
+## 实验（Assay）  
+可通过函数To retrieve the experiment data from a SummarizedExperiment object one can use the `assays()` accessor. An object can have multiple assay datasets, each of which can be accessed using the `$` operator  
 ```R  
 > assays(se)
 List of length 1
