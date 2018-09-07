@@ -73,4 +73,4 @@ dds <- DESeqDataSet(se, design = ~ cell + dex)
 ```  
   
 # REF  
-1. https://bioconductor.org/packages/release/bioc/vignettes/SummarizedExperiment/inst/doc/SummarizedExperiment.html#assays  
+1. https://bioconductor.org/packages/release/bioc/vignettes/SummarizedExperiment/inst/doc/SummarizedExperiment.html
