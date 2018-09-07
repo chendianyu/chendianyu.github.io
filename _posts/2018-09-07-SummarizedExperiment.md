@@ -1,12 +1,16 @@
 ---
 title: SummarizedExperiment 介绍
-description: SummarizedExperiment 类的介绍
+description: 
 categories:
  - RNA-seq
 tags:
  - RNA-seq
  - bioconductor
 ---
+
+SummarizedExperiment 对象是存储转录组测序等实验结果的结构，也是 DESeq 等包进行分析的基础，在此对其进行一个简单的介绍。
+
+<!-- more -->
 
 # Introduction  
 `SummarizedExperiment` 类用于存储测序或者芯片试验的结果。 每个对象中包含一个或者多个样本的观察值，以及描述观察值（observations），即特征（features） 和样本（samples），即表型（phenotypes）的元数据（meta-data）。  
@@ -17,7 +21,7 @@ tags:
 `SummarizedExperiment` 包中包含两个类：`SummarizedExperiment` 和 `RangedSummarizedExperiment`  
   
 * SummarizedExperiment
-  `SummarizedExperiment` 是一个矩阵样的容器，每一行代表感兴趣的**特征**（feature），如基因，转录本，外显子等，每一列则代表**样本**（sample）。每个对象可以包含一个或者多个**实验**（assay），而它们每一个则用类矩阵的对象表示。  
+  `SummarizedExperiment` 是一个矩阵样的容器，每一行代表感兴趣的**特征**（feature），如基因，转录本，外显子等，每一列则代表**样本**（sample）。每个对象可以包含一个或者多个**实验**（assay），而它们每一个都用类矩阵的对象表示。  
   特征相关的信息存储在一个数据框（DataFrame）对象中，可以通过函数 `rowData()` 来获取。数据框的每一行提供了 `SummarizedExperiment` 对象中对应每一行特征的信息，数据框中的每一列则提供了感兴趣的特征属性，例如基因或者转录本的 ID 等。  
 
 * RangedSummarizedExperiment  
@@ -28,43 +32,49 @@ tags:
 ![SummarizedExperiment](/img/2018-09-07-SummarizedExperiment/SummarizedExperiment.svg)  
   
 ## 实验（Assay）  
-可通过函数To retrieve the experiment data from a SummarizedExperiment object one can use the `assays()` accessor. An object can have multiple assay datasets, each of which can be accessed using the `$` operator  
+可通过 `assays()` 访问器从 `SummarizedExperiment` 对象中获取实验数据；由于单个对象中可以包含多个实验数据集，因此可以通过 `$` 操作符获取具体某个数据集。  
 ```R  
 > assays(se)
 List of length 1
-names(1): counts  
+assays(1): counts  
 > assays(se)$counts  
 ...  
 ```  
   
 ## 'Row' (regions-of-interest) data  
-Using `rowRanges()` accessor to view the range information for a `RangedSummarizedExperiment`. (`rowData()` for `SummarizedExperiment`)  
+通过 `rowRanges()` 访问器获取 `RangedSummarizedExperiment` 中的 range information (`rowData()` for `SummarizedExperiment`)。数据存储在 `GRangesList` 对象中。  
   
 ## 'Column' (sample) data  
-Using `colData()` accessor to view sample meta-data describing the samples, and it returns a DataFrame that can store any number of descriptive columns for each sample row  
-The sample metadata can be accessed using the `$` accessor, e.g. `se$dex`. So it's easy to subset the entire object by a given phenotype  
+通过 `colData()` 访问器后去样本的元数据，将会返回数据框  
+样本的元数据的信息可以通过 `$` 操作符来获取，因此我们可以基于此对实验数据取子集， e.g. `se[, se$dex == "trt"]`，注意**元数据和观察值将同步变化**  
   
 ## Experiment-wide metadata  
-Using `metadata()` to get Meta-data describing the experimental methods and publication references  
-`metadata()` is just a simple `list`, so user can add any metadata they wish to save, such as storing model formulas  
+通过 `metadata()` 来获取描述整个实验设计以及参考文献等元数据信息  
+`metadata()` 得到的结果是一个简单的列表，因此可以添加任意希望存档的数据，比如模型公式，e.g. `metadata(se)$formula <- counts ~ dex + albut`  
   
-# Common operations on SummarizedExperiment  
+# SummarizedExperiment 常用操作  
 ## Subsetting  
 * Two dimensional subsetting  
 ```R
 se[1:5,1:3] 
 se[1:5,] 
 ```  
-* $ operates on colData() columns  
+* $ operates on `colData()` columns  
 ```R  
 se[, se$cell == "N61311"]  
 ```  
 
 ## Getters and setters  
-There are two accessor functions for extracting the assay data: `assays()` and `assay()`  
-`assays()` operates on the entire list of assay data as a whole, while `assay()` operates on only one assay at a time. `assay(x, i)` is equivalent to `assays(x)[[i]]` (`assay` defaults to the first assay if no `i` is given)  
-  
+* `assays()` and `assay()`  
+  `assays()` 将所有实验数据作为一个整体进行操作，而 `assay()` 每次仅作用于单个实验数据。 `assay(x, i)` 等价于 `assays(x)[[i]]` (`assay` defaults to the first assay if no `i` is given)  
+* `rowRanges() / (rowData())`  
+* `colData()`  
+* `metadata()`  
+
 # Construct DESeqDataSet object from RangedSummarizedExperiment object  
 ```R  
 dds <- DESeqDataSet(se, design = ~ cell + dex)  
 ```  
+  
+# REF  
+1. https://bioconductor.org/packages/release/bioc/vignettes/SummarizedExperiment/inst/doc/SummarizedExperiment.html#assays  
