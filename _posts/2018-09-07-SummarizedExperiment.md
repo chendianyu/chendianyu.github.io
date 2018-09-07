@@ -1,16 +1,12 @@
 ---
 title: SummarizedExperiment 介绍
-description: 
+description: SummarizedExperiment 对象是存储转录组测序等实验结果的结构，也是 DESeq 等包进行分析的基础，在此对其进行一个简单的介绍。
 categories:
  - RNA-seq
 tags:
  - RNA-seq
  - bioconductor
 ---
-
-SummarizedExperiment 对象是存储转录组测序等实验结果的结构，也是 DESeq 等包进行分析的基础，在此对其进行一个简单的介绍。
-
-<!-- more -->
 
 # Introduction  
 `SummarizedExperiment` 类用于存储测序或者芯片试验的结果。 每个对象中包含一个或者多个样本的观察值，以及描述观察值（observations），即特征（features） 和样本（samples），即表型（phenotypes）的元数据（meta-data）。  
