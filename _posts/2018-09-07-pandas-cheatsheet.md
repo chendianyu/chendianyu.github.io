@@ -10,24 +10,24 @@ tags:
 
 # Data Loading  
 * `pd.read_csv()/read_table()`  
-  * `sep`： 默认分别为`','` and `'\t'`, can be regex  
-  * `header`： 默认第一行为header. `None`则无header，为range(n); `<int>`表明第int+1行做header; `list of int`则生成multi-index  
-  * `names`: array-like (List of column names to use), 自定义列名  
-  * `index_col`: int or name of column(s), 指定作为index的列；多列就形成multi-index  
+  * `sep`： 默认分别为 `','` and `'\t'`，也可以是正则表达式  
+  * `header`： 默认第一行为 header；`None` 则无 header，显示时为 range(n)； `<int>` 表明第 int+1 行做 header；如果是 `list of int`，则生成multi-index  
+  * `names`: array-like (List of column names to use)，自定义列名  
+  * `index_col`: int or name of column(s), 指定作为index的列；多列就形成 multi-index  
   * `skiprows`: list-like or integer, 跳过指定行  
-  * `comment`: 注释行，从而忽略  
-  * `na_values`: scalar, str, list-like, or dict, 认为是nan的值  
+  * `comment`: 注释行，从而忽略 e.g. `comment='#'`  
+  * `na_values`: scalar, str, list-like, or dict, 认为是 nan 的值  
   
 # Data Saving  
 * `df.to_csv()`  
   * `path`  
   * `sep`  
-  * `index/header=True`: 是否输出index和columns  
+  * `index/header=True`: 是否输出 index 和 columns 名称  
   * `na_rep`: string, 缺失值的输出结果, default to `''`  
   * `columns`: list of columns to write  
 
 # Basic attributes  
-* shape (返回一个tuple)
+* shape (返回一个 tuple)
 * dtypes  
 * index  
 * columns  
