@@ -45,49 +45,114 @@ df.tail(<num>)
 ```
 
 # Index reconstruction  
-* `reindex()`: 改变index的组成以及顺序等  
+* `reindex()`: 构造符合新的 index 的数据，因此可以实现 index 的组成以及顺序的改变等  
   * `index/columns`: list of labels, 按给出的顺序以及名字重构  
-  * `method`: `{'ffill',...}`, 指定填充引入的缺失值的方法  
+  * `method`: `{'ffill', 'bfill'}`, 指定填充引入的缺失值的方法  
+  * `fill_value`: scalar, default np.NaN，当 reindex 引入缺失值是用于填充
+
+```python
+In [98]: frame = pd.DataFrame(np.arange(9).reshape((3, 3)),
+   ....: index=['a', 'c', 'd'],
+   ....: columns=['Ohio', 'Texas', 'California'])
+In [99]: frame
+Out[99]:
+  Ohio Texas California
+a    0     1          2
+c    3     4          5
+d    6     7          8
+In [100]: frame2 = frame.reindex(['a', 'b', 'c', 'd'])
+In [101]: frame2
+Out[101]:
+  Ohio Texas California
+a  0.0   1.0        2.0
+b  NaN   NaN        NaN
+c  3.0   4.0        5.0
+d  6.0   7.0        8.0
+```
   
-* `set_index(<column name or list of column names>)`: 选取列作为新的index  
-  * `drop=True`: 是否在values中仍保留这些列  
-* `reset_index()`: 默认将所有的index level转回成column，处于最前列 (更详细的用法见官方文档)  
+* `set_index(<column name or list of column names>)`: 选取列作为新的 index，多列就构成 multi-index  
+  * `drop=True`: 是否在新生成的对象的 values 中仍保留这些列  
+* `reset_index()`: 默认将所有的 index level 转回成 column，处于最前列  
+  * `level`: int, str, tuple, or list, 仅移除 index 所指定的 level 
+  * `drop=False`: 设置成 True, 相当于将原来的 index 抛弃，index 变成整数  
+  * `inplace=False`: 直接修改原对象还是生成新的对象  
+  * `col_level` : int or str, default 0，如果 columns 是多重索引，指定移除的 index 要插到哪个 level，默认为第一个 level  
+
+```python
+>>> index = pd.MultiIndex.from_tuples([('bird', 'falcon'),
+...                                    ('bird', 'parrot'),
+...                                    ('mammal', 'lion'),
+...                                    ('mammal', 'monkey')],
+...                                   names=['class', 'name'])
+>>> columns = pd.MultiIndex.from_tuples([('speed', 'max'),
+...                                      ('species', 'type')])
+>>> df = pd.DataFrame([(389.0, 'fly'),
+...                    ( 24.0, 'fly'),
+...                    ( 80.5, 'run'),
+...                    (np.nan, 'jump')],
+...                   index=index,
+...                   columns=columns)
+>>> df
+               speed species
+                 max    type
+class  name
+bird   falcon  389.0     fly
+       parrot   24.0     fly
+mammal lion     80.5     run
+       monkey    NaN    jump
+>>> df.reset_index(level='class')    # 将 index 中的 class 移除，默认在 columns 第一个 level，与 speed，species 同层
+         class  speed species
+                  max    type
+name
+falcon    bird  389.0     fly
+parrot    bird   24.0     fly
+lion    mammal   80.5     run
+monkey  mammal    NaN    jump
+>>> df.reset_index(level='class', col_level=1)    # 指定 col_level 后移除的 index 变成与 max，type 同层 
+                speed species
+         class    max    type
+name
+falcon    bird  389.0     fly
+parrot    bird   24.0     fly
+lion    mammal   80.5     run
+monkey  mammal    NaN    jump
+```
   
-* `sort_index()`: 对index或columns进行排序  
+* `sort_index()`: 对 index 或 columns 进行排序  
   * `axis=0`  
-  * `level`: multi-index中使用，对level排序  
+  * `level`: int or level name or list of ints or list of level names, multi-index中使用，对level排序  
   * `ascending=True`  
   
-* `drop()`: 舍弃指定index或columns  
-  * `labels`: single label or list-like  
-  * `axis`  
-  * `level`  
+* `drop()`: 舍弃指定 index 或 columns  
+  * `labels`: single label or list-like，指定要舍弃的行或列  
+  * `axis`: 指定从哪个轴去寻找前面指定的 label  
+  * `level`: 多重索引的话还得指定在哪个 level 寻找 label  
   * `inplace=False`  
   
-* `rename()`: 对index或columns进行重命名，也可以以`map`方法作用于index或columns  
+* `rename()`: 对 index 或 columns 进行重命名，也可以以 `map` 方法作用于 index 或 columns  
   * `index/columns`: 可以是函数，或者字典，其中key为原名，value为新名  
   * `inplace=False`  
   
 # Value reconstruction  
 * `sort_values()`  
   * `by`: str or list of str, 指定用于排序的key  
-  * `axis`  
+  * `axis`: 指定需要进行排序的轴  
   * `ascending=True`  
-  * `na_position`: ['first', 'last'], 默认缺失值排最后，即last  
+  * `na_position`: ['first', 'last'], 默认缺失值排最后，即 last  
   * `inplace=False`  
   
-* `duplicated()`: Return boolean Series denoting duplicate rows  
-  * `subset`: column label or sequence of labels, 根据指定列来判断是否重复  
+* `duplicated()`: 返回一个 boolean Series，标记各行是否为重复  
+  * `subset`: column label or sequence of labels, 根据指定列来判断是否重复，默认为所有列  
   * `keep`:  
-    * `first`: Mark duplicates as True except for the first occurrence  
-    * `last`: Mark duplicates as True except for the last occurrence  
-    * `False`: Mark all duplicates as True  
+    * `'first'`: Mark duplicates as True except for the first occurrence, default  
+    * `'last'`: Mark duplicates as True except for the last occurrence  
+    * `'False'`: Mark all duplicates as True  
 * `drop_duplicates()`: 删除重复行，等价于 `df[~df.duplicated()]`  
   * `subset`  
   * `keep`  
   * `inplace`  
   
-* `replace()`: 替换值, 可以是 原值（多个值就用list），新值； 如果是不同值分别替换，每一对可以是list或dict  
+* `replace()`: 替换值, 可以是 原值（多个值就用list），新值； 如果是不同值分别替换，每一对可以是 list 或 dict  
 ```python  
 data.replace(-999, np.nan)
 data.replace([-999, -1000], np.nan)
@@ -97,9 +162,9 @@ data.replace({-999: np.nan, -1000: 0})
   
 # Missing value  
 * `dropna()`: 根据缺失值情况删除行或列  
-  * `axis`  
-  * `how`: {'all', 'any'}, 默认为any，即存在缺失值就删除整行或整列  
-  * `thresh`: int, 指定label中有效值少于int，则删除该label  
+  * `axis`: {0 or ‘index’, 1 or ‘columns’}, default 0, 行或列存在缺失值就进行移除  
+  * `how`: {'all', 'any'}, 默认为 any，即存在缺失值就删除整行或整列  
+  * `thresh`: int, 行或列中有效值数量少于 int，则删除该行或列  
   * `inplace`  
   
 * `fillna()`  
@@ -109,7 +174,7 @@ data.replace({-999: np.nan, -1000: 0})
   * `inplace`  
   
 # Merge, join and concatenate  
-* `pd.merge()` (一般原来的index会被抛弃，除了`left_index`和`right_index`均为`True`时)  
+* `pd.merge()` (一般原来的index会被抛弃，除了 `left_index` 和 `right_index` 均为 `True` 时)  
   * `left/right`: DataFrame  
   * `how`: {'inner', 'outer', 'left', 'right'}, 默认inner  
   * `on`: label or list, 指定作为合并的key的label  
