@@ -22,9 +22,10 @@ date: "2018-02-14"
 output: html_document
 ---
 ```  
-text 部分的语法格式为 Markdown  
+text 部分的语法格式为 Pandoc's Markdown  
   
 code 部分有两种形式：  
 * 代码块，用3个反引号 ` ```{r} ` 起始，其中 r 表示使用的语言的名称，另外还可以在花括号中设置代码块选项，如字体大小等，最后用3个反引号结束  
 * 行内代码，则以 `` `r `` 起始，以 `` ` `` 结束  
   
+rmarkdown 包中提供了两种输出格式：documents 和 presentations。当在 YAML metadata 中指定输出格式时，如果是调用的第三方包的，则还需要同时注明是哪个包。 e.g.: `output: tufte::tufte_html`。a~t~
