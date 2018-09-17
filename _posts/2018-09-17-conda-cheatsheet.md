@@ -58,16 +58,42 @@ conda remove <package>    # remove a package
 `.condarc` 文件可以包含多种设置:  
 * conda 从哪里搜索包 (Where conda looks for packages)  
 * conda 是否以及如何使用代理服务器 (If and how conda uses a proxy server)  
-* Where conda lists known environments  
-* Whether to update the bash prompt with the current activated environment name  
-* Whether user-built packages should be uploaded to Anaconda.org  
-* Default packages or features to include in new environments  
+* 创建新环境时同时包含的默认的包或特征 (Default packages or features to include in new environments)  
   
-To create or modify a `.condarc` file, use the `conda config` command or use a text editor to create a new file named `.condarc` and save it to your user home directory or root directory  
+创建或修改 `.condarc` 文件, 可以使用命令 `conda config` 或通过文本编辑器直接操作 `.condarc` 文件，并将其保存至用户主目录（第一次使用 conda config 时会默认创建） or root directory  
   
 ## channels  
-Use `defaults` to automatically include all default channels. Non-URL channels are interpreted as `Anaconda.org user names`. You can change this by modifying the `channel_alias`  
-(If you want to select channels for a single environment, put a `.condarc` file in the root directory of that environment, e.g. `~/miniconda3/envs/test/.condarc`)  
+使用 `defaults` 可以自动包含所用默认的通道  
+如果仅希望在某个环境中进行通道设置，可以将 `.condarc` 文件放在该环境的 root  directory 下, e.g. `~/miniconda3/envs/test/.condarc`，即仅作用于 test 环境；或者在使用 `conda config` 时使用 `--env` 参数  
+  
+参考配置命令：  
+```shell
+conda config --add channels conda-forge    # 后写入的通道将会放在最前面
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda/
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/
+conda config --add channels https://mirrors.ustc.edu.cn/anaconda/pkgs/free/
+conda config --add channels https://mirrors.ustc.edu.cn/anaconda/pkgs/main/
+conda config --add channels https://mirrors.ustc.edu.cn/anaconda/cloud/bioconda/
+conda config --set show_channel_urls yes
+```
+
+`.condarc` 文件示范  
+```
+channels:
+  - https://mirrors.ustc.edu.cn/anaconda/cloud/bioconda/
+  - https://mirrors.ustc.edu.cn/anaconda/pkgs/main/
+  - https://mirrors.ustc.edu.cn/anaconda/pkgs/free/
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda/
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/
+  - conda-forge
+  - defaults
+```
   
 ## Update conda automatically
 When `auto_update_conda: True` (default), conda updates itself any time a user updates or installs a package in the root environment. When `False`, conda updates itself only if the user manually issues a `conda update` command  
