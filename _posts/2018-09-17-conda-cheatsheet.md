@@ -60,11 +60,11 @@ conda remove <package>    # remove a package
 * conda 是否以及如何使用代理服务器 (If and how conda uses a proxy server)  
 * 创建新环境时同时包含的默认的包或特征 (Default packages or features to include in new environments)  
   
-创建或修改 `.condarc` 文件, 可以使用命令 `conda config` 或通过文本编辑器直接操作 `.condarc` 文件，并将其保存至用户主目录（第一次使用 conda config 时会默认创建） or root directory  
+创建或修改 `.condarc` 文件, 可以使用命令 `conda config` 或通过文本编辑器直接操作 `.condarc` 文件，并将其保存至用户主目录（第一次使用 conda config 时会默认创建）；也可将文件放在 conda 软件安装的根目录下，e.g. `~/miniconda3/`，这样该文件中的设置将会覆盖主目录下文件的设置  
   
 ## channels  
-使用 `defaults` 可以自动包含所用默认的通道  
-如果仅希望在某个环境中进行通道设置，可以将 `.condarc` 文件放在该环境的 root  directory 下, e.g. `~/miniconda3/envs/test/.condarc`，即仅作用于 test 环境；或者在使用 `conda config` 时使用 `--env` 参数  
+`defaults` 通道包含所有默认的通道  
+如果仅希望在某个环境中进行通道设置，可以将 `.condarc` 文件放在该环境的 root directory 下, e.g. `~/miniconda3/envs/test/.condarc`，即仅作用于 test 环境；或者在使用 `conda config` 时使用 `--env` 参数  
   
 参考配置命令：  
 ```shell
@@ -96,16 +96,16 @@ channels:
 ```
   
 ## Update conda automatically
-When `auto_update_conda: True` (default), conda updates itself any time a user updates or installs a package in the root environment. When `False`, conda updates itself only if the user manually issues a `conda update` command  
+当设置为 `auto_update_conda: True` (default)， 每当用户在根环境下更新或者安装某个包，conda 就会自动进行更新。当设置为 `False`时，只有当运行 `conda update` 命令是才会进行更新  
   
-## Show channel URLs (`show_channel_urls`)  
-Show channel URLs when displaying what is going to be downloaded and in `conda list`. The default is `False`  
+## Show channel URLs (`show_channel_urls: True`)  
+下载包或者使用 `conda list` 命令时，显示完整的 URL；默认为 `False`  
   
 ## Add pip as Python dependency (`add_pip_as_python_dependency`)
-Add pip, wheel and setuptools as dependencies of Python. This ensures that pip, wheel and setuptools are always installed any time Python is installed. The default is `True`  
+将 pip, wheel 和 setuptools 作为 Python 的依赖进行安装，确保当 Python 安装时，这三者也同时被安装；默认为 `True`  
   
 ## Always add packages by default (`create_default_packages`)
-When creating new environments, add the specified packages by default. The default packages are installed in every environment you create. You can override this option at the command prompt with the `--no-default-packages` flag. The default is to not include any packages  
+当构建新的环境时，默认同时添加特定的包；可以在创建环境时加上标签 `--no-default-packages` 来覆盖该设置。默认为不添加任何包  
 ```shell
 create_default_packages:
   - pip
