@@ -9,6 +9,7 @@ tags:
 ---
 
 # Conda
+基本操作  
 ```shell
 conda --version
 conda -V 
@@ -17,8 +18,7 @@ conda update conda
 ```
 
 # Environment  
-A conda environment is a directory that contains a specific collection of conda packages that you have installed.  If you change one environment, your other environments are not affected. You can easily activate or deactivate environments, which is how you switch between them. You can also share your environment with someone by giving them a copy of your `environment.yaml` file  
-When you begin using conda, you already have a default environment named `base`  
+Conda `environment` 指的是包含所安装的特定 conda 包的路径，默认的环境名称为 `base`。当你改变某一环境时，其他的环境并不会受到影响。可以通过 `activate` 和 `deactivate` 实现环境的切换。另外还可以通过将 `environment.yaml` 拷贝给他人实现环境的共享    
   
 ## create an environment  
 ```shell
@@ -55,9 +55,9 @@ conda remove <package>    # remove a package
   
 # Configuration  
 ## .condarc conda configuration file
-The `.condarc` file can change many parameters, including:  
-* Where conda looks for packages  
-* If and how conda uses a proxy server  
+`.condarc` 文件可以包含多种设置:  
+* conda 从哪里搜索包 (Where conda looks for packages)  
+* conda 是否以及如何使用代理服务器 (If and how conda uses a proxy server)  
 * Where conda lists known environments  
 * Whether to update the bash prompt with the current activated environment name  
 * Whether user-built packages should be uploaded to Anaconda.org  
