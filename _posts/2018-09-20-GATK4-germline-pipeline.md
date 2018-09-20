@@ -1,6 +1,6 @@
 ---
 title: GATK4 WES/WGS 分析流程
-description: GATK4 检测细胞系突变流程
+description: GATK4 检测生殖系突变流程
 categories:
  - GATK
 tags:
@@ -12,16 +12,13 @@ tags:
 ---
 
 # Introduction  
-This pipeline uses `GRCh38` as the reference genome. It begins with unaligned paired reads in BAM format and results in a sample-level SNP and INDEL variant callset in GVCF format  
+本流程基于 GATK4 进行 WES/WGS 生殖系突变，主要是 SNP 和 Indel 的检测。流程使用 `GRCh38` 作为参考基因组，以双端测序 FastQ 文件起始，最终得到包含 SNP 和 Indel 的 (g)VCF 文件  
 
 # Data pre-processing for variant discovery  
 ## Reference  
-GRCh38 reference genome FASTA including `alternate contigs`, corresponding `.fai` index and `.dict` dictionary and five BWA-specific index files `.sa`, `.amb`, `.bwt`, `.ann` and `.pac`  
-
-GATK uses two files to access and safety check access to the reference files:  
+GRCh38 参考基因组 FASTA 文件包含 `alternate contigs`, 此外还需要用到 `.fai` index 文件， `.dict` dictionary 文件以及5个 BWA-specific 索引文件 `.sa`, `.amb`, `.bwt`, `.ann` and `.pac`    
 1. a `.dict` dictionary of the contig names and sizes  
-You can use `Picard` `CreateSequenceDictionary` to create a `SAM/BAM file` from a fasta containing reference sequence. The reference sequence can be gzipped (both `.fasta` and `.fasta.gz` are supported). The output SAM file contains **a header but no SAMRecords**, and the header contains only sequence records  
-  
+我们通过 `Picard` 的 `CreateSequenceDictionary`，基于参考基因组的 FASTA 文件构造出一个后缀名为 `.dict` 的序列字典文件。该文件实质为一个 SAM 格式的文件，**包含 header，但无 SAMRecords，且 header 部分仅包含序列记录**。参考基因组文件可以被压缩，即支持 `.fasta.gz` 格式    
 Usage:  
 ```shell
 java -jar picard.jar CreateSequenceDictionary \ 
@@ -36,17 +33,15 @@ java -jar picard.jar CreateSequenceDictionary \
 ```  
 
 2. a `.fai` fasta index file to allow efficient random access to the reference bases  
-You can use `Samtools` `faidx` to index the reference sequence file and create `<ref.fasta>.fai` on the disk. The input file can be compressed in the BGZF format  
-  
+我们通过 `Samtools` 的 `faidx` 构建参考基因组的索引文件 `<ref.fasta>.fai`。输入文件可以是 BGZF 格式的压缩文件  
 Usage : `samtools faidx <ref.fasta>`  
 e.g. : `samtools faidx ucsc.hg38.fasta`  
   
-BWA alignment requires an indexed reference genome file. Indexing is **specific to algorithms**. To index the human genome for BWA, we apply BWA's `index function` on the reference genome file. This produces five index files with the extensions `amb`, `ann`, `bwt`, `pac` and `sa`  
+3. BWA 比对也需要其对应的索引文件，索引是**算法特异性**。我们通过 `BWA` 的 `index` 构建索引，得到后缀名为 `.amb`, `.ann`, `.bwt`, `.pac` and `.sa` 的文件，之后工具将会默认这些索引文件与参考基因组位于**同一文件夹内**  
 Usage : `bwa index -a bwtsw <ref.fasta>`  
-e.g. : `bwa index -a bwtsw /home/refer/ucsc.hg38.fasta`  
-The tool automatically locates the index files within the `same folder` as the reference FASTA file  
+e.g. : `bwa index -a bwtsw /home/refer/ucsc.hg38.fasta`    
 
-当然也可以进入GATK FTP下载已有的文件  
+当然也可以进入 GATK resource bundle 下载已准备好的文件  
 ```shell
 nohup wget ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/hg38/dbsnp_146.hg38.vcf.gz & 
 nohup wget ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/hg38/dbsnp_146.hg38.vcf.gz.tbi & 
