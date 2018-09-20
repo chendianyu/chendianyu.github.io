@@ -51,11 +51,13 @@ nohup wget ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/hg38/Homo_sap
 nohup wget ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/hg38/Homo_sapiens_assembly38.fasta.fai & 
 nohup wget ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/hg38/Homo_sapiens_assembly38.dict & 
 nohup wget ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/hg38/1000G_phase1.snps.high_confidence.hg38.vcf.gz & 
-nohup wget ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/hg38/1000G_phase1.snps.high_confidence.hg38.vcf.gz.tbi   
+nohup wget ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/hg38/1000G_phase1.snps.high_confidence.hg38.vcf.gz.tbi &
+nohup wget ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/hg38/1000G_omni2.5.hg38.vcf.gz &
+nohup wget ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/hg38/1000G_omni2.5.hg38.vcf.gz.tbi
 ```  
 
 ## Expected input
-The data is initially organized in distinct subsets called `readgroups`. These correspond to the intersection of `libraries` (the DNA product extracted from biological samples and prepared for sequencing, which includes fragmenting and tagging with identifying barcodes) and `lanes` (units of physical separation on the DNA sequencing chips) generated through `multiplexing` (the process of mixing multiple libraries and sequencing them on multiple lanes, for risk and artifact mitigation purposes)  
+数据最初是通过不同的 `readgroups` 分成不同的子集组织的，对应 `libraries` （从生物样本提取 DNA，） (the DNA product extracted from biological samples and prepared for sequencing, which includes fragmenting and tagging with identifying barcodes) and `lanes` (units of physical separation on the DNA sequencing chips) generated through `multiplexing` (the process of mixing multiple libraries and sequencing them on multiple lanes, for risk and artifact mitigation purposes)  
 
 # Main steps  
 ## Map to Reference  
