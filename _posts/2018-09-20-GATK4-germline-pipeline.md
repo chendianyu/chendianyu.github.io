@@ -57,12 +57,12 @@ nohup wget ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/hg38/1000G_om
 ```  
 
 ## Expected input
-数据最初是通过不同的 `readgroups` 分成不同的子集组织的，对应 `libraries` （从生物样本提取 DNA，） (the DNA product extracted from biological samples and prepared for sequencing, which includes fragmenting and tagging with identifying barcodes) and `lanes` (units of physical separation on the DNA sequencing chips) generated through `multiplexing` (the process of mixing multiple libraries and sequencing them on multiple lanes, for risk and artifact mitigation purposes)  
+数据最初是通过不同的 `readgroups` 分成不同的子集，对应 `libraries`（DNA 取自不同的生物学样本，以及在文库制备过程中的片段化和 barcode 标记过程）与  `lanes` (测序仪的物理分隔单元) 通过 `multiplexing`（混合多个文库，并在多条泳道上进行测序，以减少风险和人为误差）交叉得到的不同组合  
 
 # Main steps  
 ## Map to Reference  
-Tools involved: `BWA`, Picard's `MergeBamAlignments`
-This first processing step is performed `per-read group` and consists of mapping `each individual read pair` to the reference genome, which is a synthetic single-stranded representation of common genome sequence that is intended to provide a common coordinate framework for all genomic analysis. Because the mapping algorithm **processes each read pair in isolation**, this can be massively parallelized to increase throughput as desired  
+**Tools involved:** `BWA`, Picard 的`MergeBamAlignments`
+第一步按照每个 read group，将每对 read 比对到参考基因组上。由于比对算法能够独立处理每对 read，因此可以通过并行提高速度  
 
 ```shell
 bwa mem -R <read_group> \  # e.g. : '@RG\tID:group1\tSM:sample1\tPL:illumina\tLB:lib1\tPU:unit1'
@@ -182,3 +182,6 @@ java -jar GenomeAnalysisTK.jar \
     -o <output_sorted_markduplicates_recal.bam> 
 ```
 * By default, the original quality scores are discarded in order to keep the file size down
+  
+# REF
+1. https://gatkforums.broadinstitute.org/gatk/discussion/11165/data-pre-processing-for-variant-discovery
