@@ -42,3 +42,6 @@ scRNA-seq，相较混池转录组，首先需要将细胞进行分离。此外�
   
 # Application
 在发育领域，利用 scRNA-seq 探索驱动不同分化路径的基因表达程序有助于理解器官发育的过程。有些细胞早期能够同时表达多种不同谱系细胞相关的基因，称为 multilineage priming，之后才会呈现出谱系特异性的表达谱。谱系选择过程需要一致不正确基因的表达，并激活正确的细胞系特异基因的表达，但这一过程的具体机制仍需要进一步的研究。  
+  
+# REF
+1. Potter SS. Single-cell RNA sequencing for the study of development, physiology and disease. Nat Rev Nephrol. 2018, 14:479-492. doi: 10.1038/s41581-018-0021-7
