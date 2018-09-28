@@ -1,6 +1,6 @@
 ---
 title: 干细胞命运在癌症发生，发展以及治疗耐药性中的作用
-description: 
+description: 干细胞相关信号通路在肿瘤发生，发展以及抗性等层面所起的作用
 categories:
  - cancer
 tags:
