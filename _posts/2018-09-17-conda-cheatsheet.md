@@ -52,7 +52,7 @@ conda remove <package>    # remove a package
 创建或修改 `.condarc` 文件, 可以使用命令 `conda config` 或通过文本编辑器直接操作 `.condarc` 文件，并将其保存至用户主目录（第一次使用 conda config 时会默认创建）；也可将文件放在 conda 软件安装的根目录下，e.g. `~/miniconda3/`（即base环境对应的路径），这样该文件中的设置将会覆盖用户主目录下文件的设置  
   
 ## channels  
-`defaults` 通道包含来自 [repo.continuum.io](https://repo.continuum.io/pkgs/) 的所有默认通道。其中 main channel 包含了绝大部分新的包，采用新的编译器；free channel 则包含未采用新编译器构建的包，基本上都与 main 中的兼容；此外，还有其他的一些通道包含在内。另外也可以通过在 .condarc 文件中设置 [`default_channels`](https://conda.io/docs/user-guide/configuration/use-condarc.html#default-channels-default-channels) 来覆盖默认的这些设置  
+`defaults` 通道包含来自 [repo.continuum.io](https://repo.continuum.io/pkgs/) 的多个通道。其中 main channel 包含了绝大部分新的包，采用新的编译器；free channel 则包含未采用新编译器构建的包，基本上都与 main 中的兼容；此外，还有其他的一些通道包含在内。另外也可以通过在 .condarc 文件中设置 [`default_channels`](https://conda.io/docs/user-guide/configuration/use-condarc.html#default-channels-default-channels) 来覆盖默认的这些设置  
 如果仅希望在某个环境中进行通道设置，可以将 `.condarc` 文件放在该环境的 root directory 下, e.g. `~/miniconda3/envs/test/.condarc`，即仅作用于 test 环境；或者在使用 `conda config` 时使用 `--env` 参数  
   
 参考配置命令：  
