@@ -14,10 +14,9 @@ Anaconda 和 Miniconda 均为 python 的一种发行版本，集成了 conda 以
 
 基本操作  
 ```shell
-conda --version
-conda -V 
+conda --version    # 等价于 conda -V 检查版本号
 conda info
-conda update conda
+conda update conda # 更新
 ```
 
 # Environment  
@@ -25,32 +24,20 @@ Conda `environment` 指的是包含所安装的特定 conda 包的路径，默�
   
 ## create an environment  
 ```shell
-conda create --name <myenv>    # create an environment called myenv
-```
-By default, environments are installed into the `envs` directory in your conda directory  
-  
-## remove an environment 
-```shell
-conda remove --name <myenv> --all
-```
-  
-## activate and deactivate an environment  
-```shell  
+conda create -n <myenv>    # create an environment called myenv，默认在目录 /env/ 下
+conda create -n myenv scipy    # 创建环境时同时安装指定的包。建议一次性安装所有要用的包，避免单个安装发生冲突
+conda remove -n <myenv> --all    # remove an environment
 source activate <myenv>  
-source deactivate       # Change your current environment back to the default (base)
-```
-
-## list all your environments  
-```shell 
-conda info --envs
-conda env list
+source deactivate              # Change your current environment back to the default (base)
+conda info --envs              # 列出所有构建的环境，其中当前所处环境前会表上*号  
+conda env list                 # 同上
 ```
   
 # Packages  
 ```shell
 conda install <package>
 conda search <package>    # Check to see if a package you have not installed is available from the Anaconda repository
-conda list                # Check to see packages in the environment
+conda list                # 列出环境中所有的包
 conda update <package>    # update a package
 conda remove <package>    # remove a package
 # 以上操作均在当前env中进行 如果想指定某个环境 则加上 -n <env> 即可
@@ -63,10 +50,10 @@ conda remove <package>    # remove a package
 * conda 是否以及如何使用代理服务器 (If and how conda uses a proxy server)  
 * 创建新环境时同时包含的默认的包或特征 (Default packages or features to include in new environments)  
   
-创建或修改 `.condarc` 文件, 可以使用命令 `conda config` 或通过文本编辑器直接操作 `.condarc` 文件，并将其保存至用户主目录（第一次使用 conda config 时会默认创建）；也可将文件放在 conda 软件安装的根目录下，e.g. `~/miniconda3/`，这样该文件中的设置将会覆盖主目录下文件的设置  
+创建或修改 `.condarc` 文件, 可以使用命令 `conda config` 或通过文本编辑器直接操作 `.condarc` 文件，并将其保存至用户主目录（第一次使用 conda config 时会默认创建）；也可将文件放在 conda 软件安装的根目录下，e.g. `~/miniconda3/`（即base环境对应的路径），这样该文件中的设置将会覆盖用户主目录下文件的设置  
   
 ## channels  
-`defaults` 通道包含所有默认的通道  
+`defaults` 通道包含来自 [repo.continuum.io](https://repo.continuum.io/pkgs/) 的所有默认通道。其中 main channel 包含了绝大部分新的包，采用新的编译器；free channel 则包含未采用新编译器构建的包，基本上都与 main 中的兼容；此外，还有其他的一些通道包含在内。另外也可以通过在 .condarc 文件中设置 [`default_channels`](https://conda.io/docs/user-guide/configuration/use-condarc.html#default-channels-default-channels) 来覆盖默认的这些设置  
 如果仅希望在某个环境中进行通道设置，可以将 `.condarc` 文件放在该环境的 root directory 下, e.g. `~/miniconda3/envs/test/.condarc`，即仅作用于 test 环境；或者在使用 `conda config` 时使用 `--env` 参数  
   
 参考配置命令：  
@@ -96,6 +83,7 @@ channels:
   - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/
   - conda-forge
   - defaults
+show_channel_urls: True
 ```
   
 ## Update conda automatically
