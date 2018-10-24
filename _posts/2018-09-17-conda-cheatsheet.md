@@ -22,7 +22,6 @@ conda update conda # 更新
 # Environment  
 Conda `environment` 指的是包含所安装的特定 conda 包的路径，默认的环境名称为 `base`。当你改变某一环境时，其他的环境并不会受到影响。可以通过 `activate` 和 `deactivate` 实现环境的切换。另外还可以通过将 `environment.yaml` 拷贝给他人实现环境的共享    
   
-## create an environment  
 ```shell
 conda create -n <myenv>    # create an environment called myenv，默认在目录 /env/ 下
 conda create -n myenv scipy    # 创建环境时同时安装指定的包。建议一次性安装所有要用的包，避免单个安装发生冲突
