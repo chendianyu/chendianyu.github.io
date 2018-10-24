@@ -10,7 +10,7 @@ tags:
 
 # Introduction
 [Conda](https://conda.io/docs/index.html) 是一个开源的包和环境管理系统，适用于 Python, R, Ruby 等各种语言，能够构建独立的环境用于不同任务  
-Anaconda 和 Miniconda 均为 python 的一种发行版本，继承了 conda 以及其他的一些包和软件。[Anaconda](https://www.anaconda.com/)  包含了 conda, conda build, Python 以及超过100种的开源包及依赖项，比较庞大；而 [Miniconda](https://conda.io/miniconda.html) 仅包含 conda，python 以及少量必需的包，其他的包可以后续根据实际需要安装  
+Anaconda 和 Miniconda 均为 python 的一种发行版本，集成了 conda 以及其他的一些包和软件。[Anaconda](https://www.anaconda.com/)  包含了 conda, conda build, Python 以及超过100种的开源包及依赖项，比较庞大；而 [Miniconda](https://conda.io/miniconda.html) 仅包含 conda，python 以及少量必需的包，其他的包可以后续根据实际需要安装  
 
 基本操作  
 ```shell
