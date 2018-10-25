@@ -64,3 +64,9 @@ Perl 中互换两个变量的值 e.g. `($fred, $barney) = ($barney, $fred);`
   
 引用整个数组时，使用 `@` 字符 e.g. `@rocks = qw/ bedrock slate lava /;`  
 也可以用该语句构建 rocks 数组 `($rocks[0], $rocks[1], $rocks[2], $rocks[3]) = qw/talc mica feldspar quartz/;`  
+数组只能包含标量，不能包含数组，因此赋值时是将一个数组中的元素赋值给了另一个数组  
+  
+数组常被当成堆栈（stack）使用（后进先出）：  
+* `pop()` 取出数组的最后一个元素并将其作为返回值返回，e.g. `pop(@array)`  
+* `push()` 将若干个元素添加至数组的尾端，e.g. `push(@array, 0);`  
+* `shift()` 和 `un
