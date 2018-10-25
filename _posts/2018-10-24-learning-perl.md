@@ -69,4 +69,22 @@ Perl 中互换两个变量的值 e.g. `($fred, $barney) = ($barney, $fred);`
 数组常被当成堆栈（stack）使用（后进先出）：  
 * `pop()` 取出数组的最后一个元素并将其作为返回值返回，e.g. `pop(@array)`  
 * `push()` 将若干个元素添加至数组的尾端，e.g. `push(@array, 0);`  
-* `shift()` 和 `un
+* `shift()` 和 `unshift()` 则是分别针对数组的左边进行移除和添加  
+* `splice()` 能对数组中间的元素进行操作，第一个参数是**要操作的数组**，第二个是要操作**元素的起始索引**，第三个参数是要操作的**元素长度**，即个数，第四个参数是**用来替换的列表**，**长度并不需要一致**。后两个参数可选，没有的时候就是进行删除操作；如果想直接添加不进行删除，那么第三个参数设为0即可  
+  
+数组的内容也可以内插到双引号字符串中，数组各元素之间会自动添加分隔符（首尾不会），有特殊变量 `$"` 指定，默认为**空格**  
+对于一些可能产生歧义的地方：  
+```perl
+$email = "fred@bedrock.edu";
+$email = "fred\@bedrock.edu"; # Correct
+$email = 'fred@bedrock.edu'; # Another way to do that
+```
+索引表达式会被当成字符串表达式进行处理，该表达式中，变量不会被内插：  
+```perl
+@fred = qw(hello dolly);
+$y = 2;
+$x = "This is $fred[1]'s place";     # "This is dolly's place"
+$x = "This is $fred[$y-1]'s place";  # same thing
+$y = 2*4;
+$x = "This is $fred[$y-1]'s place";  # $y相当于2，所以索引结果仍为1，而不是7
+```  
