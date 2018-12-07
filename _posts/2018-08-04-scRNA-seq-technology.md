@@ -17,6 +17,11 @@ tags:
 4. Tagmentation。对扩增的 cDNA 快速高效地构建测序文库，DNA 片段化和接头连接在同一步完成，使用 Illumina 双接头策略。  
 5. 扩增并测序。对带接头的 DNA 进行扩增并测序。  
   
+与SMART-seq的差异：  
+1. SMART-seq是在42度下进行RT，但由于部分RNA具有二级结构，出现位阻现象，导致链的延伸提前终止。SMART-seq2中加入了甜菜碱，是一种甲基供体，能够增加蛋白质热稳定性。SMART-seq2先在50度下反应2 min，破坏RNA二级结构，然后回到42度，进行2 min RT，循环十次，提高cDNA产量  
+2. 甜菜碱的加入需要提升氯化镁浓度。镁离子能与甜菜碱中的羧酸阴离子结合，作为缓冲液帮助细胞应对渗透压的变化。有报道称过量氯化镁可能对PCR保真性有副作用，但在SMART-seq2的RT-PCR以及PCR阶段并未发现  
+
+  
 # CEL-seq
 **CEL-seq** 通过体外扩增实现单细胞测序。  
 ![CEL-seq](/img/2018-08-04-scRNA-seq-technology/CEL-seq.png)  
