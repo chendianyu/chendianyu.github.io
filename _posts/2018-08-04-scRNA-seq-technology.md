@@ -21,10 +21,10 @@ tags:
 1. SMART-seq是在42度下进行RT，但由于部分RNA具有二级结构，出现位阻现象，导致链的延伸提前终止。SMART-seq2中加入了甜菜碱，是一种甲基供体，能够增加蛋白质热稳定性。SMART-seq2先在50度下反应2 min，破坏RNA二级结构，然后回到42度，进行2 min RT，循环十次，提高cDNA产量  
 2. 甜菜碱的加入需要提升氯化镁浓度。镁离子能与甜菜碱中的羧酸阴离子结合，作为缓冲液帮助细胞应对渗透压的变化。有报道称过量氯化镁可能对PCR保真性有副作用，但在SMART-seq2的RT-PCR以及PCR阶段并未发现  
 3. SMART-seq使用的TSO 3'端是3个riboguanosines，并使用Moloney murine leukemia (M-MLV)逆转录酶，后者能够进行模版转换，合成TSO互补链；SMART-seq2中前两个碱基还是riboguanosines，第3个是修饰过的鸟嘌呤得到的locked nucleic acids (LNA)。LNA单体具有更强的热稳定性，以及在退火阶段高效结合到cDNA非模版3'端。RT酶则换成了Superscript II (Invitrogen)，它是M-MLV编辑得到的，Rnase H 酶活性降低，热稳定性增强  
-4. SMART-seq2 预扩增时用 KAPA HiFi HotStart ReadyMix 替换了 Advantage 2 polymerase mix，取消了先用磁珠富集 cDNA 这一步，简化了 protocol
-  
+4. SMART-seq2 预扩增时用 KAPA HiFi HotStart ReadyMix 替换了 Advantage 2 polymerase mix，取消了先用磁珠富集 cDNA 这一步，简化了 protocol  
+   
 # CEL-seq
-**CEL-seq** 通过体外扩增实现单细胞测序。  
+**CEL-seq** 通过体外扩增（In vitro transcription, IVT）实现单细胞测序。  
 ![CEL-seq](/img/2018-08-04-scRNA-seq-technology/CEL-seq.png)  
 
 # CITE-seq  
