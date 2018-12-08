@@ -7,7 +7,7 @@ tags:
  - scRNA-seq
 ---
 
-# Smart-seq2
+# Smart-seq2 （2013）
 **Smart-seq2** 的流程如下图所示：  
 ![Smart-seq2](/img/2018-08-04-scRNA-seq-technology/Smart-seq2.jpg)  
   
@@ -17,17 +17,22 @@ tags:
 4. Tagmentation。对扩增的 cDNA 快速高效地构建测序文库，DNA 片段化和接头连接在同一步完成，使用 Illumina 双接头策略。  
 5. 扩增并测序。对带接头的 DNA 进行扩增并测序。  
   
-与 SMART-seq 的差异：  
+与 **SMART-seq** 的差异：  
 1. SMART-seq 是在42度下进行RT，但由于部分 RNA 具有二级结构，出现位阻现象，导致链的延伸提前终止。SMART-seq2 中加入了甜菜碱，是一种甲基供体，能够增加蛋白质热稳定性。SMART-seq2 先在50度下反应2 min，破坏 RNA 二级结构，然后回到42度，进行2 min RT，循环多次，提高cDNA产量  
 2. 甜菜碱的加入需要提升氯化镁浓度。镁离子能与甜菜碱中的羧酸阴离子结合，作为缓冲液帮助细胞应对渗透压的变化。有报道称过量氯化镁可能对 PCR 保真性有负作用，但在 SMART-seq2 的 RT-PCR 以及 PCR 阶段并未发现  
 3. SMART-seq 使用的 TSO 3'端是3个 riboguanosines，并使用 Moloney murine leukemia (M-MLV) 逆转录酶，后者能够进行模版转换，合成 TSO 互补链；SMART-seq2 中前两个碱基还是 riboguanosines，第3个是修饰过的鸟嘌呤得到的 locked nucleic acids (LNA)。LNA 单体具有更强的热稳定性，以及在退火阶段高效结合到cDNA非模版3'端。RT 酶则换成了 Superscript II (Invitrogen)，它是 M-MLV 编辑得到的，Rnase H 酶活性降低，热稳定性增强  
 4. SMART-seq2 预扩增时用 KAPA HiFi HotStart ReadyMix 替换了 Advantage 2 polymerase mix，取消了先用磁珠富集 cDNA 这一步，简化了 protocol  
    
-# CEL-seq
+# CEL-seq （2012）
 **CEL-seq** 通过体外扩增（In vitro transcription, IVT）实现单细胞测序。  
 ![CEL-seq](/img/2018-08-04-scRNA-seq-technology/CEL-seq.png)  
+  
+1. RT。引物中包含 poly(T)，barcode，5' Illumina 测序接头和 T7 启动子，结合到具有 ploy(A) 尾的 mRNA 上，合成 cDNA。  
+2. 合成第二条链后，形成的就是双链的 DNA。将所有的 cDNA 样本混合到一起，达到足以进行 IVT 的模版量。T7 promoter 用于启动IVT，以第二条合成的 DNA 为模版转录 RNA（所以此时的 RNA 序列与原 mRNA 序列是反向互补的，即 antisense RNA，aRNA），此时5'端最外为 Illumina 5'adaptor。经过多轮 IVT，实现模版的线性扩增  
+3. 扩增后的 RNA 直接进入 RNA 模版准备步骤，被打断适合测序的大小，连接上 Illumina 3' adaptor  
+4. RNA 反转录成 DNA。两端都具有接头，且含有 barcode 的片段被用于双端测序。read1 记录 barcode 信息，read2 用于确定 RNA
 
-# CITE-seq  
+# CITE-seq （2012）  
 **Cellular indexing of transcriptomes and epitopes by sequencing (CITE-seq)** 利用寡核苷酸标记的抗体，对细胞表面蛋白和和转录组同时进行测定，其流程如下图所示：  
 ![CITE-seq](/img/2018-08-04-scRNA-seq-technology/CITE-seq.jpg)  
   
