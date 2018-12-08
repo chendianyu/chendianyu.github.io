@@ -33,14 +33,34 @@ tags:
 4. RNA 反转录成 DNA。两端都具有接头，且含有 barcode 的片段被用于双端测序。read1 记录 barcode 信息，read2 用于确定 RNA  
   
 # CEL-seq2 （2016）
-![CEL-seq](/img/2018-08-04-scRNA-seq-technology/CEL-seq2.png)  
+![CEL-seq2](/img/2018-08-04-scRNA-seq-technology/CEL-seq2.png)  
   
 相较 CEL-seq，做出了一些改进：  
 1. RT 引物中加入了一段6nt的 UMI，将8nt 的 barcode 缩短至6nt，并缩短 T7 引物和 Illumina 5' 接头，是引物总长从92nt缩短至82nt，提升了 RT 效率  
 2. RT 时使用 SuperScript II，并在第二条链合成时使用 SuperScript II Double-Stranded cDNA Synthesis Kit  
 3. 改进了去除 dsDNA 和 aRNA 的过程，提高产量  
 4. IVT 得到的 RNA 在反转录时，直接插入接头，不需要进行连接  
-
+  
+# Drop-seq（2015）
+首先是构造大量不同的 barcoded beads，示意图如下：  
+![Drop-seq-barcode](/img/2018-08-04-scRNA-seq-technology/Drop-seq_barcode.png)  
+  
+直接在每个 beads 上从5'-3'合成寡核苷酸引物，3'用于启动逆转录。每条寡核苷酸链包含4个部分：  
+1. PCR handle，一段共有的序列，作为 PCR 和测序的起始位置；  
+2. 细胞标签，用于标记细胞身份，同一 bead 中均相同；  
+3. UMI，用于排除 PCR 偏好性带来的干扰  
+4. oligo-dT 序列，捕获带有 poly(A) 尾的 mRNA，起始 RT  
+  
+barcode 的合成采用 split-and-pool 策略，将上百万个磁珠分装成4等份，分别加入A，G，C，T，然后全部混合，再随机封装，共计循环12次，得到足够多的不同barcode；之后整个微珠池进行8轮的简并寡核苷酸（degenerate oligonucleotide）合成，得到 UMI  
+  
+然后让我们来看一下后续的整个分析过程示意图：  
+![Drop-seq](/img/2018-08-04-scRNA-seq-technology/Drop-seq.png)  
+  
+1. 设备中两条通道分别导入含有微珠的细胞裂解液和细胞悬液，穿过油通道，形成微滴  
+2. 在微滴中裂解细胞，mRNA 结合到磁珠上，形成 STAMPs (single-cell transcriptomes attached to microparticles)  
+3. 加入试剂破坏水油表面，使得微滴破坏，所有的 STAMPs 混合到一起，进行 RT（使用的是模版转换来获取全长 cDNA），生成共价结合，稳定的 STAMPs（cDNA 已经与磁珠上的引物连接在一起了）  
+4. 之后就对 cDNA 进行 PCR 扩增，然后进行测序  
+  
 # CITE-seq （2012）  
 **Cellular indexing of transcriptomes and epitopes by sequencing (CITE-seq)** 利用寡核苷酸标记的抗体，对细胞表面蛋白和和转录组同时进行测定，其流程如下图所示：  
 ![CITE-seq](/img/2018-08-04-scRNA-seq-technology/CITE-seq.jpg)  
