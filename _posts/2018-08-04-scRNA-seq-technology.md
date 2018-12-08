@@ -61,6 +61,8 @@ barcode 的合成采用 split-and-pool 策略，将上百万个磁珠分装成4�
 3. 加入试剂破坏水油表面，使得微滴破坏，所有的 STAMPs 混合到一起，进行 RT（使用的是模版转换来获取全长 cDNA），生成共价结合，稳定的 STAMPs（cDNA 已经与磁珠上的引物连接在一起了）  
 4. 之后就对 cDNA 进行 PCR 扩增，然后进行测序  
   
+# InDrop-seq（2015）
+
 # CITE-seq （2012）  
 **Cellular indexing of transcriptomes and epitopes by sequencing (CITE-seq)** 利用寡核苷酸标记的抗体，对细胞表面蛋白和和转录组同时进行测定，其流程如下图所示：  
 ![CITE-seq](/img/2018-08-04-scRNA-seq-technology/CITE-seq.jpg)  
