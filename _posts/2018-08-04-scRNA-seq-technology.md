@@ -36,7 +36,7 @@ tags:
 ![CEL-seq2](/img/2018-08-04-scRNA-seq-technology/CEL-seq2.png)  
   
 相较 CEL-seq，做出了一些改进：  
-1. RT 引物中加入了一段6nt的 UMI，将8nt 的 barcode 缩短至6nt，并缩短 T7 引物和 Illumina 5' 接头，是引物总长从92nt缩短至82nt，提升了 RT 效率  
+1. RT 引物中加入了一段6nt的 UMI，将8nt 的 barcode 缩短至6nt，并缩短 T7 引物和 Illumina 5' 接头，使引物总长从92nt缩短至82nt，提升了 RT 效率  
 2. RT 时使用 SuperScript II，并在第二条链合成时使用 SuperScript II Double-Stranded cDNA Synthesis Kit  
 3. 改进了去除 dsDNA 和 aRNA 的过程，提高产量  
 4. IVT 得到的 RNA 在反转录时，直接插入接头，不需要进行连接  
@@ -61,8 +61,20 @@ barcode 的合成采用 split-and-pool 策略，将上百万个磁珠分装成4�
 3. 加入试剂破坏水油表面，使得微滴破坏，所有的 STAMPs 混合到一起，进行 RT（使用的是模版转换来获取全长 cDNA），生成共价结合，稳定的 STAMPs（cDNA 已经与磁珠上的引物连接在一起了）  
 4. 之后就对 cDNA 进行 PCR 扩增，然后进行测序  
   
-# InDrop-seq（2015）
-
+# inDrop-seq（2015）
+首先来看 barcoded hydrogel microspheres（BHM，带条形码的水凝胶微球） 的合成过程，示意图如下：  
+![inDrop-seq-BHM](/img/2018-08-04-scRNA-seq-technology/inDrop-seq_BHM.png)  
+![inDrop-seq-barcode](/img/2018-08-04-scRNA-seq-technology/inDrop-seq_barcode.png)  
+  
+其中看上图B中的结构，acrylic phosphoroamidite moiety 是常用的 DNA 引物，后面是一段可光解的间区和 T7 RNA 聚合酶启动子序列，以及测序引物。之后，经过两部的引物扩展（图D，\*代表反向互补序列）：先进行引物延伸，加上了 barcode1 和 W1 site，然后转换成单链 DNA，再进行一次杂交和延伸，加上 barcode2，UMI 和 poly(T)  
+  
+再来看整一个测序的过程：  
+![inDrop-seq](/img/2018-08-04-scRNA-seq-technology/inDrop-seq.png)  
+  
+1. 在微流设备中有4个输入通道，分别是 BHMs，细胞，RT/lysis 试剂以及油，封装成微滴  
+2. 利用 UV 释放 BHMs 上的引物，与裂解细胞得到的 mRNA 结合，进行 RT  
+3. 破坏微滴后将所有 cDNA 整合，按照 CEL-seq protocol 进行测序  
+  
 # CITE-seq （2012）  
 **Cellular indexing of transcriptomes and epitopes by sequencing (CITE-seq)** 利用寡核苷酸标记的抗体，对细胞表面蛋白和和转录组同时进行测定，其流程如下图所示：  
 ![CITE-seq](/img/2018-08-04-scRNA-seq-technology/CITE-seq.jpg)  
