@@ -30,7 +30,16 @@ tags:
 1. RT。引物中包含 poly(T)，barcode，5' Illumina 测序接头和 T7 启动子，结合到具有 ploy(A) 尾的 mRNA 上，合成 cDNA。  
 2. 合成第二条链后，形成的就是双链的 DNA。将所有的 cDNA 样本混合到一起，达到足以进行 IVT 的模版量。T7 promoter 用于启动IVT，以第二条合成的 DNA 为模版转录 RNA（所以此时的 RNA 序列与原 mRNA 序列是反向互补的，即 antisense RNA，aRNA），此时5'端最外为 Illumina 5'adaptor。经过多轮 IVT，实现模版的线性扩增  
 3. 扩增后的 RNA 直接进入 RNA 模版准备步骤，被打断适合测序的大小，连接上 Illumina 3' adaptor  
-4. RNA 反转录成 DNA。两端都具有接头，且含有 barcode 的片段被用于双端测序。read1 记录 barcode 信息，read2 用于确定 RNA
+4. RNA 反转录成 DNA。两端都具有接头，且含有 barcode 的片段被用于双端测序。read1 记录 barcode 信息，read2 用于确定 RNA  
+  
+# CEL-seq2 （2016）
+![CEL-seq](/img/2018-08-04-scRNA-seq-technology/CEL-seq2.png)  
+  
+相较 CEL-seq，做出了一些改进：  
+1. RT 引物中加入了一段6nt的 UMI，将8nt 的 barcode 缩短至6nt，并缩短 T7 引物和 Illumina 5' 接头，是引物总长从92nt缩短至82nt，提升了 RT 效率  
+2. RT 时使用 SuperScript II，并在第二条链合成时使用 SuperScript II Double-Stranded cDNA Synthesis Kit  
+3. 改进了去除 dsDNA 和 aRNA 的过程，提高产量  
+4. IVT 得到的 RNA 在反转录时，直接插入接头，不需要进行连接  
 
 # CITE-seq （2012）  
 **Cellular indexing of transcriptomes and epitopes by sequencing (CITE-seq)** 利用寡核苷酸标记的抗体，对细胞表面蛋白和和转录组同时进行测定，其流程如下图所示：  
