@@ -140,4 +140,6 @@ Spike-ins 是目前量化技术噪音最好的手段，但在实际应用中也�
 # UMI  
 UMI (unique molecule identifier) 是一段核苷酸序列，在 RT 过程中添加到 cDNA 上，每个分子携带独一无二的 UMI，用于消除 PCR 偏好性带来的干扰  
   
+# 挑战  
+* 
 # REF  
