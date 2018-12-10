@@ -131,4 +131,13 @@ cDNA 的预扩增也有两种方法：
 * in vitro transcription（IVT），线性扩增，但最后还需要额外的一轮 RT，可能导致额外的 3' coverage bias  
   
 # Spike-ins  
-Spike-ins 是一组外源 RNA，加入到细胞裂解产物中，与内源 RNA 一同进行后续的测序分析。
+Spike-ins 是一组外源 RNA，加入到细胞裂解产物中，与内源 RNA 一同进行后续的测序分析。每份 spike-ins 的数量是一样的，然后根据最终检测的表达量来量化技术性方差  
+Spike-ins 是目前量化技术噪音最好的手段，但在实际应用中也存在一些局限性：  
+* Spike-in 长度相对人类 mRNA 平均值较短，考虑到大部分 scRNA-seq 技术存在3' coverage bias，较短的外源 RNA 可能带来问题  
+* Spike-in RNA 分子的 poly(A) 相较内源 mRNA 较短，且没有5'帽子结构，RT 效率可能存在差异  
+* Spike-in RNA 分子的 GC 含量与内源 mRNA 也存在差异，可能带来干扰  
+  
+# UMI  
+
+  
+# REF  
