@@ -123,12 +123,12 @@ REAP-seq 测序流程如下所示：
     * 10X genomics 公司的 Chromium 系统相较 Drop-seq，在每个细胞内能够检测到更多的基因，能对更多的输入细胞进行测定，且设置和操作更简便，缺点是耗材价格更高。Drop-seq 中，细胞和 bead 是以随机的形式混合到微滴中的，因此需要进行足够程度的稀释才能避免混入两个细胞或两个 bead。对于 Drop-seq，其目标是在没20个微滴中捕获1个细胞，每10个液滴捕获1个 bead。所以，该系统经历双重泊松分布，只有约5%的输入细胞会产出转录组数据。相反，Chromium 系统产生的每个微滴几乎都只有单个 bead，故只需经历单个泊松分布，结果是约50%的输入细胞能产出转录组数据，远高于 Drop-seq  
 
 之后是反转录过程中，有两种主要的方法：  
-* poly(A) tailing  
+* poly(A) or ploy(C) tailing，在 cDNA 5'端加上通用接头以便后续的 PCR 扩增  
 * template switching，能够获得全长转录本，减少由于 RT 提前终止导致的 3' coverage bias  
   
 cDNA 的预扩增也有两种方法：  
-* PCR，非线性扩增，效率取决于序列  
-* in vitro transcription（IVT），线性扩增，但最后还需要额外的一轮 RT，可能导致额外的 3' coverage bias  
+* PCR，指数扩增，效率取决于序列，偏向 shorter and less G-C rich 的序列  
+* in vitro transcription（IVT），线性扩增，省去了模版转换步骤，但最后还需要额外的一轮 RT，可能导致额外的 3' coverage bias  
   
 # Spike-ins  
 Spike-ins 是一组外源 RNA，加入到细胞裂解产物中，与内源 RNA 一同进行后续的测序分析。每份 spike-ins 的数量是一样的，然后根据最终检测的表达量来量化技术性方差  
@@ -138,6 +138,6 @@ Spike-ins 是目前量化技术噪音最好的手段，但在实际应用中也�
 * Spike-in RNA 分子的 GC 含量与内源 mRNA 也存在差异，可能带来干扰  
   
 # UMI  
-
+UMI (unique molecule identifier) 是一段核苷酸序列，在 RT 过程中添加到 cDNA 上，每个分子携带独一无二的 UMI，用于消除 PCR 偏好性带来的干扰  
   
 # REF  
