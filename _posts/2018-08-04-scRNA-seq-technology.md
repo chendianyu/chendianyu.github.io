@@ -129,3 +129,6 @@ REAP-seq 测序流程如下所示：
 cDNA 的预扩增也有两种方法：  
 * PCR，非线性扩增，效率取决于序列  
 * in vitro transcription（IVT），线性扩增，但最后还需要额外的一轮 RT，可能导致额外的 3' coverage bias  
+  
+# Spike-ins  
+Spike-ins 是一组外源 RNA，加入到细胞裂解产物中，与内源 RNA 一同进行后续的测序分析。
