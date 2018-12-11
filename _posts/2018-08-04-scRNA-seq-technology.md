@@ -98,8 +98,8 @@ REAP-seq 测序流程如下所示：
   
 `REAP-seq` 与 `CITE-seq` 的差异在于前者在抗体和胺化了的 DNA barcode 之间构建了稳定的共价键，能够减小空间位阻。减小空间位阻对于蛋白试验的扩展性至关重要，将来也能拓展至细胞内标记。  
   
-# 各方法之间的比较  
-总的而言，scRNA-seq 相较 bulk 要解决的主要是以下两个问题：（1）单细胞的分离；（2）cDNA 的预扩增  
+# 各步骤实现的方法  
+总的而言，scRNA-seq 相较 bulk 要解决的主要是以下两个问题：（1）单细胞的分离；（2）RT 以及（3）cDNA 的预扩增  
 首先来看单细胞的分离：  
 * 酶处理  
 * **激光捕获显微切割（laser capture microdissection，LCM）**从冷冻切片上切除细胞，低通量，劳动密集型，获得完全干净的细胞在技术上也有挑战性  
@@ -130,6 +130,16 @@ cDNA 的预扩增也有两种方法：
 * PCR，指数扩增，效率取决于序列，偏向 shorter and less G-C rich 的序列  
 * in vitro transcription（IVT），线性扩增，省去了模版转换步骤，但最后还需要额外的一轮 RT，可能导致额外的 3' coverage bias  
   
+# 各 protocol 之间的系统比较  
+1. Ziegenhain *et al* （2017）对比了 CEL-seq2, Drop-seq, MARS-seq, SCRB-seq, Smart-seq 和 Smart-seq2 6种方法，发现：  
+    * scRNA-seq 达到每个细胞1000,000条 reads 就达到了合理的饱和测序深度，足够进行后续的比较分析  
+    * 敏感性方面，Smart-seq2 是这些方法中最敏感的，找到了最多的基因，且覆盖度最均一；之后是 Smart-seq/C1，CEL-seq2/C1，SCRBseq；最后是 Drop-seq 和 MARS-seq  
+    * 准确性方面，6种方法之间的差异不大，均足够给出较准确的表达量  
+    * 精确度方面，Smart-seq2 最佳，但是其受扩增偏好性的影响也要高于其他使用 UMI 的方法  
+    * 综合上述各角度，检测效力上，SCRB-seq 在一百万和五十万条 reads 时最有效，CEL-seq2/C1 在测序深度为25万条 reads 时最有效  
+总体而言，Drop-seq 最适合大量细胞的低深度测序，SCRB-seq 和 MARS-seq 适合细胞较少时的情况  
+  
+2. 
 # Spike-ins  
 Spike-ins 是一组外源 RNA，加入到细胞裂解产物中，与内源 RNA 一同进行后续的测序分析。每份 spike-ins 的数量是一样的，然后根据最终检测的表达量来量化技术性方差  
 Spike-ins 是目前量化技术噪音最好的手段，但在实际应用中也存在一些局限性：  
