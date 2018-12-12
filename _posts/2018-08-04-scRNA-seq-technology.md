@@ -138,8 +138,7 @@ cDNA 的预扩增也有两种方法：
     * 精确度方面，Smart-seq2 最佳，但是其受扩增偏好性的影响也要高于其他使用 UMI 的方法  
     * 综合上述各角度，检测效力上，SCRB-seq 在一百万和五十万条 reads 时最有效，CEL-seq2/C1 在测序深度为25万条 reads 时最有效  
 总体而言，Drop-seq 最适合大量细胞的低深度测序，SCRB-seq 和 MARS-seq 适合细胞较少时的情况  
-  
-2. 
+   
 # Spike-ins  
 Spike-ins 是一组外源 RNA，加入到细胞裂解产物中，与内源 RNA 一同进行后续的测序分析。每份 spike-ins 的数量是一样的，然后根据最终检测的表达量来量化技术性方差  
 Spike-ins 是目前量化技术噪音最好的手段，但在实际应用中也存在一些局限性：  
@@ -164,3 +163,5 @@ UMI (unique molecule identifier) 是一段核苷酸序列，在 RT 过程中添�
 * 生物学噪音如基因表达的波动性，细胞周期状态等  
   
 # REF  
+## 各 protocol 之间的系统比较  
+1. 
