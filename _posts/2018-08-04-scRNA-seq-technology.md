@@ -145,9 +145,10 @@ Spike-ins 是一组外源 RNA，加入到细胞裂解产物中，与内源 RNA �
 Spike-ins 是目前量化技术噪音最好的手段，但在实际应用中也存在一些局限性：  
 * Spike-in 长度相对人类 mRNA 平均值较短，考虑到大部分 scRNA-seq 技术存在3' coverage bias，较短的外源 RNA 可能带来问题  
 * Spike-in RNA 分子的 poly(A) 相较内源 mRNA 较短，且没有5'帽子结构，RT 效率可能存在差异  
+* 内源 mRNA 可能存在二级结构或者结合蛋白，从而导致转换效率较低
 * Spike-in RNA 分子的 GC 含量与内源 mRNA 也存在差异，可能带来干扰  
   
-ERCC spike-ins 的捕获效率相较内源 mRNA 较低，另外某些情况下，ERCC spike-ins 的技术性方差要高于内源基因  
+总体而言，ERCC spike-ins 的捕获效率相较内源 mRNA 较低，另外某些情况下，ERCC spike-ins 的技术性方差要高于内源基因  
   
 # UMI  
 UMI (unique molecule identifier) 是一段核苷酸序列，在 RT 过程中添加到 cDNA 上，每个分子携带独一无二的 UMI，用于消除 PCR 偏好性带来的干扰，主要能够提升低测序深度时的效力  
