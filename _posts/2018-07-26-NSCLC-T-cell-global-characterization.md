@@ -52,7 +52,7 @@ NSCLC 是肿瘤相关致死率中的主要原因，占了所有肺癌病例的�
 为了探索这种状态转换，作者利用 Monocle 构建了6个 CD8 分支（除去了 CD8-C7-SLC4A10 的粘膜相关不变 T 细胞，mucosal associated invariant T，MAIT，因为它们的 TCR 太过不同）的发育轨迹图，如下图所示，可以看到整个轨迹图存在一个分支结构，CD8-C6-LAYN 耗竭分支与 CD8-C1-LEF1 初始分支和 CD8-C3-CX3CR1 效应分支位于相反的位置，而 CD8-C2-CD28，CD8-C4-GZMK 和 CD8-C5-ZNF683 分支位于中间，表明它们处于中间功能状态。  
 ![CD8_developmental_trajectory](/img/2018-07-26-NSCLC-T-cell-global-characterization/CD8_developmental_trajectory.png)  
   
-基于表达数据的发育轨迹图也支持了之前的 TCR 分析，通路上相邻分支相较距离较远的分支有更多共同的 TCR（下图）。  
+TCR 分析结果支持之前基于表达数据的发育轨迹图，通路上相邻分支相较距离较远的分支有更多共同的 TCR（下图）。  
 ![shared_clonotypes](/img/2018-07-26-NSCLC-T-cell-global-characterization/shared_clonotypes.png)  
   
 为了更好的理解发育轨迹，作者根据以前研究中确定的特征基因定义了初始性分值和细胞毒性分值，以及基于肿瘤浸润性耗竭 CD8<sup>+</sup> T 细胞中高表达的90个基因的平均表达量定义了 T 细胞耗竭分值。这90个基因与从肝细胞癌，黑色素瘤以及感染了淋巴细胞性脉络丛脑膜炎病毒的小鼠模型中鉴定出来的耗竭相关基因存在明显的重叠。基于人类肿瘤研究得到的23个基因中有14个在小鼠研究中并为发现，可能代表人类特有的耗竭标志基因。对比 Monocle 中成分与这些功能性分值之间的关系，发现成分1与 T 细胞耗竭高度相关，成分2与细胞毒性正相关，与初始性负相关（下图）。这些结果表明 NSCLC 中 CD8<sup>+</sup> T 细胞的状态是由固有的 T 细胞发育程序和肿瘤诱导的 T 细胞耗竭两个不同过程共同决定的。  
