@@ -12,16 +12,18 @@ tags:
 
 <!-- more -->
 
+# Highlights
+
 # Introduction  
 过去十年，肿瘤免疫治疗显著的改变了癌症治疗的面貌。但是，虽然带来了显著的临床应答，免疫疗法在不同病人以及不同类型癌症之间的效果并不一致。因此，我们需要找到能够有效预测治疗效果的生物标志物。尽管出现了诸如突变负荷 (mutation load)，肿瘤浸润淋巴细胞 (tumor-infiltrating lymphocytes, TILs) 以及药物特异性靶标的表达量等指标，其预测作用仍不够可靠。  
-新型癌症免疫疗法的开发和有效生物标记的确定需要我们对肿瘤中存在的 T 细胞有深入的理解。针对结直肠癌，肺癌以及乳腺癌等中浸润调控T细胞 (Tregs) 的转录组分析揭示了这些细胞的高度抑制性，它们能将免疫抑制剂解放出来的部分活性 CD8+ cyottoxic T cells 很快又压制回无活性状态，或者使之功能失调，称为 `exhaustion`。后者的特征是效应功能低下，持续性表达抑制性受体以及独一无二的转录状态。因此，对导致肿瘤中 CD8+ T cell exhaustion 增强和 Tregs 累积的机制和通路的深入理解将有助于提供更好的策略来协调免疫系统清除癌症。  
-对浸润淋巴细胞的单细胞分析能使得我们对这些细胞有更细致的认识。除了能够揭示 T 细胞耗竭特征及其与 T 细胞活化间的联系外，scRNA-seq 还能确定每个细胞中的 TCR 序列。这些序列对于识别病毒抗原或者肿瘤细胞 MHC 提呈的肿瘤特异性新生抗原至关重要。尽管 TCRs 数量众多，且存在随机重组，但通过找出一致的 TCR 序列能够帮助我们阐明 T 细胞克隆扩展和 T 细胞谱系。  
+新型癌症免疫疗法的开发和有效生物标记的确定需要我们对肿瘤中存在的 T 细胞有深入的理解。针对结直肠癌，肺癌以及乳腺癌等中浸润调控T细胞 (Tregs) 的转录组分析揭示了这些细胞的高度抑制性，它们能将免疫抑制剂解放出来的部分活性 CD8+ cytotoxic T cells 很快又压制回无活性状态，或者使之功能失调，称为 `exhaustion`。后者的特征是效应功能低下，持续性表达抑制性受体以及独一无二的转录状态。因此，对**导致肿瘤中 CD8+ T cell exhaustion 增强和 Tregs 累积**的机制和通路的深入理解将有助于提供更好的策略来协调免疫系统清除癌症。  
+对浸润淋巴细胞的单细胞分析能使得我们对这些细胞有更细致的认识。除了能够揭示 T 细胞耗竭特征及其与 T 细胞活化间的联系外，scRNA-seq 还能确定每个细胞中的 TCR 序列。这些序列对于识别病毒抗原或者肿瘤细胞 MHC 提呈的肿瘤特异性新生抗原至关重要。尽管 TCRs 数量众多，且存在随机重组，但**通过寻找一致的 TCR 序列能够帮助我们理解 T 细胞克隆扩展模式和 T 细胞谱系**。  
 肝癌 (hepatocellular carcinoma, HCC) 是世界范围内肿瘤相关死亡的主要原因之一，但截至目前，治疗手段有限，且临床上缺乏免疫疗法成功的案例。尽管肝癌中有大量 TILs，但据推断这些细胞并不能杀死肿瘤细胞。因此 HCC 是一个用于描述 TILs 功能紊乱的理想模型。  
   
 # 肿瘤特征和单个 T 细胞转录组数据的获得  
-作者首先对6位未经过治疗的 HCC 患者的肿瘤样本进行混池外显子组和转录组测序来获得他们的基本特征，并利用 Opal multicolor IHC staining 描绘不同亚型 T 细胞的存在。值得一提的是，作者发现肿瘤中心 CD8+ T cell 的数量远低于外皮层，而 FOXP3+ regulatory T 细胞则没有这一现象，表明 **CD8+ T cell 浸润效率低**。  
-之后，作者对 CD3+CD4+ 和 CD3+CD8+ T 细胞进行分选，并将 CD4+ T 细胞进一步分为 CD25- 和 CD25high。肿瘤中 CD4+CD25high 群体占所有 CD4+ 细胞的比例要远高于正常组织和外周血，表明**肿瘤微环境中可能存在 Tregs 的富集**。  
-为方便起见，我们将分别来自外周血，相邻正常组织以及肿瘤组织的 CD8+ cytotoxic T cells 记为 PTC，NTC 和 TTC；CD4+CD25- T cells 记为 PTH，NTH 和 TTH；CD4+CD25high T cells 记为 PTR，NTR 和 TTR。  
+作者首先对6位未经过治疗的 HCC 患者的肿瘤样本进行混池外显子组和转录组测序来获得他们的基本特征，并利用 Opal multicolor IHC staining 确定了不同亚型 T 细胞的存在。其中，作者发现肿瘤中心 CD8+ T cell 的数量远低于外皮层，而 FOXP3+ regulatory T 细胞则没有这一现象，表明 **CD8+ T cell 浸润效率低**。  
+之后，作者对 CD3<sup>+</sup>CD4<sup>+</sup> 和 CD3<sup>+</sup>CD8<sup>+</sup> T 细胞进行分选，并将 CD4<sup>+</sup> T 细胞进一步分为 CD25<sup>-</sup> 和 CD25<sup>high</sup>。肿瘤中 CD4<sup>+</sup>CD25<sup>high</sup> 群体占所有 CD4<sup>+</sup> 细胞的比例要远高于正常组织和外周血，表明**肿瘤微环境中可能存在 Tregs 的富集**。  
+为方便起见，作者将分别来自外周血，相邻正常组织以及肿瘤组织的 CD8<sup>+</sup> cytotoxic T cells 记为 PTC，NTC 和 TTC；CD4<sup>+</sup>CD25<sup>-</sup> T cells 记为 PTH，NTH 和 TTH；CD4<sup>+</sup>CD25<sup>high</sup> T cells 记为 PTR，NTR 和 TTR。  
 分选出来的5063个细胞的转录组数据结果如下图所示：  
 ![scRNA_seq](/img/2018-06-11-T-cells-landscape-liver-cancer/scRNA_seq.png)  
   
