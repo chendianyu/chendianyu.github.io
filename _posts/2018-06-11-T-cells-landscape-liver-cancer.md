@@ -46,20 +46,21 @@ tags:
 类似地，作者找出了6种不同的 CD4+ T 细胞簇，不同类型细胞在组织中的分布情况不同。其中 C8_CD4_CTLA4 是一种 FOXP3<sup>+</sup> Tregs，高表达 FOXP3 及其他多种 Treg 相关基因如 TNFRSF9，TIGIT 和 CTLA4，其主要组成是从肿瘤中分选出的 CD4<sup>+</sup>CD25<sup>high</sup> 细胞 （TTR）。这些细胞更倾向于在肿瘤中富集，如下图所示。  
 ![C8_CD4-CTLA4](/img/2018-06-11-T-cells-landscape-liver-cancer/C8_CD4-CTLA4.png)  
   
-# 与 HCC 浸润 Tregs 和 耗竭 CD8+ T细胞相关基因的鉴定和确认  
-从上面的结果我们知道 CTLA4high Tregs 在肿瘤中富集，另外根据下图，我们可以看到，高表达耗竭标志基因 CTLA4，PDCD1 和 HAVCR2 的 C4_CD8-LAYN 亚型同样在肿瘤中富集。 由于这两种 T 细胞亚组表达的共抑制受体如 PDCD1 和 TIGIT 等是癌症免疫治疗的靶标，因此作者主要针对这些类型的细胞进行后续的分析。  
+# 与 HCC 浸润 Tregs 和 耗竭 CD8<sup>+</sup> T细胞相关基因的鉴定和确认  
+从上面的结果我们知道 CTLA4<sup>high</sup> Tregs **(C8_CD4_CTLA4)** 在肿瘤中富集（上图），另外根据下图，我们可以看到，高表达耗竭标志基因 CTLA4，PDCD1 和 HAVCR2 的 **C4_CD8-LAYN**（耗竭 CD8<sup>+</sup> T 细胞） 亚型同样在肿瘤中富集。 由于这两种 T 细胞亚组表达的共抑制受体如 PDCD1 和 TIGIT 等是癌症免疫治疗的靶标，因此作者主要针对这些类型的细胞进行后续的分析。  
 ![CD8_cancer_enrichment](/img/2018-06-11-T-cells-landscape-liver-cancer/CD8_cancer_enrichment.png)  
   
 作者共鉴定出401个肿瘤浸润 Tregs 特异性表达的基因，包括 FOXP3，CTLA4，TNFRSF18，TNFRSF4 和 CCR8 等。这些基因与之前其他针对黑色素瘤，乳腺癌，结直肠癌以及肺癌的研究所发现的基因存在明显的重合。33个之前发现的常见 Treg 特征基因，有31个在本次研究中也被找到；剩下两个表达量提升相对较低。因此，尽管病人样本数量有限，**单细胞测序仍能够对这些 TILs 进行详细的刻画**。此外，有146个基因是本数据集中特有的。  
-之后，作者对肿瘤浸润耗竭 CD8+ T 细胞也做了分析，对比耗竭和未耗竭 TTC 细胞，得到了82个 耗竭特异性基因。不少已知的耗竭标志基因如 HAVCR2，PDCD1，ENTPD1，CTLA4，TIGIT，TNFRSF9 和 CD27 等都排名靠前；除此之外也包含了相对描述较少的基因如 MYO7A，WARS 和 CXCL13，及新的标志基因如 LAYN，PHLDA1 和 SNAP47。利用这些基因评估耗竭状态，发现处于晚期的病人相对其他人呈现出更高的耗竭水平。另外值得注意的一点是，有22个基因在肿瘤浸润 Tregs 中也高表达。  
+之后，作者对肿瘤浸润耗竭 CD8<sup>+</sup> T 细胞也做了分析，对比耗竭和未耗竭 TTC 细胞，得到了82个 耗竭特异性基因。不少已知的耗竭标志基因如 HAVCR2，PDCD1，ENTPD1，CTLA4，TIGIT，TNFRSF9 和 CD27 等都排名靠前；除此之外也包含了相对描述较少的基因如 MYO7A，WARS 和 CXCL13，及新的标志基因如 LAYN，PHLDA1 和 SNAP47。利用这些基因评估耗竭状态，发现**处于晚期的病人相对其他人呈现出更高的耗竭水平**。另外值得注意的一点是，有22个基因在肿瘤浸润 Tregs 中也高表达。  
 综上，本研究**既验证了之前研究所发现的与肿瘤浸润耗竭 CD8+ T 细胞和 Tregs 相关的基因，还进一步发现了更多的标志基因**。  
   
-# 血液分离出来的 CD8+ T 细胞和 Tregs 一旦激活，诱导 LAYN 表达  
+# 血液分离出来的 CD8<sup>+</sup> T 细胞和 Tregs 一旦激活，诱导 LAYN 表达  
 LAYN，编码透明质酸受体抗体，最近被报道在从肺癌和结直肠癌分离出来的 Tregs 中高表达，但其功能尚未被充分研究。根据本研究的数据，**LAYN 在肿瘤 Tregs (C8_CD4-CTLA4) 和耗竭 TTC 细胞 (C4_CD8-LAYN) 中特异性高表达**。此外，通过对 TCGA HCC 存活率数据与标准化后的 LAYN 表达量的相关分析发现，**LAYN 的高表达量与无病存活率的降低相关**。  
-由于 LAYN 编码细胞表面蛋白，因此作者利用流式细胞仪对从人类外周血单核细胞 （PBMCs）分离得到的 CD8+ 和 Tregs 中该蛋白的表达量进行了验证分析，发现在静止期，LAYN 不在 CD14+ myeloid cells，B cells，CD4+ T cells，Tregs 或 CD8+ T cells 中表达；但当 T 细胞被抗 CD3 和 抗 CD28 抗体激活两天后，可以很容易地在超过30%的 Tregs 和 CD8+ T 细胞中检测到 LAYN，虽然其在 CD4+ T 细胞中的表达量仅微微上调。这些数据与之前发现的 LAYN mRNA 在肿瘤浸润 CD8+ 和 Tregs 表达上调相符。  
-虽然 FOXP3 是人类 T 细胞中调控 Treg 分化和功能的主要转录因子，但其在 CD4+ T 细胞中也能瞬时表达上调；另一个转录因子 Helios，最近被报道能够稳定 FOXP3 的表达以及 Tregs 的抑制作用。因此，作者检测了 FOXP3+ 和 FOXP3+Helios+ Tregs 中 LAYN 的表达情况，发现其更倾向于在双阳性细胞中表达上调，表明**LAYN 的表达与更抑制性和稳定的 Tregs 相关**。  
-由于之前从未在 HCC 中报道过 LAYN 与 肿瘤浸润耗竭 CD8+ T 细胞之间的联系，因此作者又做了体外试验，发现 CD8 T 细胞被激活1天后，就诱导表达了 LAYN 蛋白，且能持续存在之第6天。在 PD-1+ 和 PD-1- CD8+ T 细胞中，均能检测到 LAYN。值得注意的是 LAYN 仅在 LAG-3 阴性 CD8+ T 细胞中表达。之前研究表明 LAG3+CD8+ T 细胞代表耗竭 CD8+ T 细胞的一种独特的亚型，因此 LAYN 和 LAG-3 的互斥表明 LAYN 可能是另一种 CD8+ T 细胞亚型的标志基因。  
-为了揭示 LAYN 在 CD8+ T 细胞中可能起到的作用，作者利用逆转录病毒调控 LAYN 在上述细胞中高表达以模拟肿瘤浸润 CD8+ T 细胞中的情境，发现 LAYN 过表达的细胞相较对照组生成的 IFN-γ 明显减少，表明其可能**发挥抑制作用**。
+由于 LAYN 编码细胞表面蛋白，因此作者利用流式细胞仪对从人类外周血单核细胞 （PBMCs）分离得到的 CD8<sup>+</sup> 和 Tregs 中该蛋白的表达量进行了验证分析，发现在静止期，LAYN 不在 CD14<sup>+</sup> myeloid cells，B cells，CD4<sup>+</sup> T cells，Tregs 或 CD8<sup>+</sup> T cells 中表达；但当 T 细胞被抗 CD3 和 抗 CD28 抗体激活两天后，可以很容易地在超过30%的 Tregs 和 CD8<sup>+</sup> T 细胞中检测到 LAYN，虽然其在 CD4<sup>+</sup> T 细胞中的表达量仅微微上调。这些数据与之前发现的 LAYN mRNA 在肿瘤浸润 CD8<sup>+</sup> 和 Tregs 表达上调相符。  
+虽然 FOXP3 是人类 T 细胞中调控 Treg 分化和功能的主要转录因子，但其在 CD4<sup>+</sup> T 细胞中也能瞬时表达上调；另一个转录因子 Helios，最近被报道能够稳定 FOXP3 的表达以及 Tregs 的抑制作用。因此，作者检测了 FOXP3<sup>+</sup> 和 FOXP3<sup>+</sup>Helios<sup>+</sup> Tregs 中 LAYN 的表达情况，发现其更倾向于在双阳性细胞中表达上调，表明**LAYN 的表达与更具抑制性和稳定的 Tregs 相关**。  
+由于之前从未在 HCC 中报道过 LAYN 与 肿瘤浸润耗竭 CD8<sup>+</sup> T 细胞之间的联系，因此作者又做了体外试验，发现 CD8 T 细胞被激活1天后，就诱导表达了 LAYN 蛋白，且能持续存在之第6天。在 PD-1<sup>+</sup> 和 PD-1<sup>-</sup> CD8<sup>+</sup> T 细胞中，均能检测到 LAYN。值得注意的是 LAYN 仅在 LAG-3 阴性 CD8<sup>+</sup> T 细胞中表达。之前研究表明 LAG3<sup>+</sup>CD8<sup>+</sup> T 细胞代表耗竭 CD8+ T 细胞的一种独特的亚型，因此 LAYN 和 LAG-3 的互斥表明 **LAYN 可能是另一种 CD8<sup>+</sup> T 细胞亚型的标志基因**。  
+为了揭示 LAYN 在 CD8+ T 细胞中可能起到的作用，作者利用逆转录病毒调控 LAYN 在上述细胞中高表达以模拟肿瘤浸润 CD8+ T 细胞中的情境，发现 LAYN 过表达的细胞相较对照组生成的 IFN-γ 明显减少，从而支持其**发挥抑制作用**的角色。  
+上述结果表明 LAYN 蛋白在 Tregs 和 CD8 T 细胞中表达，发挥抑制作用，与之前转录组结果相符  
   
 # 利用 TCR 揭示 HCC 中 CD8 T 细胞和 Tregs 的富集  
 TCR 经常被用作确定 T 细胞祖源的唯一标识符，因此作者用 TraCeR 方法，将从5位 HBV 阳性的 HCC 患者细胞获取的单细胞转录组数据进行拼接，得到全长 TCR α 和 β 序列。虽然绝大部分细胞表达唯一的 TCR α 和 β 等位基因，但仍有一部分 T 细胞中的 α 和/或 β 序列并非独一无二。为了准确定义 T 细胞克隆性，作者定义至少有一对相同的 α-β 链的 T 细胞克隆自同一祖先，扩增得到的克隆则被定义为在给定细胞群体中，至少有三个细胞共享相同的 TCR α 和 β 序列。基于这些定义，作者发现 T 细胞间不同 TCR α 链复现的频率和 TCR β 链存在显著相关性，表明这些细胞起源于同一祖先。此外作者还进一步研究了 TCR 重排，以确定 V-D-J 利用偏好性，也确实找到了预期中的 TCR 片段使用偏好性。  
