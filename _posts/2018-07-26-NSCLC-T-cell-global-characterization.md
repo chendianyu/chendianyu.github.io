@@ -55,12 +55,12 @@ NSCLC 是肿瘤相关致死率中的主要原因，占了所有肺癌病例的�
 TCR 分析结果支持之前基于表达数据的发育轨迹图，通路上相邻分支相较距离较远的分支有更多共同的 TCR（下图）。  
 ![shared_clonotypes](/img/2018-07-26-NSCLC-T-cell-global-characterization/shared_clonotypes.png)  
   
-为了更好的理解发育轨迹，作者根据以前研究中确定的特征基因定义了初始性分值和细胞毒性分值，以及基于肿瘤浸润性耗竭 CD8<sup>+</sup> T 细胞中高表达的90个基因的平均表达量定义了 T 细胞耗竭分值。这90个基因与从肝细胞癌，黑色素瘤以及感染了淋巴细胞性脉络丛脑膜炎病毒的小鼠模型中鉴定出来的耗竭相关基因存在明显的重叠。基于人类肿瘤研究得到的23个基因中有14个在小鼠研究中并为发现，可能代表人类特有的耗竭标志基因。对比 Monocle 中成分与这些功能性分值之间的关系，发现成分1与 T 细胞耗竭高度相关，成分2与细胞毒性正相关，与初始性负相关（下图）。这些结果表明 NSCLC 中 CD8<sup>+</sup> T 细胞的状态是由固有的 T 细胞发育程序和肿瘤诱导的 T 细胞耗竭两个不同过程共同决定的。  
+为了更好的理解发育轨迹，作者根据以前研究中确定的特征基因定义了初始性分值和细胞毒性分值，以及基于肿瘤浸润性耗竭 CD8<sup>+</sup> T 细胞中高表达的90个基因的平均表达量定义了 T 细胞耗竭分值。这90个基因与从肝细胞癌，黑色素瘤以及感染了淋巴细胞性脉络丛脑膜炎病毒的小鼠模型中鉴定出来的耗竭相关基因存在明显的重叠。基于人类肿瘤研究得到的23个基因中有14个在小鼠研究中并未发现，可能代表人类特有的耗竭标志基因。对比 Monocle 中成分与这些功能性分值之间的关系，发现成分1与 T 细胞耗竭高度相关，成分2与细胞毒性正相关，与初始性负相关（下图）。这些结果表明 NSCLC 中 CD8<sup>+</sup> T 细胞的状态是由固有的 T 细胞发育程序和肿瘤诱导的 T 细胞耗竭两个不同过程共同决定的。  
 ![CD8_functional_scores](/img/2018-07-26-NSCLC-T-cell-global-characterization/CD8_functional_scores.png)  
   
 最近组织驻留记忆 T 细胞（tissue-resident memory T, Trm）特征被发现与肺癌中细胞毒性 T 细胞应答的程度有关。虽然 Trm 标志基因如 CD69，ITGAE (CD103)，CXCR6 和 ITGA1 在整个肿瘤驻留 T 细胞中高表达，但在本研究中的3个相关的 CD8 分支：CD8-C4-GZMK，CD8-C5-ZNF683 和 CD8-C6-LAYN 中，其表达特征存在差异。CD8-C4-GZMK 表达低水平的 ITGAE，但高表达 PDCD1；CD8-C5-ZNF683则恰好相反；CD8-C6-LAYN 同时高表达 ITGAE 和 T cell 耗竭标志基因，包括 PDCD1，CTLA4，HAVCR2，LAG3 和 TIGIT。在其他 NSCLC 肿瘤中基于 ITGAE，PD1 和 CTLA4 抗体的流式细胞术分析表明3个分支在蛋白水平上存在差异。以上结果表明 **Trm 细胞不能被看成是一个同质的群体，尤其是在肿瘤中**。  
   
-CD8-C4-GZMK 和 CD8-C5-ZNF683 位于发育轨迹中心，耗竭分值相较 CD8-C6-LAYN 更低，表明可能是处于“耗竭前”状态。这些细胞在肝癌中也存在，不过 CD8-C5-ZNF683 细胞在 NSCLC 中更加富集（下图），意味着它们可能在 NSCLC 免疫中发挥作用。  
+CD8-C4-GZMK 和 CD8-C5-ZNF683 位于发育轨迹中心，耗竭分值相较 CD8-C6-LAYN 更低，表明可能是处于“耗竭前”状态。这些细胞在肝癌中（HCC）也存在，不过 CD8-C5-ZNF683 细胞在 NSCLC 中更加富集（下图），意味着它们可能在 NSCLC 免疫中发挥作用。  
 ![HCC](/img/2018-07-26-NSCLC-T-cell-global-characterization/HCC.png)  
   
 针对 TCGA 中肺腺癌（lung adenocarcinoma, LUAD）队列的数据分析发现高表达 CD8-C5-ZNF683 特征基因，低表达 CD8-C6-LAYN 特征基因的病人整体存活率要明显优于 CD8-C5-ZNF683/CD8-C6-LAYN 比率低的病人（下图）。类似的，对比高 CD8-C4-GZMK/CD8-C6-LAYN 和低比率的病人，也存在存活率的差异。因此，**“耗竭前” T 细胞比上耗竭 T 细胞的比例与 LUAD 预后相关**。另外，该模式在肺鳞细胞癌中并未发现，表明不同肺癌类型之间可能存在差异。  
@@ -72,14 +72,14 @@ CD4<sup>+</sup> T 细胞发育轨迹分析也呈现出分支结构（下图）�
 Monocle 成分1与 T 细胞毒性正相关，与初始性负相关，成分2则与耗竭性相关（下图），与 CD8<sup>+</sup> T 细胞类似。  
 ![CD4_functional_scores](/img/2018-07-26-NSCLC-T-cell-global-characterization/CD4_functional_scores.png)  
   
-两个 Treg 分支中，CD4-C8-FOXP3 主要存在于血液中, 而 CD4-C9-CTLA4 则主要存在于肿瘤中。Treg 的克隆扩增是最具分支特异性的，绝大部分只在肿瘤中存在，表明**抑制性肿瘤驻留 Tregs 的局部性克隆性扩展**。CD4-C9-CTLA4 相较 CD4-C8-FOXP3 具有更多的克隆扩展细胞，且有404个基因表达量至少高2倍。这些基因与之前针对黑色素瘤，乳腺癌，结直肠癌和肺癌的研究中所发现的肿瘤驻留 Tregs 中的基因存在高度重叠性。  
+两个 Treg 分支中，CD4-C8-FOXP3 主要存在于血液中, 而 CD4-C9-CTLA4 则主要存在于肿瘤中。Treg 的克隆扩增是最具分支特异性的，绝大部分只在肿瘤中存在，表明**抑制性肿瘤驻留 Tregs 的局部性克隆性扩展**。CD4-C9-CTLA4 相较 CD4-C8-FOXP3 具有更多的克隆扩增的细胞，且有404个基因表达量至少高2倍。这些基因与之前针对黑色素瘤，乳腺癌，结直肠癌和肺癌的研究中所发现的肿瘤驻留 Tregs 中的基因存在高度重叠性，表明血液和肿瘤中 Treg 之间的差异。  
 针对 CD4-C9-CTLA4 分支进一步分析发现，根据与 Tregs 功能相关的基因的表达，该分支内存在相当程度的异质性。尤其是 TNFRSF9（4-1BB），一种已知的抗原特异性 Tregs 活化标志基因，呈现出显著的双峰表达分布（下图），可能代表**最近刚激活的和早就存在的两个群体**。  
 ![TNFRSF9](/img/2018-07-26-NSCLC-T-cell-global-characterization/TNFRSF9.png)  
   
 相较 TNFRSF9<sup>-</sup> 群体，TNFRSF9<sup>+</sup> 高表达260个基因，与之前提到的404个基因重叠。这些基因中包括免疫抑制功能相关的基因如 REL 和 LAYN，进一步证明 **TNFRSF9<sup>+</sup> 细胞不仅是经过抗原刺激的，而且是肿瘤功能性 Tregs 的主要组成部分**。对 TCGA LUAD 数据集的生存分析发现260个基因的特征集与更差的预后相关（下图），而404个基因的特征集则无明显关联。因此，对于活化的肿瘤 Tregs 的临床意义，我们需要进一步的深入研究。  
 ![TNFRSF9_survival](/img/2018-07-26-NSCLC-T-cell-global-characterization/TNFRSF9_survival.png)  
   
-将来自所有肿瘤富集 T 细胞簇的特征基因作用于 TCGA LUAD 样本，作者发现病人们具有异质的肿瘤浸润淋巴细胞特征，但总体而言可以分为两大组（如下图，9种 T 细胞分支对应的特征基因）。组1中耗竭前 CD8<sup>+</sup> T cells(CD8-C4-GZMK)，未活化 Tregs(TNFRSF9<sup>-</sup> cells of CD4-C9-CTLA4) 和活化 CD4<sup>+</sup> cells (CD4-C5-EOMES)存在富集；组2中耗竭 T 细胞(CD8-C6-LAYN 和 CD4-C7-CXCL13) 以及活化 Tregs(TNFRSF9<sup>+</sup> cells of CD4-C9-CTLA4)存在富集。对比发现组1病人相较组2具有更好的预后。因此，**T 细胞组成情况可能是一个用于人类 NSCLC 分型的重要标志**。  
+将来自所有肿瘤富集 T 细胞簇的特征基因作用于 TCGA LUAD 样本，作者发现病人们具有异质的肿瘤浸润淋巴细胞特征，但总体而言可以分为两大组（如下图，9种 T 细胞分支对应的特征基因）。组1中耗竭前 CD8<sup>+</sup> T cells(CD8-C4-GZMK)，未活化 Tregs(TNFRSF9<sup>-</sup> cells of CD4-C9-CTLA4) 和活化 CD4<sup>+</sup> cells (CD4-C5-EOMES)存在富集；组2中耗竭 T 细胞(CD8-C6-LAYN 和 CD4-C7-CXCL13) 以及活化 Tregs(TNFRSF9<sup>+</sup> cells of CD4-C9-CTLA4)存在富集。对比发现组1病人相较组2具有更好的预后。因此，**T 细胞组成情况可能是一个可用于人类 NSCLC 分型的重要标志**。  
 ![LUAD_classify](/img/2018-07-26-NSCLC-T-cell-global-characterization/LUAD_classify.png)  
   
 对 TIL 实施精细地分类为当下免疫治疗药物的选择性使用提供了机会。对目前临床试验中作为肿瘤免疫治疗靶标的基因进行分析发现，属于同一类别的靶标（例如效应分子中激活或抗 Treg）在数据集的细胞中呈现出不同的表达模式（下图）。例如 PDCD1，在耗竭 CD8<sup>+</sup> T 细胞（CD8-C6-LAYN），两类 CD4<sup>+</sup> T 细胞（CD4-C5-EOMES 和 CD4-C7-CXCL13）高表达，而 CTLA4 则在抑制性肿瘤 Tregs 和耗竭 CD8<sup>+</sup> T 细胞中高表达。以上结果与最近研究发现抗-CTLA4 和抗-PD1 分别靶向不同 TIL 群体实现肿瘤退化的结果一致。LAG3 基本上只在 CD8<sup>+</sup> T 细胞中表达，而 CD27 在所有肿瘤浸润 T 细胞中均表达。因此，**不同 T 细胞群体可能可以被不同的免疫疗法调节，而这类细胞子集的组成可能能够实现高效的病人分层**。  
