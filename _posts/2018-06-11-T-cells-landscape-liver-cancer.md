@@ -86,7 +86,7 @@ TCR 经常被用作确定 T 细胞祖源的唯一标识符，因此作者用 Tra
 ![colonal_TTC](/img/2018-06-11-T-cells-landscape-liver-cancer/colonal_TTC.png)  
   
 除了耗竭 CD8<sup>+</sup> T 细胞，之前有研究在结直肠和前列腺癌中检测出 CD8<sup>+</sup>FOXP3<sup>+</sup> 调节 T 细胞。在本研究中，也发现有少量耗竭 CD8<sup>+</sup> T 细胞表达 Treg 标志基因 FOXP3。根据 TCR 分析，这些 FOXP3<sup>+</sup> 细胞中有部分与 FOXP3<sup>-</sup> 耗竭 CD8<sup>+</sup> T 细胞具有相同的 TCR，表明**这些 FOXP3<sup>+</sup> 细胞在发育上与典型的 FOXP3<sup>-</sup> 耗竭 T 细胞存在关联**。此外，如下图所示，这些细胞的表达谱与 Treg 和 cytolytic 相似，能够表达 Treg 标志基因如 FOXP3，CTLA4，TNFRSF18 和 TNFRSF9 以及溶细胞相关基因 PRF1，GZMA 和 NKG7，表明这些细胞**同时具有抑制和杀伤细胞的能力**。综上表明，**HCC 微环境能够推动浸润 CD8<sup>+</sup> T 细胞向耗竭状态转换，且偶尔能使之获得抑制功能**（因为 CD8<sup>+</sup>FOXP3<sup>+</sup> T 细胞在血液和邻近正常组织中并不存在）。  
-HCC 微环境中高比例的克隆性扩增的 Treg 可能代表另一种抑制效应 CD8+ T 细胞介导的杀伤作用的机制。作者对肿瘤浸润性 CD4+ T 细胞也做了拟时间和 TCR 分析（下图），发现虽然肿瘤浸润性 Tregs (C8_CD4-CTLA4) 与 耗竭 CD4 T 细胞 (C10_CD4-CXCL13) 之间在发育轨迹上很接近，但仅共享极有限的 TCRs。  
+HCC 微环境中高比例的克隆性扩增的 Treg 可能代表另一种抑制效应 CD8<sup>+</sup> T 细胞介导的杀伤作用的机制。作者对肿瘤浸润性 CD4<sup>+</sup> T 细胞也做了拟时间和 TCR 分析（下图），发现虽然肿瘤浸润性 Tregs (C8_CD4-CTLA4) 与 耗竭 CD4 T 细胞 (C10_CD4-CXCL13) 之间在发育轨迹上很接近，但仅共享极有限的 TCRs。  
 ![CD4_pseudotime](/img/2018-06-11-T-cells-landscape-liver-cancer/CD4_pseudotime.png)  
   
 绝大部分（71/87）肿瘤特异性 Treg 克隆是唯一的，表明其与其他肿瘤浸润 CD4 T helper 细胞之间具有相互独立的发育路径。这与肿瘤相关耗竭 CD8+ T 细胞不同，后者与肿瘤中 CD8 T 细胞的其他簇共享大量常见的 TCRs。Tregs 和耗竭 CD4 T 细胞簇均只有少量常见 T 细胞克隆表明耗竭 CD4 T 细胞可能向可诱导 Tregs 转换。
