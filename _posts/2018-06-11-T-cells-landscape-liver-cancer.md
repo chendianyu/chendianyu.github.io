@@ -28,8 +28,9 @@ tags:
 ![scRNA_seq](/img/2018-06-11-T-cells-landscape-liver-cancer/scRNA_seq.png)  
   
 从图中我们可以看到：  
+* 总体来看，细胞是按照来源和细胞类型进行聚类的，表明**不同组细胞具有不同的特征和内在结构**  
 * 一些情况下，不同组的细胞会混在一起，如部分 TTC 和 NTC，表明它们有相似的功能属性  
-* PTC 细胞被分成两个明显的分支，与血液中同时存在初始和活化 CD8+ T 细胞一致  
+* PTC 细胞被分成两个明显的分支，与血液中同时存在初始和活化 CD8<sup>+</sup> T 细胞一致  
 * TTH 表现出高度多样性，其中小部分与 TTR 类似  
 
 以上发现的 T 细胞复杂的内部组成表明**通过单细胞技术仔细剖析肿瘤相关 T 细胞很有必要**。  
@@ -39,10 +40,10 @@ tags:
 ![subtypes](/img/2018-06-11-T-cells-landscape-liver-cancer/subtypes.png)  
 ![CD8_signature_genes](/img/2018-06-11-T-cells-landscape-liver-cancer/CD8_signature_genes.png)  
   
-**不同的 CD8+ 细胞簇在不同病人各组织中分布的模式具有可比性**。如下图所示，表达 CCR7 的初始 T 细胞（C1）和表达 CX3CR1 效应记忆 T 细胞（C2）主要在外周血中相对较为常见；而 MAIT 细胞（C3）在邻近的正常肝组织所占比例最高，其在 HCC 中所占比例显著降低。对 TCGA 队列分析发现 HCC 肿瘤中 MAIT 细胞标志基因 SLC4A10 的表达显著低于对应正常样本，表明 **MAIT 细胞的减少在肝癌中很常见**。此外，TCGA 队列中，HCC 低 SLC4A10 表达量与不良预后相关。综上，这些结果表明 **HCC 肿瘤微环境中一大特征便是 CD8+ T 细胞的差异化分布**。  
+**不同的 CD8+ 细胞簇在不同病人各组织中分布的模式具有可比性**。如下图所示，表达 CCR7 的初始 T 细胞（C1）和表达 CX3CR1 效应记忆 T 细胞（C2）主要在外周血中相对较为常见；而 MAIT 细胞（C3）在邻近的正常肝组织所占比例最高，其在 HCC 中所占比例显著降低。对 TCGA 队列分析发现 HCC 肿瘤中 MAIT 细胞标志基因 SLC4A10 的表达显著低于对应正常样本，表明 **MAIT 细胞的减少在肝癌中很常见**。此外，TCGA 队列中，**HCC 低 SLC4A10 表达量与不良预后相关**。综上，这些结果表明 **HCC 肿瘤微环境中一大特征便是 CD8+ T 细胞的差异化分布**。  
 ![CD8_distribution](/img/2018-06-11-T-cells-landscape-liver-cancer/CD8_distribution.png)  
   
-类似地，作者找出了6种不同的 CD4+ T 细胞簇。其中 C8_CD4_CTLA4 是一种 FOXP3+ Tregs，高表达 FOXP3 及其他多种 Treg 相关基因如 TNFRSF9，TIGIT 和 CTLA4，其主要组成是从肿瘤中分选出的 CD4+CD25high 细胞 （TTR）。这些细胞更倾向于在肿瘤中富集，如下图所示。  
+类似地，作者找出了6种不同的 CD4+ T 细胞簇，不同类型细胞在组织中的分布情况不同。其中 C8_CD4_CTLA4 是一种 FOXP3<sup>+</sup> Tregs，高表达 FOXP3 及其他多种 Treg 相关基因如 TNFRSF9，TIGIT 和 CTLA4，其主要组成是从肿瘤中分选出的 CD4<sup>+</sup>CD25<sup>high</sup> 细胞 （TTR）。这些细胞更倾向于在肿瘤中富集，如下图所示。  
 ![C8_CD4-CTLA4](/img/2018-06-11-T-cells-landscape-liver-cancer/C8_CD4-CTLA4.png)  
   
 # 与 HCC 浸润 Tregs 和 耗竭 CD8+ T细胞相关基因的鉴定和确认  
