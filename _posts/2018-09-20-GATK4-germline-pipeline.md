@@ -57,7 +57,14 @@ nohup wget ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/hg38/1000G_om
 ```  
 
 ## Expected input
-数据最初是通过不同的 `readgroups` 分成不同的子集，对应 `libraries`（DNA 取自不同的生物学样本，以及在文库制备过程中的片段化和 barcode 标记过程）与  `lanes` (测序仪的物理分隔单元) 通过 `multiplexing`（混合多个文库，并在多条泳道上进行测序，以减少风险和人为误差）交叉得到的不同组合  
+数据最初是按照不同的 `readgroups` 分成不同的子集，对应 `libraries`（DNA 取自不同的生物学样本，以及在文库制备过程中的片段化和 barcode 标记过程）与  `lanes` (测序仪的物理分隔单元) 通过 `multiplexing`（混合多个文库，并在多条泳道上进行测序，以减少风险和人为误差）交叉得到的不同组合  
+Read groups 在 SAM/BAM/CRAM 中通过一系列标签进行定义。在 SAM 等文件的 header 中，以 `@RG` 起始，后面跟着以下几个 tag：  
+* ID：每个 read group 的 ID 是唯一的。对于 Illumina 数据，一般就是 flowcell + lane name and number。对于 BQSR 等处理，每一个 read group 被认为是独立的，被认为共享相同的错误模型  
+* PU：Platform Unit，包含 {FLOWCELL_BARCODE}.{LANE}.{SAMPLE_BARCODE} 信息。{FLOWCELL_BARCODE} 是 flowcell 的唯一标识，{LANE} 表示 flow cell 中的 lane，而 {SAMPLE_BARCODE} 则是 sample/library-specific identifier。PU 不是 GATK 必需的，但如果出现，将优先于 ID 进行 BQSR 时的分组  
+* SM：该 read group 中测序的样本的名称。GATK 将所有具有相同 SM 的数据视为来源于同一样本，这也将会是 VCF 文件中 sample column 所使用的名称  
+* PL：平台或使用的技术名称。Valid values: ILLUMINA, SOLID, LS454, HELICOS and PACBIO  
+* LB：文库标识符。当同一 DNA 文库在多条 lane 进行测序时，`MarkDuplicates` 会基于 LB 来确定哪些 read group 可能含有分子重复  
+
 
 # Main steps  
 ## Map to Reference  
