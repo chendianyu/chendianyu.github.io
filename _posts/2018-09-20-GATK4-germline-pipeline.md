@@ -134,7 +134,8 @@ java -jar picard.jar MarkDuplicates \
     CREATE_INDEX=true
 ```  
   
-(可以使用 Picard's `FixMateInformation` 确认成对 reads 之间的信息是否一致；如有必要，进行修复)  
+可以通过 `REMOVE_DUPLICATE`（剔除所有重复序列） 和 `REMOVE_SEQUENCING_DUPLICATES`（剔除所有因测序而不是样本制备导致的重复）参数来剔除重复序列   
+(另外可以使用 Picard's `FixMateInformation` 确认成对 reads 之间的信息是否一致；如有必要，进行修复)  
 Usage:  
 ```shell
 java -jar picard.jar FixMateInformation \ 
@@ -143,7 +144,7 @@ java -jar picard.jar FixMateInformation \
     ADD_MATE_CIGAR=true  
 ```
   
-此外可以通过 `REMOVE_DUPLICATE`（剔除所有重复序列） 和 `REMOVE_SEQUENCING_DUPLICATES`（剔除所有因测序而不是样本制备导致的重复）选项来剔除重复序列  
+ 
   
 ## Base (Quality Score) Recalibration
 Tools involved: `BaseRecalibrator`, `Apply Recalibration`, `AnalyzeCovariates` (optional)
