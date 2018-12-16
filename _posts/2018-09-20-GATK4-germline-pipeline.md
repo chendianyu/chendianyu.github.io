@@ -68,13 +68,13 @@ Read groups 在 SAM/BAM/CRAM 中通过一系列标签进行定义。在 SAM 等�
 正常情况下我们会在 BWA 比对时候加上 read group 信息，如下所示。但假如忘了，可以通过 Picard `AddOrReplaceReadGroups` 补上：  
 ```shell
 java -jar picard.jar AddOrReplaceReadGroups \
-    I= reads_without_RG.bam \
-    O=  reads_with_RG.bam \
+    I= <reads_without_RG.bam> \
+    O= <reads_with_RG.bam> \
     SORT_ORDER=coordinate \
-    RGID=foo \
-    RGLB=bar \
-    RGPL=illumina \
-    RGSM=Sample1 \
+    RGID=<group1> \
+    RGLB=<lib1> \
+    RGPL=<illumina> \
+    RGSM=<sample1> \
     CREATE_INDEX=True
 ```
 
