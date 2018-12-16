@@ -1,18 +1,18 @@
 ---
-title: GATK4 WES/WGS 分析流程
-description: GATK4 检测生殖系突变流程
+title: WES/WGS 分析流程
+description: 基于 GATK3 检测生殖系突变的流程
 categories:
- - GATK
+ - NGS
 tags:
- - GATK4
+ - GATK3
  - software
  - pipeline
- - SNP
- - Indel
+ - WES
+ - WGS
 ---
 
 # Introduction  
-本流程基于 GATK4 进行 WES/WGS 生殖系突变，主要是 SNP 和 Indel 的检测。流程使用 `GRCh38` 作为参考基因组，以双端测序 FastQ 文件起始，最终得到包含 SNP 和 Indel 的 (g)VCF 文件  
+本流程基于 GATK3 进行 WES/WGS 生殖系突变，主要是 SNP 和 Indel 的检测。流程使用 `GRCh38` 作为参考基因组，以双端测序 FastQ 文件起始，最终得到包含 SNP 和 Indel 的 (g)VCF 文件  
 
 # Data pre-processing for variant discovery  
 ## Reference  
