@@ -96,11 +96,10 @@ bwa mem -R <read_group> \  # e.g. : '@RG\tID:group1\tSM:sample1\tPL:illumina\tLB
   
 ## Coordinate sort and index  
 Tools involved: Picard's `SortSam` and `BuildBamIndex`  
-`SortSam` can sort the input SAM or BAM file by **coordinate**, **queryname (QNAME)**, or **some other property** of the SAM record. The SortOrder of a SAM/BAM file is found in the SAM file header tag `@HD` in the field labeled `SO`  
-(For a coordinate sorted SAM/BAM file, read alignments are sorted first by the reference sequence name (RNAME) field using the reference sequence dictionary (@SQ tag). Alignments within these subgroups are secondarily sorted using the left-most mapping position of the read (POS). Subsequent to this sorting scheme, alignments are listed arbitrarily  
-For queryname-sorted alignments, all alignments are grouped using the queryname field but the alignments are not necessarily sorted within these groups. Reads having the same queryname are derived from the same template)  
-  
-This creates a file called `reads_sorted.bam` containing reads sorted by genomic location, aka coordinate, and a `.bai` index file with the same prefix as the output, e.g. `reads_sorted.bai`, within the same directory. Index file for the input BAM that allows fast look-up of data in a BAM file, lke an index on a database. Note that this tool **cannot be run on SAM files**, and that the input BAM file must be sorted in coordinate order  
+`SortSam` 能够根据 **coordinate**, **queryname (QNAME)**, or **some other property** 对 SAM/BAM 文件排序，排序依据存放在 `@HD` tag 的 `SO` 字段中  
+按照坐标排序时，read 首先参考序列字典（`@SQ` tag）中的参考序列名称（`RNAME` 字段）排序，然后是最左边的比对位置（`POS`），在之后就随机排序  
+按照 query name（`QNAME`）排序时，按照 query name 聚合，但各组内的序列并不一定进行了排序。具有相同 query name 的 reads 来源于同一模版  
+排序后得到的文件为 `reads_sorted.bam`，使用 `CREATE_INDEX` 参数能同时对应的索引文件，后缀为 `.bai`，e.g. `reads_sorted.bai`。 索引文件用于快速检索 BAM 文件。需要注意该参数**不能用于 SAM 文件**，且 **BAM 文件必须按照坐标轴排序**  
 Usage :  
 ```shell
 java -jar picard.jar SortSam \
@@ -110,7 +109,7 @@ java -jar picard.jar SortSam \
     CREATE_INDEX=true
 ```  
   
-You can also use `BuildBamIndex` to create index  
+也可以另外用 `BuildBamIndex` 对 BAM 文件构建索引  
 ```shell  
 java -jar picard.jar BuildBamIndex \
       I=<input.bam>  
