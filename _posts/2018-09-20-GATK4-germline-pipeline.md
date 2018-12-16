@@ -96,7 +96,7 @@ bwa mem -R <read_group> \  # e.g. : '@RG\tID:group1\tSM:sample1\tPL:illumina\tLB
   
 ## Coordinate sort and index  
 Tools involved: Picard's `SortSam` and `BuildBamIndex`  
-`SortSam` 能够根据 **coordinate**, **queryname (QNAME)**, or **some other property** 对 SAM/BAM 文件排序，排序依据存放在 `@HD` tag 的 `SO` 字段中  
+后续变异识别和可视化比对情况需要 SAM/BAM 文件先进行排序。`SortSam` 能够根据 **coordinate**, **queryname (QNAME)**, or **some other property** 对 SAM/BAM 文件排序，排序依据存放在 `@HD` tag 的 `SO` 字段中  
 按照坐标排序时，read 首先参考序列字典（`@SQ` tag）中的参考序列名称（`RNAME` 字段）排序，然后是最左边的比对位置（`POS`），在之后就随机排序  
 按照 query name（`QNAME`）排序时，按照 query name 聚合，但各组内的序列并不一定进行了排序。具有相同 query name 的 reads 来源于同一模版  
 排序后得到的文件为 `reads_sorted.bam`，使用 `CREATE_INDEX` 参数能同时对应的索引文件，后缀为 `.bai`，e.g. `reads_sorted.bai`。 索引文件用于快速检索 BAM 文件。需要注意该参数**不能用于 SAM 文件**，且 **BAM 文件必须按照坐标轴排序**  
@@ -109,26 +109,21 @@ java -jar picard.jar SortSam \
     CREATE_INDEX=true
 ```  
   
-也可以另外用 `BuildBamIndex` 对 BAM 文件构建索引  
+可以用 `BuildBamIndex` 对排完序的 BAM 文件构建索引  
 ```shell  
 java -jar picard.jar BuildBamIndex \
       I=<input.bam>  
 ```  
   
-OR `samtools index`  
-Usage: `samtools index <input.bam>` 产生的文件为 `<input.bam.bai>` 只有这个与picard有区别，文件内容本质上应该是一致的  
+或者 `samtools index`  
+Usage: `samtools index <input.bam>` 产生的文件为 `<input.bam.bai>` 只有这个与 Picard 有区别，文件内容本质上应该是一致的  
 
 ## Mark Duplicates
 Tools involved: `MarkDuplicates`  
-Duplicates can arise during sample preparation e.g. library construction using PCR. Duplicate reads can also result from a single amplification cluster, incorrectly detected as multiple clusters by the optical sensor of the sequencing instrument. These duplication artifacts are referred to as `optical duplicates`  
-This processing step is performed `per-sample` and consists of identifying read pairs that are likely to have originated from duplicates of the same original DNA fragments through some artifactual processes. The program tags all but of the read pairs within each set of duplicates, causing them to be ignored by default during the variant discovery process. This step constitutes a major bottleneck since it involves making a large number of comparisons between all the read pairs belonging to the sample, across all of its readgroups  
-The tool's main output is **a new SAM or BAM file**, in which duplicates have been identified in the SAM flags field for each read. Duplicates are marked with the hexadecimal value of `0x0400`, which corresponds to a decimal value of 1024  
-(To identify the type of duplicate, a new tag called the `duplicate type (DT)` tag was recently added as an optional output in the 'optional field' section of a SAM/BAM file. Invoking the `TAGGING_POLICY` option, you can instruct the program to mark all the duplicates (All), only the optical duplicates (OpticalOnly), or no duplicates (DontTag). The records within the output of a SAM/BAM file will have values for the 'DT' tag, as either `library/PCR-generated duplicates (LB)`, or `sequencing-platform artifact duplicates (SQ)`)  
-  
-The following commands take a coordinate-sorted and indexed BAM and return:  
-(i) a BAM with the same records in coordinate order and with duplicates marked by the 1024 flag,  
-(ii) a duplication metrics file,   
-(iii) an optional matching BAI index  
+重复可以是在样本准备过程中发生，如通过 PCR 构建文库，称为 `PCR duplicates`；也可以是单个扩增簇被测序仪的光学传感系统误认为是多个簇导致，称为 `optical duplicates`  
+重复标记过程是按照每个样本（`per-sample`）进行的，标记重复序列，从而在后续变异识别过程中忽略这些 reads。该步骤需要对每个 sample 内所有 reads 进行两两比较，因此是主要的限速步骤  
+输出为 **a new SAM or BAM file**, 重复 reads bitwise flag 标记为十六进制值 `0x0400`, 对应十进制值为1024；另外为了标记重复的类型，最近在 SAM/BAM 文件的 'optional field' section 引入了一个新的 tag。通过 `TAGGING_POLICY` 选项，可以控制程序标记所有重复（All），仅光学重复（OpticalOnly）或者不标记重复（DontTag，**默认**）。输出 SAM/BAM 文件中会带上 `DT` tag，值为 `library/PCR-generated duplicates (LB)`, or `sequencing-platform artifact duplicates (SQ)`  
+此外还会输出一个 metrics file，标记 reads 的重复数；使用 CREATE_INDEX 能够得到索引文件  
   
 Usage : 
 ```shell
@@ -139,7 +134,7 @@ java -jar picard.jar MarkDuplicates \
     CREATE_INDEX=true
 ```  
   
-(Maybe you need Picard's `FixMateInformation` to verify mate-pair information between mates and fix if needed)  
+(可以使用 Picard's `FixMateInformation` 确认成对 reads 之间的信息是否一致；如有必要，进行修复)  
 Usage:  
 ```shell
 java -jar picard.jar FixMateInformation \ 
@@ -147,6 +142,8 @@ java -jar picard.jar FixMateInformation \
     O=<output_sorted_duplicates_fixed.bam> \ 
     ADD_MATE_CIGAR=true  
 ```
+  
+此外可以通过 `REMOVE_DUPLICATE`（剔除所有重复序列） 和 `REMOVE_SEQUENCING_DUPLICATES`（剔除所有因测序而不是样本制备导致的重复）选项来剔除重复序列  
   
 ## Base (Quality Score) Recalibration
 Tools involved: `BaseRecalibrator`, `Apply Recalibration`, `AnalyzeCovariates` (optional)
