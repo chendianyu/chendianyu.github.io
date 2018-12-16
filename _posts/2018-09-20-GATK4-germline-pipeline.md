@@ -7,8 +7,8 @@ tags:
  - GATK4
  - software
  - pipeline
- - SNP
- - Indel
+ - WES
+ - WGS
 ---
 
 # Introduction  
@@ -18,7 +18,7 @@ tags:
 ## Reference  
 GRCh38 参考基因组 FASTA 文件包含 `alternate contigs`, 此外还需要用到 `.fai` index 文件， `.dict` dictionary 文件以及5个 BWA-specific 索引文件 `.sa`, `.amb`, `.bwt`, `.ann` and `.pac`    
 1. a `.dict` dictionary of the contig names and sizes  
-我们通过 `Picard` 的 `CreateSequenceDictionary`，基于参考基因组的 FASTA 文件构造出一个后缀名为 `.dict` 的序列字典文件。该文件实质为一个 SAM 格式的文件，**包含 header，但无 SAMRecords，且 header 部分仅包含序列记录**。参考基因组文件可以被压缩，即支持 `.fasta.gz` 格式    
+我们通过 `Picard` 的 `CreateSequenceDictionary`，基于参考基因组的 FASTA 文件构造出一个后缀名为 `.dict` 的序列字典文件。该文件实质为一个 SAM 格式的文件，**包含 header，但无 SAMRecords，且 header 部分仅包含序列记录，包括序列的名称和长度等信息**。参考基因组文件可以被压缩，即支持 `.fasta.gz` 格式    
 Usage:  
 ```shell
 java -jar picard.jar CreateSequenceDictionary \ 
@@ -28,14 +28,14 @@ java -jar picard.jar CreateSequenceDictionary \
 e.g.:  
 ```shell  
 java -jar picard.jar CreateSequenceDictionary \ 
-      R=ucsc.hg38.fasta \ 
-      O=ucsc.hg38.dict  
+      R=/home/refer/ucsc.hg38.fasta \ 
+      O=/home/refer/ucsc.hg38.dict  
 ```  
 
 2. a `.fai` fasta index file to allow efficient random access to the reference bases  
-我们通过 `Samtools` 的 `faidx` 构建参考基因组的索引文件 `<ref.fasta>.fai`。输入文件可以是 BGZF 格式的压缩文件  
+我们通过 `Samtools` 的 `faidx` 构建参考基因组的索引文件 `<ref.fasta>.fai`。输入文件可以是 BGZF 格式的压缩文件。根据 `.fai` 文件和原始的`fasta` 文件，我们能够快速的提取任意区域的序列  
 Usage : `samtools faidx <ref.fasta>`  
-e.g. : `samtools faidx ucsc.hg38.fasta`  
+e.g. : `samtools faidx /home/refer/ucsc.hg38.fasta`  
   
 3. BWA 比对也需要其对应的索引文件，索引是**算法特异性**。我们通过 `BWA` 的 `index` 构建索引，得到后缀名为 `.amb`, `.ann`, `.bwt`, `.pac` and `.sa` 的文件，之后工具将会默认这些索引文件与参考基因组位于**同一文件夹内**  
 Usage : `bwa index -a bwtsw <ref.fasta>`  
