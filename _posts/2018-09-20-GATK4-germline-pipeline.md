@@ -205,11 +205,23 @@ GVCF 代表 genomic VCF，相较常规的 VCF 文件，包含更多的信息，�
 GVCF 有两种模式，分别通过 `-ERC GVCF` 和 `-ERC BP_RESOLUTION` 得到。其中前者会将连续且基因型质量分数（genotype quality，GQ）在一定区间内的非变异位点整合成 block，并在 header 部分标注 `#GVCFBlock` 的信息；后者则是每个位点占据一行。GVCF 模式文件较小，一般采用该种模式  
 Usage：  
 ```shell
+# 单样本生成中间 GVCF 文件
 gatk --java-options "-Xmx4g" HaplotypeCaller  \
    -R <ucsc.hg38.fasta> \
    -I <input_sorted_markduplicates_recal.bam> \
    -ERC GVCF \
    -O <output.g.vcf.gz>
+# GVCF 文件联合变异识别只接受单个输入，所以想得把样本中间结果合并
+gatk CombineGVCFs \
+   -R <ucsc.hg38.fasta> \
+   --variant <sample1.g.vcf.gz> \
+   --variant <sample2.g.vcf.gz> \
+   -O <cohort.g.vcf.gz>
+# 联合变异识别
+gatk --java-options "-Xmx4g" GenotypeGVCFs \
+   -R <ucsc.hg38.fasta> \
+   -V <cohort.g.vcf.gz> \
+   -O <output.vcf.gz>
 ```
   
 # REF
