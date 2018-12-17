@@ -123,7 +123,7 @@ Tools involved: `MarkDuplicates`
 重复可以是在样本准备过程中发生，如通过 PCR 构建文库，称为 `PCR duplicates`；也可以是单个扩增簇被测序仪的光学传感系统误认为是多个簇导致，称为 `optical duplicates`  
 重复标记过程是按照每个样本（`per-sample`）进行的，标记重复序列，从而在后续变异识别过程中忽略这些 reads。该步骤需要对每个 sample 内所有 reads 进行两两比较，因此是主要的限速步骤  
 输出为 **a new SAM or BAM file**, 重复 reads bitwise flag 标记为十六进制值 `0x0400`, 对应十进制值为1024；另外为了标记重复的类型，最近在 SAM/BAM 文件的 'optional field' section 引入了一个新的 tag。通过 `TAGGING_POLICY` 选项，可以控制程序标记所有重复（All），仅光学重复（OpticalOnly）或者不标记重复（DontTag，**默认**）。输出 SAM/BAM 文件中会带上 `DT` tag，值为 `library/PCR-generated duplicates (LB)`, or `sequencing-platform artifact duplicates (SQ)`  
-此外还会输出一个 metrics file，标记 reads 的重复数；使用 CREATE_INDEX 能够得到索引文件  
+此外还会输出一个 metrics file，标记 reads 的重复数；使用 `CREATE_INDEX` 能够得到索引文件  
   
 Usage : 
 ```shell
@@ -148,15 +148,20 @@ java -jar picard.jar FixMateInformation \
   
 ## Base (Quality Score) Recalibration
 Tools involved: `BaseRecalibrator`, `Apply Recalibration`, `AnalyzeCovariates` (optional)
-This third processing step is performed `per-sample` and consists of applying machine learning to detect and correct for patterns of systematic errors in the base quality scores, which are confidence scores emitted by the sequencer for each base  
-  
-Variant calling algorithms rely heavily on the quality scores assigned to the individual base calls in each sequence read. Unfortunately the scores produced by the machines are subject to various sources of systematic technical error, leading to over- or under-estimated base quality scores in the data. `Base quality score recalibration (BQSR)` is a process in which we apply machine learning to model these errors empirically and adjust the quality scores accordingly. This allows us to get more accurate base qualities, which in turn improves the accuracy of our variant calls  
-The base recalibration process involves two key steps: first the program builds a model of covariation based on the data and a set of known variants (which you can bootstrap if there is none available for your organism), then it adjusts the base quality scores in the data based on the model. The known variants are used to mask out bases at sites of real (expected) variation, to avoid counting real variants as errors. Outside of the masked sites, every mismatch is counted as an error. The rest is mostly accounting  
-This process is accomplished by analyzing the covariation among several features of a base. For example:  
-* Reported quality score  
-* The position within the read  
-* The preceding and current nucleotide (sequencing chemistry effect) observed by the sequencing machine  
+变异识别算法主要依赖碱基质量分数，但是机器得到的分值受各种来源的误差干扰，比如文库制备的生化过程，测序芯片或者测序仪等的缺陷，并不准确。`Base quality score recalibration (BQSR)` 是基于机器学习方法，对这些错误进行建模，然后校正质量分数。这一步是按照每个 read group 进行的
+BQSR 包括两个主要的步骤：  
+* `BaseRecalibrator` 基于输入数据和一组已知变异（一般是 dbSNP）构建协变模型，生成重校准文件。已知变异的作用是**将实际（预期）发生变异位点的碱基 mask，避免将真实的变异视为错误**，除了这些位点，所有不匹配的位置均视为错误  
+* `ApplyBQSR` 基于重校准文件对质量分数进行校正，生成一个新的 BAM 文件  
+* 最后一个可选但强烈建议的是构建第二个模型，并生成校正前/后的图可视化重校准过程  
 
+为了构建重校准模型，BaseRecalibrator 会遍历所有 reads，按照碱基的下列特征制作表格：  
+* read 所属的 read group  
+* 碱基质量分数  
+* 得到该碱基时的机器循环次数，即碱基在 read 中所处的位置  
+* 当前位置的碱基和前一个位置的碱基（dinucleotide，考虑测序时化学试剂的影响）  
+  
+对于每个 bin 中的碱基，排除已知变异稳点后，计算碱基数量和与参考序列不匹配的碱基数量，此信息将以 GATKReport 格式输出到重校准文件  
+然后 ApplyBQSR 根据每个碱基所处的 bin 对其进行校准，新的质量分数值
 ## Steps  
 1. Analyze patterns of covariation in the sequence dataset  
 ```shell
