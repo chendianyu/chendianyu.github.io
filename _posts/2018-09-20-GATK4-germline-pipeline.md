@@ -254,6 +254,7 @@ gatk VariantFiltration \
    -O <filtered_snps.vcf> \
    --filter-expression "QD < 2.0 || FS > 60.0 || MQ < 40.0 || MQRankSum < -12.5 || ReadPosRankSum < -8.0" \
    --filter-name "my_snp_filters"    
+# 满足表达式的变异将被过滤
 # filter expressions 和 filter names 之间必须一一对应
 # 列出多个过滤表达式和对应的名称
 # --filter-name One --filter-expression "X < 1" --filter-name Two --filter-expression "X > 2"
