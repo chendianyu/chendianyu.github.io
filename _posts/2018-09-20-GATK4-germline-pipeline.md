@@ -225,6 +225,22 @@ gatk --java-options "-Xmx4g" GenotypeGVCFs \
 ```
   
 # Select Variants  
+不同类型的变异具有不同的特征，因此对应的过滤条件也有区别，所以我们需要先将变异按照 SNP 和 Indel 区分  
+Usage：  
+```shell
+# select SNPs
+gatk SelectVariants \
+     -R <ucsc.hg38.fasta> \
+     -V <input.vcf.gz> \
+     --select-type-to-include SNP \
+     -O <output.snp.vcf>
+# select Indel
+gatk SelectVariants \
+     -R <ucsc.hg38.fasta> \
+     -V <input.vcf.gz> \
+     --select-type-to-include INDEL \
+     -O <output.indel.vcf>
+```
 
 # REF
 1. https://gatkforums.broadinstitute.org/gatk/discussion/11165/data-pre-processing-for-variant-discovery
