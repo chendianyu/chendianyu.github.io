@@ -161,7 +161,12 @@ BQSR 包括两个主要的步骤：
 * 当前位置的碱基和前一个位置的碱基（dinucleotide，考虑测序时化学试剂的影响）  
   
 对于每个 bin 中的碱基，排除已知变异稳点后，计算碱基数量和与参考序列不匹配的碱基数量，此信息将以 GATKReport 格式输出到重校准文件  
-然后 ApplyBQSR 根据每个碱基所处的 bin 对其进行校准，新的质量分数值
+然后 ApplyBQSR 根据每个碱基所处的 bin 对其进行校准，新的质量分数值为：  
+* 报告的碱基质量分数和实际值之间的总体差异  
+* 加上每个 quality bin 特异的偏移值  
+* 加上循环和 dinucleotide 的影响值  
+  
+
 ## Steps  
 1. Analyze patterns of covariation in the sequence dataset  
 ```shell
@@ -170,7 +175,7 @@ gatk BaseRecalibrator \
     -R <ref.fasta> \ 
     -knownSites <dbsnp.vcf> \ 
     -knownSites <1000g.vcf> \ 
-    -o <recal_data.table>  
+    -O <recal_data.table>  
 ```
 2. Do a second pass to analyze covariation remaining after recalibration (Optional)  
 ```shell
@@ -181,7 +186,7 @@ java -jar GenomeAnalysisTK.jar \
     -knownSites <dbsnp.vcf> \ 
     -knownSites <1000g.vcf> \ 
     -BQSR <recal_data.table> \ 
-    -o <post_recal_data.table> 
+    -O <post_recal_data.table> 
 ```
 * the `-BQSR` flag tells the GATK engine to perform on-the-fly recalibration based on the first recalibration data table  
 3. Generate before/after plots (Optional)  
@@ -195,12 +200,11 @@ java -jar GenomeAnalysisTK.jar \
 ```
 4. Apply the recalibration to your sequence data  
 ```shell
-java -jar GenomeAnalysisTK.jar \ 
-    -T PrintReads \ 
+gatk ApplyBQSR \  
     -R <ref.fasta> \ 
     -I <input_sorted_markduplicates.bam> \ 
-    -BQSR <recal_data.table> \ 
-    -o <output_sorted_markduplicates_recal.bam> 
+    --bqsr-recal-file <recal_data.table> \ 
+    -O <output_sorted_markduplicates_recal.bam> 
 ```
 * By default, the original quality scores are discarded in order to keep the file size down
   
