@@ -233,13 +233,38 @@ gatk SelectVariants \
      -R <ucsc.hg38.fasta> \
      -V <input.vcf.gz> \
      --select-type-to-include SNP \
-     -O <output.snp.vcf>
+     -O <raw_snps.vcf>
 # select Indel
 gatk SelectVariants \
      -R <ucsc.hg38.fasta> \
      -V <input.vcf.gz> \
      --select-type-to-include INDEL \
-     -O <output.indel.vcf>
+     -O <raw_indels.vcf>
+```
+  
+# Variant Filter  
+## hard filter
+基于 INFO (`--filter-expression` 参数) 和 FORMAT (`--genotype-filter-expression` 参数) 注释对 VCF 文件进行过滤，达到标准的变异 FILTER 列显示为 PASS，未达到的则是其他值，过滤掉的变异默认也会输出  
+Usage:  
+```shell
+# SNP 过滤
+gatk VariantFiltration \
+   -R <ucsc.hg38.fasta> \
+   -V <raw_snps.vcf> \
+   -O <filtered_snps.vcf> \
+   --filter-expression "QD < 2.0 || FS > 60.0 || MQ < 40.0 || MQRankSum < -12.5 || ReadPosRankSum < -8.0" \
+   --filter-name "my_snp_filters"    
+# filter expressions 和 filter names 之间必须一一对应
+# 列出多个过滤表达式和对应的名称
+# --filter-name One --filter-expression "X < 1" --filter-name Two --filter-expression "X > 2"
+#
+# Indel 过滤
+gatk VariantFiltration \
+   -R <ucsc.hg38.fasta> \
+   -V <raw_indels.vcf> \
+   -O <filtered_indels.vcf> \
+   --filter-expression "QD < 2.0 || FS > 200.0 || ReadPosRankSum < -20.0" \
+   --filter-name "my_indel_filters"
 ```
 
 # REF
