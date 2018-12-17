@@ -117,7 +117,7 @@ java -jar picard.jar BuildBamIndex \
 Usage: `samtools index <input.bam>` 产生的文件为 `<input.bam.bai>` 只有这个与 Picard 有区别，文件内容本质上应该是一致的  
 
 ## Mark Duplicates
-Tools involved: `MarkDuplicates`  
+Tools involved: Picard's `MarkDuplicates`  
 重复可以是在样本准备过程中发生，如通过 PCR 构建文库，称为 `PCR duplicates`；也可以是单个扩增簇被测序仪的光学传感系统误认为是多个簇导致，称为 `optical duplicates`  
 重复标记过程是按照每个样本（`per-sample`）进行的，标记重复序列，从而在后续变异识别过程中忽略这些 reads。该步骤需要对每个 sample 内所有 reads 进行两两比较，因此是主要的限速步骤  
 输出为 **a new SAM or BAM file**, 重复 reads bitwise flag 标记为十六进制值 `0x0400`, 对应十进制值为1024；另外为了标记重复的类型，最近在 SAM/BAM 文件的 'optional field' section 引入了一个新的 tag。通过 `TAGGING_POLICY` 选项，可以控制程序标记所有重复（All），仅光学重复（OpticalOnly）或者不标记重复（DontTag，**默认**）。输出 SAM/BAM 文件中会带上 `DT` tag，值为 `library/PCR-generated duplicates (LB)`, or `sequencing-platform artifact duplicates (SQ)`  
@@ -143,7 +143,7 @@ java -jar picard.jar FixMateInformation \
 ```
   
 # Base (Quality Score) Recalibration
-Tools involved: `BaseRecalibrator`, `Apply Recalibration`, `AnalyzeCovariates` (optional)
+Tools involved: GATK `BaseRecalibrator`, `Apply Recalibration`  
 变异识别算法主要依赖碱基质量分数，但是机器得到的分值受各种来源的误差干扰，比如文库制备的生化过程，测序芯片或者测序仪等的缺陷，并不准确。`Base quality score recalibration (BQSR)` 是基于机器学习方法，对这些错误进行建模，然后校正质量分数。这一步是按照每个 read group 进行的
 BQSR 包括两个主要的步骤：  
 * `BaseRecalibrator` 基于输入数据和一组已知变异（一般是 dbSNP）构建协变模型，生成重校准文件。已知变异的作用是**将实际（预期）发生变异位点的碱基 mask，避免将真实的变异视为错误**，除了这些位点，所有不匹配的位置均视为错误  
@@ -184,6 +184,33 @@ gatk ApplyBQSR \
 * By default, the original quality scores are discarded in order to keep the file size down
   
 # Variants calling  
-
+Tools involved: GATK `HaplotypeCaller`  
+HaplotypeCaller 通过对活跃区域局部重组装实现变异识别：  
+1. 定义活跃区域。首先是计算基因组各位置的活跃值，得到 raw activity profile，然后通过平滑算法得到 actual activity profile，最后根据活跃度曲线找出局部极大值，并以此确定出准确的区间  
+2. 对于每个活跃区间，通过 De Bruijn-like graph 进行从头组装，确定可能的单体型，然后通过 Smith-Waterman 算法将单体型与参考单体型比对，确定可能存在变异的位点  
+3. 通过 PairHMM 算法将活跃区内的 reads 成对比对到单体型上，会得到单体型似然度矩阵，将似然度边缘化得到给定 reads 情况下可能存在变异位点各等位基因的似然度  
+4. 对每个可能的变异位点，根据贝叶斯法则和各等位基因的似然度确定基因型  
+  
+# 单个样本  
+Usage：  
+```shell
+gatk --java-options "-Xmx4g" HaplotypeCaller  \
+   -R <ucsc.hg38.fasta> \
+   -I <input_sorted_markduplicates_recal.bam> \
+   -O <output.vcf.gz> 
+```  
+  
+# 多样本 GVCF  
+GVCF 代表 genomic VCF，相较常规的 VCF 文件，包含更多的信息，适用于多个样本的变异识别。GVCF 包含基因组（或指定区间）**所有的位点**，而不管样本在这个位点是不是存在变异，用于后续 joint analysis  
+GVCF 有两种模式，分别通过 `-ERC GVCF` 和 `-ERC BP_RESOLUTION` 得到。其中前者会将连续且基因型质量分数（genotype quality，GQ）在一定区间内的非变异位点整合成 block，并在 header 部分标注 `#GVCFBlock` 的信息；后者则是每个位点占据一行。GVCF 模式文件较小，一般采用该种模式  
+Usage：  
+```shell
+gatk --java-options "-Xmx4g" HaplotypeCaller  \
+   -R <ucsc.hg38.fasta> \
+   -I <input_sorted_markduplicates_recal.bam> \
+   -ERC GVCF \
+   -O <output.g.vcf.gz>
+```
+  
 # REF
 1. https://gatkforums.broadinstitute.org/gatk/discussion/11165/data-pre-processing-for-variant-discovery
