@@ -267,6 +267,10 @@ gatk VariantFiltration \
    --filter-expression "QD < 2.0 || FS > 200.0 || ReadPosRankSum < -20.0" \
    --filter-name "my_indel_filters"
 ```
+## VQSR (Variant Quality Score Recalibration)
+基于机器学习方法对训练集中变异进行建模，并将其用于实际变异集的过滤。VQSR 不会对原来的质量分数值进行校正，而是将 QUAL 列中的分值没有考虑的各项与变异相关的属性纳入其中，重新计算一个新的质量分数 VQSLOD (for variant quality score log-odds)，尽可能平衡好敏感性和准确性。VQSLOD 分值，是真实变异与假阳性之间的，添加至 INFO 列中  
+`VariantRecalibrator` 找出训练/真实集与实际变异集之间的重叠部分，然后对变异与所指定的注释项之间的分布建模，期望将它们聚集成簇，然后根据这些簇对变异赋上 VQSLOD 值，越接近各分支中心的变异的分值要高于位于边缘的变异。这一步会得到 VCF 格式的重校准文件和一些图表附件  
+`ApplyRecalibration` 会进行过滤，在输出的 VCF 文件中标记哪些变异通过了筛选条件，哪些则没有。在前一步中，变异获得了 VQSLOD 值，同时真实集中的变异会按照分支的大小排序。当通过 `ApplyRecalibration` 指定 tranche sensitivity （以百分比表示，如99.9%）后，程序将会查找高于那个分值时，真实集中99.9%的变异都会囊括在内，然后用这个值作为阈值筛选自己数据中的变异，超过这个值的变异 FILTER 标记为 PASS，没超过的则标记为如 VQSRTrancheSNP99.90to100.00，意味着其 VQSLOD 值处在真实集后0.1%的范围内  
 
 # REF
 1. https://gatkforums.broadinstitute.org/gatk/discussion/11165/data-pre-processing-for-variant-discovery
