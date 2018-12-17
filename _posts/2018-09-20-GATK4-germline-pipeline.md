@@ -14,8 +14,7 @@ tags:
 # Introduction  
 本流程基于 GATK4 进行 WES/WGS 生殖系突变，主要是 SNP 和 Indel 的检测。流程使用 `GRCh38` 作为参考基因组，以双端测序 FastQ 文件起始，最终得到包含 SNP 和 Indel 的 (g)VCF 文件  
 
-# Data pre-processing for variant discovery  
-## Reference  
+# Reference  
 GRCh38 参考基因组 FASTA 文件包含 `alternate contigs`, 此外还需要用到 `.fai` index 文件， `.dict` dictionary 文件以及5个 BWA-specific 索引文件 `.sa`, `.amb`, `.bwt`, `.ann` and `.pac`    
 1. a `.dict` dictionary of the contig names and sizes  
 我们通过 `Picard` 的 `CreateSequenceDictionary`，基于参考基因组的 FASTA 文件构造出一个后缀名为 `.dict` 的序列字典文件。该文件实质为一个 SAM 格式的文件，**包含 header，但无 SAMRecords，且 header 部分仅包含序列记录，包括序列的名称和长度等信息**。参考基因组文件可以被压缩，即支持 `.fasta.gz` 格式    
@@ -56,7 +55,7 @@ nohup wget ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/hg38/1000G_om
 nohup wget ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/hg38/1000G_omni2.5.hg38.vcf.gz.tbi
 ```  
 
-## Expected input
+# Expected input
 数据最初是按照不同的 `readgroups` 分成不同的子集，对应 `libraries`（DNA 取自不同的生物学样本，以及在文库制备过程中的片段化和 barcode 标记过程）与  `lanes` (测序仪的物理分隔单元) 通过 `multiplexing`（混合多个文库，并在多条泳道上进行测序，以减少风险和人为误差）交叉得到的不同组合  
 Read groups 在 SAM/BAM/CRAM 中通过一系列标签进行定义。在 SAM 等文件的 header 中，以 `@RG` 起始，后面跟着以下几个 tag：  
 * ID：每个 read group 的 ID 是唯一的。对于 Illumina 数据，一般就是 flowcell + lane name and number。对于 BQSR 等处理，每一个 read group 被认为是独立的，被认为共享相同的错误模型  
@@ -78,8 +77,7 @@ java -jar picard.jar AddOrReplaceReadGroups \
     CREATE_INDEX=True
 ```
 
-# Main steps  
-## Map to Reference  
+# Map to Reference  
 **Tools involved:** `BWA`, Picard 的`MergeBamAlignments`
 第一步按照每个 read group，将每对 read 比对到参考基因组上。由于比对算法能够独立处理每对 read，因此可以通过并行提高速度  
 
@@ -94,7 +92,7 @@ bwa mem -R <read_group> \  # e.g. : '@RG\tID:group1\tSM:sample1\tPL:illumina\tLB
 
 * `-M` : Mark shorter split hits as secondary (for Picard compatibility)
   
-## Coordinate sort and index  
+# Coordinate sort and index  
 Tools involved: Picard's `SortSam` and `BuildBamIndex`  
 后续变异识别和可视化比对情况需要 SAM/BAM 文件先进行排序。`SortSam` 能够根据 **coordinate**, **queryname (QNAME)**, or **some other property** 对 SAM/BAM 文件排序，排序依据存放在 `@HD` tag 的 `SO` 字段中  
 按照坐标排序时，read 首先参考序列字典（`@SQ` tag）中的参考序列名称（`RNAME` 字段）排序，然后是最左边的比对位置（`POS`），在之后就随机排序  
@@ -144,15 +142,12 @@ java -jar picard.jar FixMateInformation \
     ADD_MATE_CIGAR=true  
 ```
   
- 
-  
-## Base (Quality Score) Recalibration
+# Base (Quality Score) Recalibration
 Tools involved: `BaseRecalibrator`, `Apply Recalibration`, `AnalyzeCovariates` (optional)
 变异识别算法主要依赖碱基质量分数，但是机器得到的分值受各种来源的误差干扰，比如文库制备的生化过程，测序芯片或者测序仪等的缺陷，并不准确。`Base quality score recalibration (BQSR)` 是基于机器学习方法，对这些错误进行建模，然后校正质量分数。这一步是按照每个 read group 进行的
 BQSR 包括两个主要的步骤：  
 * `BaseRecalibrator` 基于输入数据和一组已知变异（一般是 dbSNP）构建协变模型，生成重校准文件。已知变异的作用是**将实际（预期）发生变异位点的碱基 mask，避免将真实的变异视为错误**，除了这些位点，所有不匹配的位置均视为错误  
-* `ApplyBQSR` 基于重校准文件对质量分数进行校正，生成一个新的 BAM 文件  
-* 最后一个可选但强烈建议的是构建第二个模型，并生成校正前/后的图可视化重校准过程  
+* `ApplyBQSR` 基于重校准文件对质量分数进行校正，生成一个新的 BAM 文件    
 
 为了构建重校准模型，BaseRecalibrator 会遍历所有 reads，按照碱基的下列特征制作表格：  
 * read 所属的 read group  
@@ -177,28 +172,8 @@ gatk BaseRecalibrator \
     -knownSites <1000g.vcf> \ 
     -O <recal_data.table>  
 ```
-2. Do a second pass to analyze covariation remaining after recalibration (Optional)  
-```shell
-java -jar GenomeAnalysisTK.jar \ 
-    -T BaseRecalibrator \ 
-    -R <ref.fasta> \ 
-    -I <input_sorted_markduplicates.bam> \
-    -knownSites <dbsnp.vcf> \ 
-    -knownSites <1000g.vcf> \ 
-    -BQSR <recal_data.table> \ 
-    -O <post_recal_data.table> 
-```
-* the `-BQSR` flag tells the GATK engine to perform on-the-fly recalibration based on the first recalibration data table  
-3. Generate before/after plots (Optional)  
-```shell
-java -jar GenomeAnalysisTK.jar \ 
-    -T AnalyzeCovariates \ 
-    -R <ref.fasta> \ 
-    -before <recal_data.table> \
-    -after <post_recal_data.table> \
-    -plots <recalibration_plots.pdf>
-```
-4. Apply the recalibration to your sequence data  
+
+2. Apply the recalibration to your sequence data  
 ```shell
 gatk ApplyBQSR \  
     -R <ref.fasta> \ 
@@ -208,5 +183,7 @@ gatk ApplyBQSR \
 ```
 * By default, the original quality scores are discarded in order to keep the file size down
   
+# Variants calling  
+
 # REF
 1. https://gatkforums.broadinstitute.org/gatk/discussion/11165/data-pre-processing-for-variant-discovery
