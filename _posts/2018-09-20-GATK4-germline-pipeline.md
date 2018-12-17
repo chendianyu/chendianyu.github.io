@@ -188,10 +188,10 @@ Tools involved: GATK `HaplotypeCaller`
 HaplotypeCaller 通过对活跃区域局部重组装实现变异识别：  
 1. 定义活跃区域。首先是计算基因组各位置的活跃值，得到 raw activity profile，然后通过平滑算法得到 actual activity profile，最后根据活跃度曲线找出局部极大值，并以此确定出准确的区间  
 2. 对于每个活跃区间，通过 De Bruijn-like graph 进行从头组装，确定可能的单体型，然后通过 Smith-Waterman 算法将单体型与参考单体型比对，确定可能存在变异的位点  
-3. 通过 PairHMM 算法将活跃区内的 reads 成对比对到单体型上，会得到单体型似然度矩阵，将似然度边缘化得到给定 reads 情况下可能存在变异位点各等位基因的似然度  
+3. 通过 PairHMM 算法将活跃区内的 reads 成对比对到单体型上，会得到单体型似然度矩阵，将似然度边缘化,得到给定 reads 情况下可能存在变异位点各等位基因的似然度  
 4. 对每个可能的变异位点，根据贝叶斯法则和各等位基因的似然度确定基因型  
   
-# 单个样本  
+## 单个样本  
 Usage：  
 ```shell
 gatk --java-options "-Xmx4g" HaplotypeCaller  \
@@ -200,7 +200,7 @@ gatk --java-options "-Xmx4g" HaplotypeCaller  \
    -O <output.vcf.gz> 
 ```  
   
-# 多样本 GVCF  
+## 多样本 GVCF  
 GVCF 代表 genomic VCF，相较常规的 VCF 文件，包含更多的信息，适用于多个样本的变异识别。GVCF 包含基因组（或指定区间）**所有的位点**，而不管样本在这个位点是不是存在变异，用于后续 joint analysis  
 GVCF 有两种模式，分别通过 `-ERC GVCF` 和 `-ERC BP_RESOLUTION` 得到。其中前者会将连续且基因型质量分数（genotype quality，GQ）在一定区间内的非变异位点整合成 block，并在 header 部分标注 `#GVCFBlock` 的信息；后者则是每个位点占据一行。GVCF 模式文件较小，一般采用该种模式  
 Usage：  
@@ -224,5 +224,7 @@ gatk --java-options "-Xmx4g" GenotypeGVCFs \
    -O <output.vcf.gz>
 ```
   
+# Select Variants  
+
 # REF
 1. https://gatkforums.broadinstitute.org/gatk/discussion/11165/data-pre-processing-for-variant-discovery
