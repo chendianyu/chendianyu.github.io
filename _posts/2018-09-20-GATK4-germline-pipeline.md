@@ -295,13 +295,14 @@ gatk ApplyVQSR \
    --tranches-file <snps_recalibrate.tranches> \
    --recal-file <snps_recalibrate.recal> \
    -mode SNP
+##
 # Indels VQSR
 gatk VariantRecalibrator \
-   -R <ucsc.hg3838.fasta> \
+   -R <ucsc.hg38.fasta> \
    -V <raw_indels.vcf> \
    --maxGaussians 4 \
-   -resource:mills,known=false,training=true,truth=true,prior=12.0 Mills_and_1000G_gold_standard.indels.b37.vcf  \
-   -resource:dbsnp,known=true,training=false,truth=false,prior=2.0 dbsnp_138.b37.vcf\
+   -resource:mills,known=false,training=true,truth=true,prior=12.0 Mills_and_1000G_gold_standard.indels.hg38.vcf  \
+   -resource:dbsnp,known=true,training=false,truth=false,prior=2.0 dbsnp_146.hg38.vcf\
    -an QD -an DP -an FS -an SOR -an ReadPosRankSum -an MQRankSum -an InbreedingCoeff \
    -mode INDEL \
    -O <indels_recalibrate.recal> \
@@ -318,10 +319,20 @@ gatk ApplyVQSR \
 ```
   
 # Others
-## VQSR 使用的训练资源
-* Truth resource：认证过的高可信度变异集，认为当中的变异都是真实的（true=true），可用于训练重校准模型（training=ture），之后还会将其用于根据敏感度确定阈值，如 Hapmap 数据库 hapmap_3.3.hg38.sites.vcf.gz  
-* Training resource：具有一定可信度的变异集，认为当中既有真实变异，也存在假阳性（true=false），会将其用于训练（training=ture），如 1000G_omni2.5.hg38.sites.vcf.gz 和 1000G_phase1.snps.high_confidence.hg38.vcf.gz  
-* Known sites resource：未经过验证的变异集（true=false），不会用于训练（training=false），但会根据变异是否存在于其中作为 Ti/Tv 比率等输出指标的分层依据，如 dbSNP 数据库 Homo_sapiens_assembly38.dbsnp138.vcf.gz  
+## VQSR 使用的训练资源和注释
+### For SNPs
+* Truth resource：认证过的高可信度变异集，认为当中的变异都是真实的（true=true），可用于训练重校准模型（training=ture），之后还会将其用于根据敏感度确定阈值，如 Hapmap 数据库 hapmap_3.3.hg38.sites.vcf.gz 和 Omni 芯片数据库 1000G_omni2.5.hg38.sites.vcf.gz  
+* Training resource：具有一定可信度的变异集，认为当中既有真实变异，也存在假阳性（true=false），会将其用于训练（training=ture），如千人基因组数据库 1000G_phase1.snps.high_confidence.hg38.vcf.gz  
+* Known sites resource：未经过验证的变异集（true=false），不会用于训练（training=false），但会根据变异是否存在于其中作为 Ti/Tv 比率等输出指标的分层依据，如 dbSNP 数据库 dbsnp_146.vcf.gz  
+  
+### For Indels
+* Truth resource：Mills 的 Mills_and_1000G_gold_standard.indels.hg38.vcf  
+* Known sites resource：dbSNP 的 dbsnp_146.hg38.vcf  
+
+### 使用的注释  
+* 外显子数据不宜使用测序深度 `DP`，因为捕获的靶序列在测序深度上存在极大的差异，not indicative for error  
+* `InbreedingCoeff` 是群体水平的统计量，至少需要10个样本，因此不适用于样本数较少或者样本之间关系较劲（如家系）的情况  
+
   
 # REF
 1. https://gatkforums.broadinstitute.org/gatk/discussion/11165/data-pre-processing-for-variant-discovery
