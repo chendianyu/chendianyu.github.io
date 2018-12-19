@@ -318,6 +318,38 @@ gatk ApplyVQSR \
    -mode INDEL
 ```
   
+# Annotation  
+Tools involved: `ANNOVAR`  
+ANNOVAR 能够利用公共数据库中最新的信息对基因组变异进行注释。当给定染色体，起始位置，终止位置，参考碱基和替换碱基后，ANNOVAR 能够：  
+* Gene-based annotation，确定 SNPs 或 CNVs 是否造成蛋白质编码的改变，以及所影响的氨基酸。用户可以选择 RefSeq，UCSC，ENSEMBL，GENCODE，AceView 或者其他的基因定义系统  
+* Region-based annotation，确定变异是否存在于特定基因组区域，如不同物种之间的保守区域，预测的转录因子结合位点等  
+* Filter-based annotation，确认变异是否在 dbSNP 数据库中，在千人基因组中的频率是多少，变异功能预测分值等  
+* Other functionalities，其他自定义的一些数据库  
+
+Usage：  
+```shell
+perl table_annovar.pl \ 
+    <clean_variants.vcf> \
+    <humandb/> \ 
+    -buildver <hg38> \ 
+    -outfile <variants_annovar> \ 
+    -remove \     # 移除所有中间文件
+    -protocol <refGene,cytoBand,exac03,avsnp147,dbnsfp30a> \ 
+    -operation <g,r,f,f,f> \ 
+    -nastring <.> \ 
+    -vcfinput
+```  
+* `-operation`：告知 ANNOVAR 对各 protocol 进行何种操作  
+    * `g`：gene-based  
+    * `gx`：gene-based with cross-reference annotation (需要通过 `-xref` 参数指定 xref 文件)  
+    * `r`：region-based  
+    * `f`：filter-based  
+* `--outfile`：输出文件名的前缀  
+* `--otherinfo`：invoke `--includeinfo` in `convert2annovar.pl` (default `-includeinfo -allsample -withfreq`)  
+* `--argument <string>`：各操作的可选参数，用逗号分隔。e.g. : `-arg '-splicing 5',,,`  
+* 如果 ANNOVAR 遇到不符合标准的输入行，就会将改行输出至文件 `<outfile>.invalid_input`，`<outfile>` 是 `--outfile` 参数指定。如果都符合标准，该文件不存在  
+* 上述程序将会输出文件 `<variants_annovar>.<hg38>_multianno.vcf`，`<variants_annovar>.<hg38>_multianno.txt` (tab-delimited) 和 `<variants_annovar>.avinput`  
+  
 # Others
 ## VQSR 使用的训练资源和注释
 ### For SNPs
