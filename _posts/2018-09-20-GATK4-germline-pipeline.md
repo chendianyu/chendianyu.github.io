@@ -364,10 +364,25 @@ perl table_annovar.pl \
 ### 使用的注释  
 * 外显子数据不宜使用测序深度 `DP`，因为捕获的靶序列在测序深度上存在极大的差异，not indicative for error  
 * `InbreedingCoeff` 是群体水平的统计量，至少需要10个样本，因此不适用于样本数较少或者样本之间关系较近（如家系）的情况  
+  
+## Genotype likelihoods and genotype quality  
+VCF 文件中存在多种质量分数：  
+* `QUAL`  
 
+## Allele-specific filtering （测试中版本） 
+传统的 VQSR 重校正针对的是每个位点，对于一些含有多个等位基因的位点可能会导致假阴性。Allele-Specific filtering 会将每个位点的等位基因独立对待，适用于多等位基因的位点，一般在大样本中表现较好  
+与传统的 VQSR 流程相比，不需要其他的资源，不过需要从样本的 BAM 文件开始操作。当运行完 Allele-Specific filtering 后，会在 INFO 一列添加一些新的注释，之后 VQSR 会针对这些新的注释进行校正  
+该流程必须按照 GVCF 模式进行  
+workflow：  
+* 生成 GVCF 文件时加上 `-G StandardAnnotation -G AS_StandardAnnotation -G StandardHCAnnotation` 参数  
+* 合并 GVCF 文件时加上 `-G StandardAnnotation -G AS_StandardAnnotation` 参数  
+* 联合识别时加上 `-G StandardAnnotation -G AS_StandardAnnotation` 参数  
+* VQSR 时加上 `-AS` 参数
   
 # REF
 1. https://gatkforums.broadinstitute.org/gatk/discussion/11165/data-pre-processing-for-variant-discovery  
+## HaplotypeCaller 
+1. https://software.broadinstitute.org/gatk/documentation/article?id=11077
 ## Hard filter
 1. https://software.broadinstitute.org/gatk/documentation/article?id=11069
 ## VQSR
