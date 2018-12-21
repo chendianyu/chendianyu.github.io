@@ -381,7 +381,7 @@ QUAL（或者 QD）在多样本情境中更有用。当对一组数据进行重�
   
 ## 深度 
 * `AD (DepthPerAlleleBySample)` 输出的是每个样本中每个等位基因的未经过滤的测序深度  
-* `DP (Coverage)` 输出的则是每个样本经过过滤的测序深度和所有样本未经过滤的测序深度  
+* `DP (Coverage)` 输出的则是每个样本经过过滤的测序深度（在 FORMAT 中时）和所有样本未经过滤的测序深度（在 INFO 中时）  
 
 ## Allele-specific filtering （测试中版本） 
 传统的 VQSR 重校正针对的是每个位点，对于一些含有多个等位基因的位点可能会导致假阴性。Allele-Specific filtering 会将每个位点的等位基因独立对待，适用于多等位基因的位点，一般在大样本中表现较好  
@@ -431,6 +431,7 @@ workflow：
   
 ## 深度  
 1. https://software.broadinstitute.org/gatk/documentation/article?id=11072  
+2. https://software.broadinstitute.org/gatk/documentation/article?id=11096  
   
 ## 变异集好坏的评估  
 1. https://software.broadinstitute.org/gatk/documentation/article?id=11071  
