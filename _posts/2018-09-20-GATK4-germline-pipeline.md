@@ -376,6 +376,10 @@ QUAL（或者 QD）在多样本情境中更有用。当对一组数据进行重�
 * `GQ` in `FORMAT` field  
 给出的基因型（GT）的可靠程度。GQ 等于第二可能的基因型的 PL 值减去最可能基因型的 PL 值，所以即为第二小的 PL 值。**GATK 中该值上限设为99**  
   
+## 深度 
+* `AD (DepthPerAlleleBySample)` 输出的是每个样本中每个等位基因的未经过滤的测序深度  
+* `DP (Coverage)` 输出的则是每个样本经过过滤的测序深度和所有样本未经过滤的测序深度  
+
 ## Allele-specific filtering （测试中版本） 
 传统的 VQSR 重校正针对的是每个位点，对于一些含有多个等位基因的位点可能会导致假阴性。Allele-Specific filtering 会将每个位点的等位基因独立对待，适用于多等位基因的位点，一般在大样本中表现较好  
 与传统的 VQSR 流程相比，不需要其他的资源，不过需要从样本的 BAM 文件开始操作。当运行完 Allele-Specific filtering 后，会在 INFO 一列添加一些新的注释，之后 VQSR 会针对这些新的注释进行校正  
@@ -418,6 +422,9 @@ workflow：
 1. https://software.broadinstitute.org/gatk/documentation/article?id=11024  
 2. https://software.broadinstitute.org/gatk/documentation/article?id=11075  
 3. https://software.broadinstitute.org/gatk/documentation/article?id=11079  
+  
+## 深度  
+1. https://software.broadinstitute.org/gatk/documentation/article?id=11072  
   
 ## 变异集好坏的评估  
 1. https://software.broadinstitute.org/gatk/documentation/article?id=11071  
