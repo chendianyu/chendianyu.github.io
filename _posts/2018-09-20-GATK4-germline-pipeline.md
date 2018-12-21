@@ -388,13 +388,19 @@ workflow：
   
 # REF
 1. https://gatkforums.broadinstitute.org/gatk/discussion/11165/data-pre-processing-for-variant-discovery  
+
+## BQSR  
+1. https://software.broadinstitute.org/gatk/documentation/article?id=11081  
+
 ## HaplotypeCaller 
-1. https://software.broadinstitute.org/gatk/documentation/article?id=11077
+1. https://software.broadinstitute.org/gatk/documentation/article?id=11077  
+
 ## Hard filter
-1. https://software.broadinstitute.org/gatk/documentation/article?id=11069
+1. https://software.broadinstitute.org/gatk/documentation/article?id=11069  
+
 ## VQSR
 1. https://software.broadinstitute.org/gatk/documentation/article?id=11084  
-2.. https://software.broadinstitute.org/gatk/documentation/article.php?id=1259  
+2. https://software.broadinstitute.org/gatk/documentation/article.php?id=1259  
 3. https://software.broadinstitute.org/gatk/documentation/article.php?id=2805  
 4. https://software.broadinstitute.org/gatk/documentation/tooldocs/current/org_broadinstitute_hellbender_tools_walkers_vqsr_ApplyVQSR.php  
 5. https://software.broadinstitute.org/gatk/documentation/tooldocs/current/org_broadinstitute_hellbender_tools_walkers_vqsr_VariantRecalibrator.php  
