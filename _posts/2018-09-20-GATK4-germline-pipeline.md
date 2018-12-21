@@ -386,6 +386,13 @@ workflow：
 * 联合识别时加上 `-G StandardAnnotation -G AS_StandardAnnotation` 参数  
 * VQSR 时加上 `-AS` 参数
   
+## 评估变异集的质量  
+实验层面的方法包括 Sanger 测序和芯片等，这里主要考虑计算层面的。通过比较金标准数据和自己的变异集的多个度量，来评估变异的可靠性，以及可能找出错误的来源。使用该方法的要求是（1）真实集中的数据都是真实可靠的；（2）自己变异集样本的基因组与真实集之间应当类似  
+两个衡量指标：  
+* SNPs/Indels 的数量，WGS 为4.4M，WES 为41k  
+* TiTv Ratio，transition (Ti)，转换，嘌呤和嘌呤，或者嘧啶和嘧啶之间的转换；transversion (Tv)，颠换，嘌呤和碱基之间的转换。如果不考虑生物学影响，这个比例应该是0.5，但实际中甲基化的胞嘧啶容易脱氨基转换成胸腺嘧啶；另外像 CpG island，多位于引物区域，具有大量甲基化胞嘧啶，所以包含这些区域的 WES ti/tv 的值会更高。一般 WGS 为2.0-2.1，WES 为3.0-3.3，另外就是对于外显子组测序，该比例受旁侧序列长度影响  
+* Insertions/Deletions，按照目的进行过滤之后，如果寻找常见变异，值约为1，如果是罕见变异，则为0.2-0.5  
+
 # REF
 1. https://gatkforums.broadinstitute.org/gatk/discussion/11165/data-pre-processing-for-variant-discovery  
 
@@ -394,6 +401,8 @@ workflow：
 
 ## HaplotypeCaller 
 1. https://software.broadinstitute.org/gatk/documentation/article?id=11077  
+2. https://software.broadinstitute.org/gatk/documentation/article?id=3893  
+
 
 ## Hard filter
 1. https://software.broadinstitute.org/gatk/documentation/article?id=11069  
@@ -404,7 +413,11 @@ workflow：
 3. https://software.broadinstitute.org/gatk/documentation/article.php?id=2805  
 4. https://software.broadinstitute.org/gatk/documentation/tooldocs/current/org_broadinstitute_hellbender_tools_walkers_vqsr_ApplyVQSR.php  
 5. https://software.broadinstitute.org/gatk/documentation/tooldocs/current/org_broadinstitute_hellbender_tools_walkers_vqsr_VariantRecalibrator.php  
-# 质量分数  
+
+## 质量分数  
 1. https://software.broadinstitute.org/gatk/documentation/article?id=11024  
 2. https://software.broadinstitute.org/gatk/documentation/article?id=11075  
 3. https://software.broadinstitute.org/gatk/documentation/article?id=11079  
+  
+## 变异集好坏的评估  
+1. https://software.broadinstitute.org/gatk/documentation/article?id=11071  
