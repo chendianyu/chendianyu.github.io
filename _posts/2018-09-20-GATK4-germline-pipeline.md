@@ -368,7 +368,7 @@ perl table_annovar.pl \
 ## Genotype likelihoods and genotype quality  
 VCF 文件中存在多种质量分数：  
 * `QUAL` field  
-计算公式：$ <img src="https://latex.codecogs.com/gif.latex?-10log_{10}&space;prob(call&space;in&space;ALT&space;is&space;wrong)" title="-10log_{10} prob(call in ALT is wrong)" /> $。如果 ALT 为 `.` (即没有变异)，那么该值为 $ -10log_{10} prob(variant) $；如果 ALT 不为 `.`，那么该值为 $ -10log_{10} prob(no variant) $；如果未知，则给出缺失值  
+计算公式：<img src="https://latex.codecogs.com/gif.latex?-10log_{10}&space;prob(call&space;in&space;ALT&space;is&space;wrong)" title="-10log_{10} prob(call in ALT is wrong)" /> 。如果 ALT 为 `.` (即没有变异)，那么该值为 $ -10log_{10} prob(variant) $；如果 ALT 不为 `.`，那么该值为 $ -10log_{10} prob(no variant) $；如果未知，则给出缺失值  
 QUAL 告诉我们的是给定位点存在某种变异的可靠性，该变异可能出现在一个或者多个样本中。它有一个标准化后的值 `QualByDepth (QD)`，有变异可信度（QUAL）除以非参考样本的未过滤深度（DP）得到，以避免深度测序带来的膨胀  
 QUAL（或者 QD）在多样本情境中更有用。当对一组数据进行重校准时，看的是位点水平的注释，因为希望是了解变异的整体情况  
 * `PL` in `FORMAT` field  
