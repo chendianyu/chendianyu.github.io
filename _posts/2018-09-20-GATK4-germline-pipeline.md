@@ -351,6 +351,9 @@ perl table_annovar.pl \
 * 上述程序将会输出文件 `<variants_annovar>.<hg38>_multianno.vcf`，`<variants_annovar>.<hg38>_multianno.txt` (tab-delimited) 和 `<variants_annovar>.avinput`  
   
 # Others
+## 氧化误差  
+在文库制备过程中，鸟嘌呤（G）可能被氧化形成 8-oxoguanine，它能与胞嘧啶（C）或腺嘌呤（A）配对，从而引入了 G-T/C-A 的人为错误。这类错误在特定的序列中更容易发生，如 CCG→CAG，故需要注意对变异识别的影响  
+  
 ## VQSR 使用的训练资源和注释
 ### For SNPs
 * Truth resource：认证过的高可信度变异集，认为当中的变异都是真实的（true=true），可用于训练重校准模型（training=ture），之后还会将其用于根据敏感度确定阈值，如 Hapmap 数据库 hapmap_3.3.hg38.sites.vcf.gz 和 Omni 芯片数据库 1000G_omni2.5.hg38.sites.vcf.gz  
@@ -417,6 +420,9 @@ workflow：
 3. https://software.broadinstitute.org/gatk/documentation/article.php?id=2805  
 4. https://software.broadinstitute.org/gatk/documentation/tooldocs/current/org_broadinstitute_hellbender_tools_walkers_vqsr_ApplyVQSR.php  
 5. https://software.broadinstitute.org/gatk/documentation/tooldocs/current/org_broadinstitute_hellbender_tools_walkers_vqsr_VariantRecalibrator.php  
+
+## 氧化误差
+1. https://software.broadinstitute.org/gatk/documentation/article?id=11038  
 
 ## 质量分数  
 1. https://software.broadinstitute.org/gatk/documentation/article?id=11024  
