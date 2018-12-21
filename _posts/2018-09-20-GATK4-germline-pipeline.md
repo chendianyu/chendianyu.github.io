@@ -367,8 +367,15 @@ perl table_annovar.pl \
   
 ## Genotype likelihoods and genotype quality  
 VCF 文件中存在多种质量分数：  
-* `QUAL`  
-
+* `QUAL` field  
+计算公式：$ -10log_{10} prob(call in ALT is wrong) $。如果 ALT 为 `.` (即没有变异)，那么该值为 $ -10log_{10} prob(variant) $；如果 ALT 不为 `.`，那么该值为 $ -10log_{10} prob(no variant) $；如果未知，则给出缺失值  
+QUAL 告诉我们的是给定位点存在某种变异的可靠性，该变异可能出现在一个或者多个样本中。它有一个标准化后的值 `QualByDepth (QD)`，有变异可信度（QUAL）除以非参考样本的未过滤深度（DP）得到，以避免深度测序带来的膨胀  
+QUAL（或者 QD）在多样本情境中更有用。当对一组数据进行重校准时，看的是位点水平的注释，因为希望是了解变异的整体情况  
+* `PL` in `FORMAT` field  
+“标准化”后的每种基因型的 Phred-scaled 似然度，计算公式为 $ PL = −10 log_{10} P(Genotype|Data) $，得到每种基因型的 PL 之后，都减去当中最小的那个值，那么最有可能的那种基因型对应的 PL 值为0  
+* `GQ` in `FORMAT` field  
+给出的基因型（GT）的可靠程度。GQ 等于第二可能的基因型的 PL 值减去最可能基因型的 PL 值，所以即为第二小的 PL 值。**GATK 中该值上限设为99**  
+  
 ## Allele-specific filtering （测试中版本） 
 传统的 VQSR 重校正针对的是每个位点，对于一些含有多个等位基因的位点可能会导致假阴性。Allele-Specific filtering 会将每个位点的等位基因独立对待，适用于多等位基因的位点，一般在大样本中表现较好  
 与传统的 VQSR 流程相比，不需要其他的资源，不过需要从样本的 BAM 文件开始操作。当运行完 Allele-Specific filtering 后，会在 INFO 一列添加一些新的注释，之后 VQSR 会针对这些新的注释进行校正  
