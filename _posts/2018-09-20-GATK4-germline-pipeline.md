@@ -398,3 +398,7 @@ workflow：
 3. https://software.broadinstitute.org/gatk/documentation/article.php?id=2805  
 4. https://software.broadinstitute.org/gatk/documentation/tooldocs/current/org_broadinstitute_hellbender_tools_walkers_vqsr_ApplyVQSR.php  
 5. https://software.broadinstitute.org/gatk/documentation/tooldocs/current/org_broadinstitute_hellbender_tools_walkers_vqsr_VariantRecalibrator.php  
+# 质量分数  
+1. https://software.broadinstitute.org/gatk/documentation/article?id=11024  
+2. https://software.broadinstitute.org/gatk/documentation/article?id=11075  
+3. https://software.broadinstitute.org/gatk/documentation/article?id=11079  
