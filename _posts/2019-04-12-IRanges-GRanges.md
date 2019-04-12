@@ -335,6 +335,7 @@ IRanges object with 7 ranges and 0 metadata columns:
   
 ### 类集合操作
 * 并集  
+
 ```R
 > a <- IRanges(start=4, end=13)
 > b <- IRanges(start=12, end=17)
@@ -372,6 +373,7 @@ IRanges object with 2 ranges and 0 metadata columns:
 ```
   
 * 交集  
+
 ```R
 > intersect(a, b)
 IRanges object with 1 range and 0 metadata columns:
@@ -380,7 +382,8 @@ IRanges object with 1 range and 0 metadata columns:
   [1]        12        13         2
 ```
   
-* 差集
+* 差集  
+
 ```R
 ## a有b没有
 > setdiff(a, b)
