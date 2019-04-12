@@ -334,7 +334,7 @@ IRanges object with 7 ranges and 0 metadata columns:
 ```
   
 ### 类集合操作
-* 并集
+* 并集  
 ```R
 > a <- IRanges(start=4, end=13)
 > b <- IRanges(start=12, end=17)
