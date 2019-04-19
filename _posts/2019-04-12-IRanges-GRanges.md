@@ -333,9 +333,8 @@ IRanges object with 7 ranges and 0 metadata columns:
   [7]        41        42         2
 ```
   
-### 类集合操作
+### 类集合操作  
 * 并集  
-
 ```R
 > a <- IRanges(start=4, end=13)
 > b <- IRanges(start=12, end=17)
@@ -373,7 +372,6 @@ IRanges object with 2 ranges and 0 metadata columns:
 ```
   
 * 交集  
-
 ```R
 > intersect(a, b)
 IRanges object with 1 range and 0 metadata columns:
@@ -383,7 +381,6 @@ IRanges object with 1 range and 0 metadata columns:
 ```
   
 * 差集  
-
 ```R
 ## a有b没有
 > setdiff(a, b)
@@ -687,28 +684,337 @@ IRanges object with 4 ranges and 0 metadata columns:
   
 存在许多处理 `views` 的函数，如 `viewMeans()`，`viewMaxs()`等  
   
-## GenomicRanges
-`GRanges` objects contain the two other pieces of information necessary to specify a genomic location: `sequence name` (e.g., which chromosome) and `strand` (stored as `run-length encoded` in Granges). GRanges objects also have `metadata` columns (using `mcols()` function to access), which are the data linked to each genomic range. All metadata attached to a GRanges object are stored in a `DataFrame`  
-So the structure of GRanges objects: genomic location specified by sequence name, range, and strand (on the left of the dividing bar), and metadata columns (on the right). Each row of metadata corresponds to a range on the same row  
-Because GRanges (and genomic range data in general) is always with respect to a particular genome version, we usually know beforehand the information of each sequence/chromosome, including length, accession number and etc. These data are stored in `seqinfo`  
+# GenomicRanges
+`GRanges` 对象基于 `IRanges` 创建，用于存储基因组范围。其包含了额外的两个信息：`sequence name` （例如位于哪条染色体）和 `strand` (以 `run-length encoded` 方式存储)。此外，`GRanges` 对象还包含 `metadata` (可通过 `mcols()` 函数获取当中的信息)，用于记录每个基因组范围的相关信息，是一个 `DataFrame`  
+
 ```R
-GRanges with 4 ranges and 1 metadata column:
-seqnames ranges strand | gc
-<Rle> <IRanges> <Rle> | <numeric>
-[1] chr1 [5, 14] + | 0.897
-[2] chr1 [6, 15] - | 0.266
-[3] chr2 [7, 16] - | 0.372
-[4] chr3 [8, 17] + | 0.573
----
-seqlengths:
-chr1 chr2 chr3
-152 432 903
+> library(GenomicRanges)
+> gr <- GRanges(seqname=c("chr1", "chr1", "chr2", "chr3"),
+                ranges=IRanges(start=5:8, width=10),
+                strand=c("+", "-", "-", "+"))
+> gr
+GRanges object with 4 ranges and 0 metadata columns:
+      seqnames    ranges strand
+         <Rle> <IRanges>  <Rle>
+  [1]     chr1      5-14      +
+  [2]     chr1      6-15      -
+  [3]     chr2      7-16      -
+  [4]     chr3      8-17      +
+  -------
+  seqinfo: 3 sequences from an unspecified genome; no seqlengths
+
+## 添加metadata
+> gr <- GRanges(seqname=c("chr1", "chr1", "chr2", "chr3"),
+                ranges=IRanges(start=5:8, width=10),
+                strand=c("+", "-", "-", "+"),
+                gc=round(runif(4), 3))
+> gr
+GRanges object with 4 ranges and 1 metadata column:
+      seqnames    ranges strand |        gc
+         <Rle> <IRanges>  <Rle> | <numeric>
+  [1]     chr1      5-14      + |     0.147
+  [2]     chr1      6-15      - |     0.656
+  [3]     chr2      7-16      - |     0.379
+  [4]     chr3      8-17      + |      0.11
+  -------
+  seqinfo: 3 sequences from an unspecified genome; no seqlengths
+```
+
+可以看到 `GRanges` 对象的结构：左侧包含序列名称，范围以及链的方向等基因组位置信息，右侧为元数据列  
+由于基因组范围数据常对应具体某个版本的基因组，所以一般我们已经知道每条序列或染色体的长度等信息。这些信息在例如计算覆盖度等中会用到，存储于 `seqinfo` 中  
+
+```R
+## 构建时加入序列长度seqlengths信息
+> seqlens <- c(chr1=152, chr2=432, chr3=903)
+> gr <- GRanges(seqname=c("chr1", "chr1", "chr2", "chr3"),
+                ranges=IRanges(start=5:8, width=10),
+                strand=c("+", "-", "-", "+"),
+                gc=round(runif(4), 3),
+                seqlengths=seqlens)
+> gr
+GRanges object with 4 ranges and 1 metadata column:
+      seqnames    ranges strand |        gc
+         <Rle> <IRanges>  <Rle> | <numeric>
+  [1]     chr1      5-14      + |     0.787
+  [2]     chr1      6-15      - |     0.278
+  [3]     chr2      7-16      - |     0.116
+  [4]     chr3      8-17      + |     0.592
+  -------
+  seqinfo: 3 sequences from an unspecified genome
+
+## 或者在之后添加
+> seqlengths(gr) <- seqlens
+
+## 获取这些信息
+> seqinfo(gr)
+Seqinfo object with 3 sequences from an unspecified genome:
+  seqnames seqlengths isCircular genome
+  chr1            152         NA   <NA>
+  chr2            432         NA   <NA>
+  chr3            903         NA   <NA>
 ```  
+
+## Granges对象的常用操作
+```R
+## 基本属性值
+> start(gr)
+> end(gr)
+> width(gr)
+
+## 结果均为Rle对象
+> seqnames(gr)
+> strand(gr)
+
+## 范围信息
+> ranges(gr)
+
+## 类向量操作
+> length(gr)
+[1] 4
+> names(gr) <- letters[1:length(gr)]
+> gr
+GRanges object with 4 ranges and 1 metadata column:
+    seqnames    ranges strand |        gc
+       <Rle> <IRanges>  <Rle> | <numeric>
+  a     chr1      5-14      + |     0.571
+  b     chr1      6-15      - |     0.591
+  c     chr2      7-16      - |         1
+  d     chr3      8-17      + |     0.506
+  -------
+  seqinfo: 3 sequences from an unspecified genome
+> gr[start(gr) > 7]
+GRanges object with 1 range and 1 metadata column:
+    seqnames    ranges strand |        gc
+       <Rle> <IRanges>  <Rle> | <numeric>
+  d     chr3      8-17      + |     0.506
+  -------
+  seqinfo: 3 sequences from an unspecified genome
+
+## 针对存储元数据的DataFrame的操作
+> mcols(gr)$gc
+[1] 0.571 0.591 1.000 0.506
+> gr$gc    ## 简写形式
+[1] 0.571 0.591 1.000 0.506
+```
   
 ## GRangesList
-GRanges objects' own version of list, behave like base `list`  
-And we will see `RleList` and `IntegerList` corresponding to `GRangesList`  
+组合 `GRanges` 对象构成一个类似原生列表的 `GRangesList` 对象  
+
+```R
+> gr1 <- GRanges(c("chr1", "chr2"), IRanges(start=c(32, 95), width=c(24, 123)))
+> gr2 <- GRanges(c("chr8", "chr2"), IRanges(start=c(27, 12), width=c(42, 34)))
+> grl <- GRangesList(gr1, gr2)
+> grl
+GRangesList object of length 2:
+[[1]] 
+GRanges object with 2 ranges and 0 metadata columns:
+      seqnames    ranges strand
+         <Rle> <IRanges>  <Rle>
+  [1]     chr1     32-55      *
+  [2]     chr2    95-217      *
+
+[[2]] 
+GRanges object with 2 ranges and 0 metadata columns:
+      seqnames ranges strand
+  [1]     chr8  27-68      *
+  [2]     chr2  12-45      *
+
+-------
+seqinfo: 3 sequences from an unspecified genome; no seqlengths
+
+## 列表转换成长向量
+> unlist(grl)
+GRanges object with 4 ranges and 0 metadata columns:
+      seqnames    ranges strand
+         <Rle> <IRanges>  <Rle>
+  [1]     chr1     32-55      *
+  [2]     chr2    95-217      *
+  [3]     chr8     27-68      *
+  [4]     chr2     12-45      *
+  -------
+  seqinfo: 3 sequences from an unspecified genome; no seqlengths
+
+## 合并GRangsList
+> doubled_grl <- c(grl, grl)
+```
   
-## GenomicFeatures  
-`GenomicFeatures` is a Bioconductor package for creating and working with transcript-based annotation, it provides methods for creating and working with `TranscriptDb` objects  
-You can create your own `TranscriptDb` by function `makeTxDbPackageFromUCSC()`, `makeTxDbPackageFromBiomart()` and etc. in `GenomicFeatures`. And package `rtracklayer` provides more flexible function to deal with format such as `GTF/GFF`, `BED` and etc.
+`GRangesList` 对象支持许多类似原生列表的操作，例如获得子列表。此外，像 `start()`、`end()` 等函数，会基于 **list-element**（即列表各项内分别作用）  
+
+```R
+> start(grl)
+IntegerList of length 2
+[[1]] 32 95
+[[2]] 27 12
+  
+## 出现编码问题的话尝试
+> Sys.setlocale("LC_ALL", "C")
+```
+  
+一种常见的应用场景是我们会基于序列名称将同一条序列上的基因组范围数据合并为一组  
+
+```R
+> chrs <- c("chr3", "chr1", "chr2", "chr2", "chr3", "chr1")
+> gr <- GRanges(chrs, IRanges(sample(1:100, 6, replace=TRUE),
+                              width=sample(3:30, 6, replace=TRUE)))
+> gr
+GRanges object with 6 ranges and 0 metadata columns:
+      seqnames    ranges strand
+         <Rle> <IRanges>  <Rle>
+  [1]     chr3     58-65      *
+  [2]     chr1      7-24      *
+  [3]     chr2      8-17      *
+  [4]     chr2     66-92      *
+  [5]     chr3    79-103      *
+  [6]     chr1     32-46      *
+  -------
+  seqinfo: 3 sequences from an unspecified genome; no seqlengths
+
+## 分割  
+> gr_split <- split(gr, seqnames(gr))
+> gr_split
+GRangesList object of length 3:
+$chr3 
+GRanges object with 2 ranges and 0 metadata columns:
+      seqnames    ranges strand
+         <Rle> <IRanges>  <Rle>
+  [1]     chr3     58-65      *
+  [2]     chr3    79-103      *
+
+$chr1 
+GRanges object with 2 ranges and 0 metadata columns:
+      seqnames ranges strand
+  [1]     chr1   7-24      *
+  [2]     chr1  32-46      *
+
+$chr2 
+GRanges object with 2 ranges and 0 metadata columns:
+      seqnames ranges strand
+  [1]     chr2   8-17      *
+  [2]     chr2  66-92      *
+
+-------
+seqinfo: 3 sequences from an unspecified genome; no seqlengths
+
+## 类似对原生列表应用apply系函数
+> lapply(gr_split, function(x) order(width(x)))
+$chr3
+[1] 1 2
+
+$chr1
+[1] 2 1
+
+$chr2
+[1] 1 2
+
+> sapply(gr_split, function(x) min(start(x)))
+chr3 chr1 chr2 
+  58    7    8 
+> sapply(gr_split, length)
+chr3 chr1 chr2 
+   2    2    2
+
+## reduce等函数可以直接按照list-element方式应用
+> reduce(gr_split)
+GRangesList object of length 3:
+$chr3 
+GRanges object with 2 ranges and 0 metadata columns:
+      seqnames    ranges strand
+         <Rle> <IRanges>  <Rle>
+  [1]     chr3     58-65      *
+  [2]     chr3    79-103      *
+
+$chr1 
+GRanges object with 2 ranges and 0 metadata columns:
+      seqnames ranges strand
+  [1]     chr1   7-24      *
+  [2]     chr1  32-46      *
+
+$chr2 
+GRanges object with 2 ranges and 0 metadata columns:
+      seqnames ranges strand
+  [1]     chr2   8-17      *
+  [2]     chr2  66-92      *
+
+-------
+seqinfo: 3 sequences from an unspecified genome; no seqlengths
+
+## 重组
+> unsplit(gr_split, seqnames(gr))
+```
+  
+# GenomicFeatures and rtracklayer  
+`GenomicFeatures` 包提供了一系列函数处理 `TranscriptDb` 对象中包含的转录本相关数据，通过下面的例子可以看到实际中转录组数据的相关操作  
+
+```R
+## 已经构建好的转录组数据库对象
+> library(TxDb.Mmusculus.UCSC.mm10.ensGene)
+> txdb <- TxDb.Mmusculus.UCSC.mm10.ensGene
+
+## 提取TxDb-like对象中的基因信息
+## 返回结果为GRanges对象
+## 类似函数查询 help(trabscripts)
+> mm_genes <- genes(txdb)
+> head(mm_genes)
+GRanges object with 6 ranges and 1 metadata column:
+                     seqnames              ranges strand |            gene_id
+                        <Rle>           <IRanges>  <Rle> |        <character>
+  ENSMUSG00000000001     chr3 108107280-108146146      - | ENSMUSG00000000001
+  ENSMUSG00000000003     chrX   77837901-77853623      - | ENSMUSG00000000003
+  ENSMUSG00000000028    chr16   18780447-18811987      - | ENSMUSG00000000028
+  ENSMUSG00000000031     chr7 142575529-142578143      - | ENSMUSG00000000031
+  ENSMUSG00000000037     chrX 161117193-161258213      + | ENSMUSG00000000037
+  ENSMUSG00000000049    chr11 108343354-108414396      + | ENSMUSG00000000049
+  -------
+  seqinfo: 66 sequences (1 circular) from mm10 genome
+
+## 也可以按照组合成GRangesList
+## 类似函数查询 help(trabscriptsBy)
+> mm_exons_by_tx <- exonsBy(txdb, by="tx")
+> mm_exons_by_tx
+GRangesList object of length 94647:
+$1 
+GRanges object with 1 range and 3 metadata columns:
+      seqnames          ranges strand |   exon_id   exon_name exon_rank
+         <Rle>       <IRanges>  <Rle> | <integer> <character> <integer>
+  [1]     chr1 3054233-3054733      + |         1        <NA>         1
+
+$2 
+GRanges object with 1 range and 3 metadata columns:
+      seqnames          ranges strand | exon_id exon_name exon_rank
+  [1]     chr1 3102016-3102125      + |       2      <NA>         1
+
+$3 
+GRanges object with 2 ranges and 3 metadata columns:
+      seqnames          ranges strand | exon_id exon_name exon_rank
+  [1]     chr1 3466587-3466687      + |       3      <NA>         1
+  [2]     chr1 3513405-3513553      + |       4      <NA>         2
+
+...
+<94644 more elements>
+-------
+seqinfo: 66 sequences (1 circular) from mm10 genome
+
+## 找出与某一区域重叠的特征数据
+## 类似函数查询 help(transcriptByOverlaps)
+> qtl_region <- GRanges("chr8", IRanges(123260562, 123557264))
+> qtl_region_expanded <- qtl_region + 10e3
+> transcriptsByOverlaps(txdb, qtl_region_expanded)
+GRanges object with 73 ranges and 2 metadata columns:
+       seqnames              ranges strand |     tx_id            tx_name
+          <Rle>           <IRanges>  <Rle> | <integer>        <character>
+   [1]     chr8 119910841-124345722      + |     47374 ENSMUST00000127664
+   [2]     chr8 123254195-123269745      + |     47530 ENSMUST00000001092
+   [3]     chr8 123254271-123257636      + |     47531 ENSMUST00000150356
+   [4]     chr8 123254284-123269743      + |     47532 ENSMUST00000156896
+   [5]     chr8 123254686-123265070      + |     47533 ENSMUST00000154450
+   ...      ...                 ...    ... .       ...                ...
+  [69]     chr8 123559201-123559319      - |     49320 ENSMUST00000178208
+  [70]     chr8 123560888-123561006      - |     49321 ENSMUST00000179143
+  [71]     chr8 123562595-123562713      - |     49322 ENSMUST00000178297
+  [72]     chr8 123564286-123564404      - |     49323 ENSMUST00000179019
+  [73]     chr8 123565969-123566087      - |     49324 ENSMUST00000179081
+  -------
+  seqinfo: 66 sequences (1 circular) from mm10 genome
+```
+  
+除了使用一些 R 包中已经构建好的转录组数据库对象，还可以利用 `GenomicFeatures` 中的函数如 `makeTxDbPackageFromUCSC()`，`makeTxDbPackageFromBiomart()` 等从 UCSC，Biomart等中自行下载数据进行构建，此外，`rtracklayer` 包提供了更加灵活的函数用于处理其他格式的范围数据，如 `GTF/GFF`, `BED` 等
