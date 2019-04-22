@@ -23,4 +23,11 @@ tags:
 3. 对酶反应进行优化  
 4. 用稀释法代替流式分选，并通过声波降解和过滤来减少细胞聚集  
 
-作者共收集了61个E9.5，E10.5，E11.5，E12.5或E13.5阶段的 C57BL/6 小鼠胚胎，液氮中快速冰冻。从胚胎中分离出细胞核，分别置于4个96孔板的孔中。作为对照，在其中2个孔中加入人类 HEK-293T 和小鼠 NIH/3T3
+作者共收集了61个E9.5，E10.5，E11.5，E12.5或E13.5阶段的 C57BL/6 小鼠胚胎，液氮中快速冰冻，然后从胚胎中分离出细胞核，分别置于4个96孔板中。作为对照，在其中2个孔中加入人类 HEK-293T 和小鼠 NIH/3T3 的细胞核混合物。单细胞转录组文库通过单个 Illumina NovaSeq run 进行测序，最终得到110亿条reads（下图）  
+![sci_rna_seq3_workflow](/img/2019-04-22-single-cell-transcriptional-landscape-of-mammalian-organogenesis/sci_rna_seq3_workflow.png)  
+  
+该实验中，共恢复出2058652个小鼠胚胎细胞和13359个 HEK-293T or NIH/3T3 细胞（UMI计数≥200）。对照组孔中，来自人或小鼠的转录组表现出极高的物种一致性（即单个细胞中只含有人或小鼠的转录本），仅有3%（420/13359）出现冲突，与之前实验的表现相近（下图）。其中存在的一个缺陷是仅有约7%的细胞被测到，剩下大部分在过滤除去聚集的细胞核时丢失了  
+![performance_in_control](/img/2019-04-22-single-cell-transcriptional-landscape-of-mammalian-organogenesis/performance_in_control.png)  
+  
+每个胚胎被测到的细胞中位数为35272个（下图左），虽然测序深度较低（平均每个细胞5000条原始序列，46%的重复率），但每个细胞最终获得的 UMI 数量的中位数为671（519个基因）（下图右）  
+![cell_gene_umi](/img/2019-04-22-single-cell-transcriptional-landscape-of-mammalian-organogenesis/cell_gene_umi.png)
