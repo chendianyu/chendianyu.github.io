@@ -48,3 +48,14 @@ tags:
   
 主要分支之间，68%的基因（17789/26183）存在差异表达，其中2863个基因为细胞类型特异性标志基因（定义为在表达最多和次多的细胞类型中的表达量相差2倍以上），平均每个每种类型细胞约75个（下图）。这些基因中的大部分之前未被认为是细胞类型标志基因，比如在脊索（分支30）中，*Tox2*，*Stxbp6*，*Schip1*，*Spon1* 等之前并未被认为是标志基因，但在本研究中是分支30的标志。  
 ![cluster_specific_marker](/img/2019-04-22-single-cell-transcriptional-landscape-of-mammalian-organogenesis/cluster_specific_marker.png)
+  
+器官发生过程中，各类型细胞占比发生了明显的变化。大部分主要细胞类型呈指数增长，但有些细胞类型则是短暂出现，然后在E13.5消失（下图左和中）。例如在E9.5存在起源于卵黄囊（分支26，标志基因 *Hbb-bh1*）的 primitive erythroid lineage，但是来自胎儿肝脏（分支22，标志基因 *Hbb-bs*）的 definitive erythroid lineage 逐渐取代前者，最终成为E13.5时期唯一的红细胞系  
+![cell_change](/img/2019-04-22-single-cell-transcriptional-landscape-of-mammalian-organogenesis/cell_change.png)
+  
+38个主要细胞类型包含细胞数量的中位数为47,073，同一大类细胞之间也存在明显的异质性，因此对这些主要类型再一次进行 Louvain 聚类，移除那些1-2个胚胎却占据绝大部分的分支，并合并高度相似的分支，最终得到655个亚型（下图）。检测细胞类型及亚型的敏感性取决于本实验大量的细胞数目，降低取样后检测到的分支数减少  
+![subcluster](/img/2019-04-22-single-cell-transcriptional-landscape-of-mammalian-organogenesis/subcluster.png)
+  
+13%的亚型被认为可能是人为错误（这些分支中doublets超过10%）而剔除。剩下572个亚型，特异性标志基因（同一主细胞类型内，表达量最高和次高的亚型之间差异超过2倍）中位数为20。绝大部分亚型能够基于标志基因集与其他571个亚型区分开来，其中63%通过2个标志基因即可实现区分，95%通过4个标志基因可实现区分。下图显示用于区分亚型所需的标志基因数量  
+![number_of_markers_to_distinguish](/img/2019-04-22-single-cell-transcriptional-landscape-of-mammalian-organogenesis/number_of_markers_to_distinguish.png)
+  
+为了与其他细胞图谱进行区分，作者将该数据集命名为小鼠器官发生细胞图谱（mouse organogenesis cell atlases, MOCA）。将MOCA的细胞亚型与MCA中130个胎儿（E14.5）细胞类型比较，将96个MCA细胞类型与58个MOCA亚型对应。MOCA中无法与MCA对应的那些亚型多来自早期阶段（如神经管）或比较罕见（如晶状体），而MCA中无法与MOCA对应上的细胞主要是组织特异性免疫或上皮细胞，可能是E13.5之后才出现的。两个数据集之间可以相互印证：MCA中的解剖学信息可用于MOCA中亚型的定位，比如MOCA中一种内分泌上皮细胞亚分支对应MCA中位于胎儿胃部的腺泡和内分泌细胞；MOCA则可用于确定MCA中细胞的胚胎起源，例如MCA中定位于胎儿肾脏的处于细胞周期的细胞对应MOCA中过渡态中胚层的一个亚型，可能是肾脏的祖细胞。类似地，MOCA中的68个亚型与BCA中的48细胞类型对应  
