@@ -53,7 +53,7 @@ tags:
 ![cell_change](/img/2019-04-22-single-cell-transcriptional-landscape-of-mammalian-organogenesis/cell_change.png)
   
 38个主要细胞类型包含细胞数量的中位数为47,073，同一大类细胞之间也存在明显的异质性，因此对这些主要类型再一次进行 Louvain 聚类，移除那些1-2个胚胎却占据绝大部分的分支，并合并高度相似的分支，最终得到655个亚型（下图）。检测细胞类型及亚型的敏感性取决于本实验大量的细胞数目，降低取样后检测到的分支数减少  
-![subcluster](/img/2019-04-22-single-cell-transcriptional-landscape-of-mammalian-organogenesis/subcluster.png)
+![subcluster](/img/2019-04-22-single-cell-transcriptional-landscape-of-mammalian-organogenesis/subcluster.jpg)
   
 13%的亚型被认为可能是人为错误（这些分支中doublets超过10%）而剔除。剩下572个亚型，特异性标志基因（同一主细胞类型内，表达量最高和次高的亚型之间差异超过2倍）中位数为20。绝大部分亚型能够基于标志基因集与其他571个亚型区分开来，其中63%通过2个标志基因即可实现区分，95%通过4个标志基因可实现区分。下图显示用于区分亚型所需的标志基因数量  
 ![number_of_markers_to_distinguish](/img/2019-04-22-single-cell-transcriptional-landscape-of-mammalian-organogenesis/number_of_markers_to_distinguish.png)
