@@ -59,3 +59,23 @@ tags:
 ![number_of_markers_to_distinguish](/img/2019-04-22-single-cell-transcriptional-landscape-of-mammalian-organogenesis/number_of_markers_to_distinguish.png)
   
 为了与其他细胞图谱进行区分，作者将该数据集命名为小鼠器官发生细胞图谱（mouse organogenesis cell atlases, MOCA）。将MOCA的细胞亚型与MCA中130个胎儿（E14.5）细胞类型比较，将96个MCA细胞类型与58个MOCA亚型对应。MOCA中无法与MCA对应的那些亚型多来自早期阶段（如神经管）或比较罕见（如晶状体），而MCA中无法与MOCA对应上的细胞主要是组织特异性免疫或上皮细胞，可能是E13.5之后才出现的。两个数据集之间可以相互印证：MCA中的解剖学信息可用于MOCA中亚型的定位，比如MOCA中一种内分泌上皮细胞亚分支对应MCA中位于胎儿胃部的腺泡和内分泌细胞；MOCA则可用于确定MCA中细胞的胚胎起源，例如MCA中定位于胎儿肾脏的处于细胞周期的细胞对应MOCA中过渡态中胚层的一个亚型，可能是肾脏的祖细胞。类似地，MOCA中的68个亚型与BCA中的48细胞类型对应  
+  
+# 外胚层顶鞘的鉴定
+作者对上皮细胞（分支6）（下图）所有的亚型进行了注释
+![epithelial_subtypes](/img/2019-04-22-single-cell-transcriptional-landscape-of-mammalian organogenesis/epithelial_subtypes.png)  
+  
+为了深入研究某一亚型，作者将目光聚焦到外胚层顶鞘（apical ectodermal ridge, AER）（亚型6.23）上，一类参与手指或足趾发育的高度特异性上皮细胞亚型。除了已知的标志基因外，本研究中还发现该亚型细胞可通过 *Fndc3a*，*Adamts3*，*Slc16a10*，*Snap91* 和 *Pou6f2* 的表达情况与其他亚型区分开来。WISH实验结果确认了 *Fgf8*（已知的标志基因），*Fndc3a*，*Adamts3* 和 *Snap91* 在腋芽最远端特异性表达，而该区域在E10.5或E11.5阶段对应AER（下图）  
+![AER_marker](/img/2019-04-22-single-cell-transcriptional-landscape-of-mammalian organogenesis/AER_marker.png)  
+  
+之后作者分析了AER增殖以及基因表达的动态过程。虽然在所有时间点以及几乎所有胚胎中都有测到，但是估算结果显示AER细胞数量在E10.5-E11.5之间达到峰值，与之前的报道相符。对AER细胞进行拟时间排序，得到一条简单的从早期到晚期的轨迹以及510个差异表达的基因。可以看到，像 *Fgf8*，*Fgf939* 和 *Rspo234*，活化过程后于 *Fndc3a*，*Mik67* 和 *Igf2* 等推动细胞增殖的基因的表达则是明显下降。通路层面的分析结果也显示该窗口期增殖相关程序下调  
+![AER_marker_dynamics](/img/2019-04-22-single-cell-transcriptional-landscape-of-mammalian organogenesis/AER_marker_dynamics.png)  
+  
+# 重构发育轨迹
+之后作者探索器官发生过程中各类型细胞的发育轨迹。大部分现有的算法假设过程是连续的，但本研究是从E9.5起始的，不可避免地存在部分祖细胞或状态缺失的情况。此外，大部分算法也不允许出现细胞命运的收敛，但我们知道一些细胞类型可以通过不同的途径衍生而来。因此，作者开发了 Monocle3。Monocle3 首先通过 UMAP 将细胞映射至一个编码转录状态的低维空间，然后通过 Louvain community detection 算法将相似的细胞组合，然后将相近的组整合成“超组”，最后确定细胞发育过程中经过的路径或轨迹，分支的位置以及每个超组内的收敛性  
+Monocle3 将1,524,792个高质量细胞（UMI大于400）分成12组轨迹，其中2组对应感知神经元和2组对应血细胞的分别合并，最终剩下10组（下图）其中最复杂的为神经管-脊索轨迹（轨迹3，包括了脊索，神经管，神经和胶质细胞类型祖细胞和发育中细胞）和间质轨迹（轨迹2，包括所有间质和肌肉细胞类型）。此外还有3条神经嵴轨迹，分别对应感知神经元，Schwann 前体细胞和生黑色素细胞。造血轨迹（轨迹5）包括巨核细胞，红细胞和白细胞。剩下的4条轨迹（内皮，上皮，肝和晶状体）均对应一种主要的细胞类型  
+![ten_tracjectories](/img/2019-04-22-single-cell-transcriptional-landscape-of-mammalian organogenesis/ten_tracjectories.png)  
+  
+38个主类型基本上都仅归属于当中某一个组轨迹中（下图，颜色对应各类型细胞分到各组轨迹中占据的比例）  
+![cell_type_2_tracjectories](/img/2019-04-22-single-cell-transcriptional-landscape-of-mammalian organogenesis/cell_type_2_tracjectories.png)  
+  
+与t-SNE不同，UMAP能将相关的细胞类型放置在邻近的位置。比如在较晚发育节点发现的细胞类型如抑制性神经元，与早期中枢神经系统前体细胞（辐射胶质细胞）通过神经元前体细胞构成的“桥”相连
