@@ -90,7 +90,7 @@ Monocle3 将1,524,792个高质量细胞（UMI大于400）分成12组轨迹，其
 # 重构骨骼肌生成轨迹
 发育中的肌肉包含多种E9.5之前形成的不同中胚层细胞系，因而以此为例深入探究发育过程。作者假设肌生成轨迹存在多个进入点，将细胞送入到同一路径中，该路径对应肌管之间共有的核心基因表达程序的活化  
 为了验证该假设，作者在计算分析时将肌细胞以及推断得到的其祖细胞从间质轨迹中分离出来，然后利用 Monocle3 构建了肌细胞特异性发育轨迹（下图），可以看到存在多个E9.5细胞的聚集区域，向外延伸出多条路径，分布着后续发育阶段的细胞  
-![myogenesis_specific_tracjectory](/img/2019-04-22-single-cell-transcriptional-landscape-of-mammalian-organogenesis/myogenesis_specific_tracjectory.png)  
+![myogenesis_specific_trajectory](/img/2019-04-22-single-cell-transcriptional-landscape-of-mammalian-organogenesis/myogenesis_specific_trajectory.png)  
   
 骨骼肌祖细胞标志基因 *Pax3* 和 *Pax7* 的表达分布十分广泛（下图）  
 ![myogenesis_marker](/img/2019-04-22-single-cell-transcriptional-landscape-of-mammalian-organogenesis/myogenesis_marker.png)  
