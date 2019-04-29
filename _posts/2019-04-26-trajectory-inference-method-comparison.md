@@ -39,9 +39,20 @@ tags:
 具体的细则看下一部分结果  
   
 # 评价结果
-具体的评价结果如下图所示  
+所有方法具体的评价结果如下图所示  
 ![detailed_evalution_result](/img/2019-04-26-trajectory-inference-method-comparison/detailed_evalution_result.png)  
   
-* 准确性  
-  选择了4项指标（如下图所示），包括：  
-  * 拓扑结构
+## 准确性  
+评估准确性使用的数据集包括两种类型：  
+* 真实数据集，涉及不同的 scRNA-seq 技术，物种，动态过程以及拓扑结构等。如果一个真实数据集参考轨迹不是通过表达数据本身得到的，而是基于细胞分选（cell sorting）或细胞混合（cell mixing）得到，则归为 gold standard，其他的均归为 silver standard  
+* 合成数据集，使用了多种数据模拟器，其中包括一种利用基因调控热力学模型的基因调控网络模拟器。对于每个模拟，以真实数据集作为参考，并匹配其维度，差异表达基因的数量，droupout 率以及其他统计特性  
+  
+选择了4项指标（如下图所示），包括：  
+* 拓扑结构（topology）（Hamming–Ipsen–Mikhailov, HIM）  
+* 细胞分配到分支的质量（F1<sub>branches</sub>）  
+* 细胞的位置（cor<sub>dist</sub>）  
+* 差异表达特征沿着轨迹分布的准确性（wcor<sub>features</sub>）  
+  
+![accuracy_metric](/img/2019-04-26-trajectory-inference-method-comparison/accuracy_metric.png)  
+  
+结果显示**各方法在不同数据集上的表现差异较大**，意味着不存在适用于所有数据集的“万全之策”。不同来源的数据集的整体分值与具有金标准的真实数据的整体分值之间存在中度到较高的相关性，表明**金标准轨迹的准确性以及合成数据集之间的相关性**。**不同指标得到的结果常出现不一致的情况**，例如 Monocle 和 PAGA Tree 在拓扑结构打分上得分最高，而 Slingshot 则是在对细胞进行排序以及将其置于正确的分支方面表现更佳  
