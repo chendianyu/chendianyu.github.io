@@ -57,3 +57,7 @@ tags:
 ![myeloid_marker](/img/2019-04-30-single-cell-molecular-map-mouse-gastrulation/myeloid_marker.png)  
   
 # 研究基因突变的平台  
+之前的研究强调了转录因子 TAL1（又称SCL）在造血过程中的重要性，*Tal1<sup>−/−</sup>* 小鼠胚胎在E9.5左右由于严重贫血而死亡。由于小鼠繁殖以及确定胚胎基因型十分耗时，且突变的影响常会被明显的发育畸形或胚胎致死掩盖，因此通过敲除小鼠探究活体内这些主要调控基因的机制比较困难。因此，作者通过将 *Tal1<sup>−/−</sup>* tdTomato<sup>+</sup> 小鼠的胚胎干细胞注射到野生型囊胚中，形成嵌合型小鼠胚胎。产生的嵌合体中，野生型细胞仍能生成血细胞，使得我们能够在健康胚胎中研究 TAL1 缺失带来的影响  
+为了确定 *Tal1* 突变细胞与特定细胞系的异常是否相关，从E8.5胚胎中将 tdTomato<sup>−</sup>（野生型）和 tdTomato<sup>+</sup>（Tal1<sup>−/−</sup>） 细胞分离，进行单细胞测序，然后将细胞转录组映射至之前获得的野生型图谱上来对细胞进行注释（下图）。tdTomato<sup>+</sup> 细胞中没有血细胞（下图中白色三角形指示的区域），与 *Tal1* 在造血过程中的重要作用对应。另外，作为对照，将野生型 tdTomato<sup>+</sup> *Tal1<sup>+/+</sup>* 胚胎干细胞注射到野生型胚胎中，这些细胞对造血作用的贡献与 tdTomato<sup>−</sup> 原胚胎的细胞相近（意味着确实是 *Tal1* 的影响）  
+![chimaera_cell_cluster](/img/2019-04-30-single-cell-molecular-map-mouse-gastrulation/chimaera_cell_cluster.png)  
+  
