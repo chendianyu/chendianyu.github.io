@@ -43,5 +43,17 @@ tags:
 在两条轨迹中，有一组基因在插入过程中均上调表达，包括参与上皮重塑的基因如 *Pcna*，*Epcam* 和 *Vim*，与该阶段预计出现的上皮排列相契合。后续肠道成熟以及形态发生过程，共同上调的基因则富集于转录因子，当中的66%为呈现出顺序激活的同源结构域蛋白，表明在后肠特化过程中的时间共线性。此外还找到了内脏内胚层-后肠1早期特异性表达的基因，包括 *Hes1*，*Pou5f1* 和 *Sox4*，可作为后续研究的候选者  
   
 # 血内皮细胞系的起源
-卵黄囊中红细胞可分别通过两种方式形成。一是（primitive）从E7.5开始，产生带核的红细胞，出生后不久便消失，二是（yolk-sac-definitive）在E8.25以血管内皮出现红系骨髓祖细胞（erythro-myeloid progenitors, EMP）起始，后续迁移至胎儿肝脏形成终末红细胞。虽然已经知道了原始和卵黄囊终末造血过程在表型以及分子层面的一些关键性差异，但是对其各自在体内的祖细胞仍知之甚少。为深入研究这些过程，将红细胞，红系骨髓祖细胞，血细胞祖细胞，内皮细胞以及混合中胚层细胞（共15875个细胞）分离出来重新进行聚类，结果如下图所示（BP, blood progenitor; EC, endothelial cell; Ery, erythrocyte; Haem, haemato-endothelial progenitor; Mes, mesodermal cell; Mk, megakaryocyte, 巨核细胞; My, myeloid cell），其中左图内方框是对骨髓，巨核细胞以及血液内皮细胞部分的放大，右边两图则是表示亚分支之间关系的简化图。可以看到  
-![blood_lineage_cluster](/img/2019-04-30-single-cell-molecular-map-mouse-gastrulation/blood_lineage_cluster.png)
+卵黄囊中红细胞可分别通过两种方式形成。一是 （primitive）从E7.5开始，产生带核的红细胞，出生后不久便消失，二是（yolk-sac-definitive）在E8.25以血管内皮出现红系骨髓祖细胞（erythro-myeloid progenitors, EMP）起始，后续迁移至胎儿肝脏形成终末红细胞。虽然已经知道了原始和卵黄囊终末造血过程在表型以及分子层面的一些关键性差异，但是对其各自在体内的祖细胞仍知之甚少  
+为深入研究这些过程，将红系细胞，血内皮细胞，血细胞祖细胞，内皮细胞以及混合中胚层细胞（共15875个细胞）分离出来重新进行聚类，结果如下图所示（BP, blood progenitor; EC, endothelial cell; Ery, erythrocyte; Haem, haemato-endothelial progenitor; Mes, mesodermal cell; Mk, megakaryocyte, 巨核细胞; My, myeloid cell），其中左图内方框是对骨髓，巨核细胞以及血液内皮细胞部分的放大，右边两图则是表示亚分支之间关系的简化图  
+可以看到推测出一条向着原始红细胞延伸的轨迹，穿过血内皮祖细胞1和2（Haem 1 和 Haem 2），血液祖细胞1和2（BP1 和 BP2），红系1-4（Ery 1–Ery 4）  
+![blood_lineage_cluster](/img/2019-04-30-single-cell-molecular-map-mouse-gastrulation/blood_lineage_cluster.png)  
+  
+上述轨迹未包含内皮区域（亚分支EC1–EC8）。该区域富集E8.25–E8.5的细胞，呈现复杂的结构，高表达 *Kdr*（故也称为 *Kdr<sup>hi</sup>* 区域），后者编码 FLK1 蛋白。另外，部分内皮细胞表达造血标志基因，如 *Spi1* (also known as *PU.1*) 和 *Itga2b*，可能提示**血细胞在 yolk-sac-definitive wave 中由内皮细胞产生**  
+已知内皮细胞在卵黄囊、尿囊以及胚体中独立生成，且推测尿囊内皮具有特异性转录特征。为了确认 *Kdr<sup>hi</sup>* 区域的异质性是否与不同的解剖学位置有关，从一批新的 E8.25 胚胎中分离出卵黄囊，尿囊以及胚体，流式挑选出 *FLK1+* 群体，得到288个内皮细胞进行 scRNA-seq。将之前EC1-EC8亚分支的细胞分配到最可能的胚胎位置（下图），表明**不同的解剖学结构来源能够解释部分内皮中发现的转录异质性**  
+![endothelial_cell_location](/img/2019-04-30-single-cell-molecular-map-mouse-gastrulation/endothelial_cell_location.png)  
+  
+之前有研究表明，除了红细胞，primitive wave 还能够生成巨噬和巨核祖细胞，但对这些细胞的分子性质了解甚少。本研究中作者鉴定出2个罕见分支（频率约0.1%），注释为巨核细胞和骨髓细胞  
+作者发现骨髓细胞中表达 *Ptprc*（编码CD45），*Kit*，*Csf1r* 和 *Fcgr3*（编码CD16）（下图），均被报道是E8.5时期 EMP 样细胞的标志基因，后者能够产生小神经胶质巨噬细胞，从而与早期骨髓祖细胞能够产生大脑小神经胶质的报道对上；不过没有检测到更加成熟小神经胶质的标志基因 *Cx3cr1*，*Adgre1*（编码F4/80），只有 *Tmem119* 少量表达。通过分离E8.5胚胎区域并基于标志 CD16/32 和 CSF1R 进行流式分析，发现罕见的 CD16/32<sup>+</sup>CSF1R<sup>+</sup> 在所有区域中均存在，表明**E8.5时期该类细胞早已开始从卵黄囊中向外迁移了**  
+![myeloid_marker](/img/2019-04-30-single-cell-molecular-map-mouse-gastrulation/myeloid_marker.png)  
+  
+# 研究基因突变的平台  
