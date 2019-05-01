@@ -37,10 +37,11 @@ tags:
 接下来，作者先推断了哪些细胞属于**内脏内胚层-后肠1**的发育轨迹，哪些又属于**定形内胚层-后肠2**的发育轨迹（下图，transport maps 方法得到，此外还用 PAGA 方法也得到类似的结果）  
 ![trajectory_for_hindgut_formation](/img/2019-04-30-single-cell-molecular-map-mouse-gastrulation/trajectory_for_hindgut_formation.png)  
   
-作者利用 DPT 将细胞排序，并将基因按照其表达沿着轨迹的动态变化过程进行聚类。基因沿着两条轨迹变化的图式都分成两块区域，其中第一区域对应在E7.5完成内胚层插入之前的基因表达情况，第二区域则对应后续时间点的基因表达（原文献 Extended Data Fig. 5c）。结果显示，内脏内胚层-后肠1轨迹中，内脏内胚层基因在第一区域上调，之后随着细胞转向肠道命运，急剧减少（下图，左边粉红色块对应内胚层插入，右边蓝色块对应肠道成熟区域）。这一结果表明有**一组内脏内胚层细胞，发生在终末内胚层插入之前，正进行内脏成熟过程**  
+作者利用 DPT 将细胞排序，并将基因按照其表达沿着轨迹的动态变化过程进行聚类。基因沿着两条轨迹变化的图式都分成两块区域，其中第一区域对应在E7.5完成内胚层插入之前的基因表达情况，第二区域则对应后续时间点的基因表达（原文献 Extended Data Fig. 5c）。结果显示，内脏内胚层-后肠1轨迹中，内脏内胚层基因在第一区域上调，之后随着细胞转向肠道命运，急剧减少（下图，左边粉红色块对应内胚层插入，右边蓝色块对应肠道成熟区域）。这一结果表明有**一组内脏内胚层细胞，在终末内胚层插入之前，正进行内脏成熟过程**  
 ![VE_gene_dynamics](/img/2019-04-30-single-cell-molecular-map-mouse-gastrulation/VE_gene_dynamics.png)  
   
 在两条轨迹中，有一组基因在插入过程中均上调表达，包括参与上皮重塑的基因如 *Pcna*，*Epcam* 和 *Vim*，与该阶段预计出现的上皮排列相契合。后续肠道成熟以及形态发生过程，共同上调的基因则富集于转录因子，当中的66%为呈现出顺序激活的同源结构域蛋白，表明在后肠特化过程中的时间共线性。此外还找到了内脏内胚层-后肠1早期特异性表达的基因，包括 *Hes1*，*Pou5f1* 和 *Sox4*，可作为后续研究的候选者  
   
 # 血内皮细胞系的起源
-卵黄囊内红细胞通过两种连续过程形成，第一个从E7.5开始，产生带核的红细胞（primitive），出生后不久便消失，第二个从E8.25
+卵黄囊中红细胞可分别通过两种方式形成。一是（primitive）从E7.5开始，产生带核的红细胞，出生后不久便消失，二是（yolk-sac-definitive）在E8.25以血管内皮出现红系骨髓祖细胞（erythro-myeloid progenitors, EMP）起始，后续迁移至胎儿肝脏形成终末红细胞。虽然已经知道了原始和卵黄囊终末造血过程在表型以及分子层面的一些关键性差异，但是对其各自在体内的祖细胞仍知之甚少。为深入研究这些过程，将红细胞，红系骨髓祖细胞，血细胞祖细胞，内皮细胞以及混合中胚层细胞（共15875个细胞）分离出来重新进行聚类，结果如下图所示（BP, blood progenitor; EC, endothelial cell; Ery, erythrocyte; Haem, haemato-endothelial progenitor; Mes, mesodermal cell; Mk, megakaryocyte, 巨核细胞; My, myeloid cell），其中左图内方框是对骨髓，巨核细胞以及血液内皮细胞部分的放大，右边两图则是表示亚分支之间关系的简化图。可以看到  
+![blood_lineage_cluster](/img/2019-04-30-single-cell-molecular-map-mouse-gastrulation/blood_lineage_cluster.png)
