@@ -9,6 +9,12 @@ tags:
  - lineage tracing
 ---
 
+# Highlights
+* 绘制了小鼠原肠胚形成以及早期器官发生的单细胞转录组图谱  
+* 内脏内胚层细胞转分化构胚胎肠道  
+* 早期胚胎中罕见血细胞的出现  
+* TAL1 对血液细胞系的重要作用  
+  
 # 基本概念  
 定形内胚层在原肠胚形成过程中出现并取代胚外内脏内胚层，参与肠管形态发生过程，并构成相关的内脏器官。定形内胚层插入到原始内胚层，使得原始内胚层细胞扩散。之前研究认为原始内胚层会被定形内胚层完全取代，但后续发现即便是到E8.75阶段，在胚胎肠道中仍存在部分原始内胚层来源的细胞，尤其是后肠部分，占到30%  
   
@@ -58,6 +64,18 @@ tags:
   
 # 研究基因突变的平台  
 之前的研究强调了转录因子 TAL1（又称SCL）在造血过程中的重要性，*Tal1<sup>−/−</sup>* 小鼠胚胎在E9.5左右由于严重贫血而死亡。由于小鼠繁殖以及确定胚胎基因型十分耗时，且突变的影响常会被明显的发育畸形或胚胎致死掩盖，因此通过敲除小鼠探究活体内这些主要调控基因的机制比较困难。因此，作者通过将 *Tal1<sup>−/−</sup>* tdTomato<sup>+</sup> 小鼠的胚胎干细胞注射到野生型囊胚中，形成嵌合型小鼠胚胎。产生的嵌合体中，野生型细胞仍能生成血细胞，使得我们能够在健康胚胎中研究 TAL1 缺失带来的影响  
-为了确定 *Tal1* 突变细胞与特定细胞系的异常是否相关，从E8.5胚胎中将 tdTomato<sup>−</sup>（野生型）和 tdTomato<sup>+</sup>（Tal1<sup>−/−</sup>） 细胞分离，进行单细胞测序，然后将细胞转录组映射至之前获得的野生型图谱上来对细胞进行注释（下图）。tdTomato<sup>+</sup> 细胞中没有血细胞（下图中白色三角形指示的区域），与 *Tal1* 在造血过程中的重要作用对应。另外，作为对照，将野生型 tdTomato<sup>+</sup> *Tal1<sup>+/+</sup>* 胚胎干细胞注射到野生型胚胎中，这些细胞对造血作用的贡献与 tdTomato<sup>−</sup> 原胚胎的细胞相近（意味着确实是 *Tal1* 的影响）  
+为了确定 *Tal1* 突变细胞与特定细胞系的异常是否相关，从E8.5胚胎中将 tdTomato<sup>−</sup>（野生型）和 tdTomato<sup>+</sup>（Tal1<sup>−/−</sup>） 细胞分离，进行单细胞测序，然后将细胞转录组映射至之前获得的野生型图谱上来对细胞进行注释（下图）。tdTomato<sup>+</sup> 细胞中没有血细胞（下图中白色三角形指示的区域），与 *Tal1* 在造血过程中的重要作用对应。另外，作为对照，将野生型 tdTomato<sup>+</sup> *Tal1<sup>+/+</sup>* 胚胎干细胞注射到野生型胚胎中，这些细胞对造血作用的贡献与 tdTomato<sup>−</sup> 原胚胎的细胞相近（意味着确实是 *Tal1* 缺失带来的影响）  
 ![chimaera_cell_cluster](/img/2019-04-30-single-cell-molecular-map-mouse-gastrulation/chimaera_cell_cluster.png)  
   
+对比野生型和 *Tal1<sup>−/−</sup>* 的细胞映射至前文血液相关细胞群上，发现 TAL1 缺失破坏了原始红系细胞以出现，意味着 **primitive wave 被破坏**（下图，图中黑色箭头表示 *Tal1<sup>−/−</sup>* 细胞中血液发育在该处被封锁）。本研究中新鉴定的巨核细胞和骨髓细胞的出现同样被阻断；另外，虽然有一部分 *Tal1<sup>−/−</sup>* 细胞映射到血内皮组EC6和EC7上，但它们缺少血液发育相关基因的表达，如 *tga2b* 或已知的 TAL1 靶基因 *Cbfa2t3*，与野生型的原细胞相反，意味着 **second haematopoietic wave 也中断了**  
+![blood_related_cell](/img/2019-04-30-single-cell-molecular-map-mouse-gastrulation/blood_related_cell.png)  
+  
+为了进一步探索 second haematopoietic wave 中断的情况，量化 *Tal1<sup>−/−</sup>* 和野生型细胞对内皮细胞（EC1–EC8）和血内皮细胞（Haem 1 and Haem 2）的贡献比例（下图）  
+![abundance_comparison](/img/2019-04-30-single-cell-molecular-map-mouse-gastrulation/abundance_comparison.png)  
+  
+上图中我们可以看到EC3亚分支中，E8.5期的 *Tal1<sup>−/−</sup>* 细胞远多于野生型，不过这有可能是映射到该亚分支的 *Tal1<sup>−/−</sup>* 具有与EC3相似但不相同的转录组。为了验证这一假设，将这些 *Tal1<sup>−/−</sup>* 细胞先与整个参考图谱中最相似的细胞比较，再与同样映射至EC3亚分支的野生型原细胞比较，发现了一些差异表达的基因，如下图所示。CM 指的是参考图谱中的心肌细胞群（cardiomyocytes），WT指同样映射到EC3亚分支的亚盛行细胞，EC3指参考图谱中最相似的细胞。可以看到 *Tal1<sup>−/−</sup>* 细胞中特异性上调表达 *Pcolce*，*Tdo2* 和 *Plagl1* 等基因。在整个参考图谱中检测这些基因，发现它们在间质以及其他中胚层分支，如尿囊，旁轴，咽部和中间中胚层中高表达  
+此外，有小部分 *Tal1<sup>−/−</sup>* 细胞上调表达心脏相关基因如 *Nkx2-5*，*Mef2c* 和 *Tnnt2*，与之前报道 Tal1−/− 卵黄囊细胞呈现出心肌细胞样表型相对应。不过这些细胞没有表达所有的心肌细胞转录程序，仍在继续表达内皮基因如 *Esam* 和 *Sox17*，虽然相较野生型存在下调  
+以上结果表明，***Tal1* 缺失将细胞封锁在 second haematopoietic wave 上类似于EC3亚分支的转录组状态上；由于无法继续向着血液表型进发，这些细胞转而开始激活其他的中胚层程序**  
+![dge](/img/2019-04-30-single-cell-molecular-map-mouse-gastrulation/dge.png)  
+  
+# Discussion
