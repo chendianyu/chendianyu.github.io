@@ -121,4 +121,14 @@ Bioconductor 分析流程的一大优势就是使用了统一的数据结构，�
   
 基准比较数据集：  
 * `CellBench`：包含来自不同平台和细胞系的数据集  
-* [Tung et al]()
+* [Tung et al](https://www.nature.com/articles/srep39921) 基于平板方法得到的数据  
+* `DuoClustering2018`：包含各种来源的数据，本来是用于比较不同聚类方法的  
+  
+模拟数据集：  
+* `splatter`：可模拟不同细胞类型，批次效应，droupout 水平，差异表达等等  
+  
+# 总结
+Bioconductor 为单细胞数据的分析提供了全面的生态环境，而且作为 R 生态的一部分，可以很方便地调用各类 R 包用于统计和数据科学探索。此外，对其他的 R 包如 `Seurat`或者其他语言如 Python 中的 `scanpy` 包的结果，也提供了相互转换的方法  
+  
+# REF
+1.  Robert A. Amezquita, *et al*. Orchestrating Single-Cell Analysis with Bioconductor. Preprint at bioRxiv https://www.biorxiv.org/content/10.1101/590562v1 (2019)
