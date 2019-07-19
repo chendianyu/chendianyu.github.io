@@ -18,7 +18,7 @@ scRNA-seq 数据的计算分析包括质控，比对，定量，标准化，聚�
 另一个常用的聚类算法是`层次聚类`，它能够循序地不断将**单个细胞整合成大的分支（agglomerative）**或**将分支分成更小的组（divisive）**。该算法的一个主要缺点是其时间和内存消耗均至少为平方增长型，因此难以用于大型数据集。`CIDR` 在**计算距离时增加了对零值的隐式推断**，这样在低深度样本中可以得到更稳定的细胞-细胞距离计算值；还有一些算法如 `BackSPIN` 和 `pcaReduce`，在**每次融合或切分之后都进行降维**，通过这样的迭代方法来提升对小分支的鉴定能力  
 由于前两种方法的局限性，`基于社区发现（community-detection-based）`的算法得到了越来越多的应用。社区发现是聚类的一种变型，专门用于图。不同于其他方法是找出相近的点，社区发现是**找出密集相连的点**。要将该方法用于 scRNA-seq 数据，首先需构建 k 最近邻居图，其中 k 的选择会影响最终分支的数量和大小。为了加强对异常值的鲁棒性，通常还会基于每对细胞的共享最近邻居进行重加权。与层次聚类返回所有 level 上的分区不同，**绝大部分基于图的方法只返回单个结果**，从而使得运行更快。绝大部分基于图的方法**不需要用户指定分支的数目，而是采用间接性的分辨率参数**，比如增加邻居数，将导致分辨率降低，即分支减少。Louvain community detection algorithm 是目前这些算范中应用于 scRNA-seq 数据最广泛的一种，其中 `PhenoGraph` 最早使用了 shared-nearest-neighbour graphs 和 Louvain community detection，后来这一联合方法也被整合进了 `Seurat` 和 `scanpy`  
 目前已经出现了不少用于 scRNA-seq 数据的聚类方法（下图），其中 scanpy 和 Seurat 包中的聚类方法受众最广，但也有研究表明基于 Louvain 算法的聚类方法在小数据集上的效果不佳。不同的方法有其适用性，需要根据实际情况进行选择  
-![scrna_seq_cluster_method](2019-07-17-unsupervised-clustering-single-cell/scrna_seq_cluster_method.png)  
+![scrna_seq_cluster_method](/img/2019-07-17-unsupervised-clustering-single-cell/scrna_seq_cluster_method.png)  
   
 # 离散还是连续的细胞分组
 现有大部分算法会将数据进行划分，但不考虑这些分组是否具有生物学意义，往往还会将随机噪音误认为是单独的分组。所以，当实际并不存在离散的分组时，聚类可能不是一个正确的选择，例如考虑发育轨迹时，我们需要将细胞沿着一条连续的轨迹放置，即`拟时序（pseudotime）`。有些作者开发了新的策略来串联起拟时序和聚类方法，如 Tasic et al 通过 bootstraping 策略将细胞划分为稳定分配为相同分组和分配为不同分组的两类，标记为稳定的和瞬时的，其中后者可能是处于中间态的细胞群；还有像 Wolf et al，采用 coarse-grained graph representation，将细胞分配到节点（表明稳定组）或边上。在实际分析中，我们可能预先不清楚到底是分群还是轨迹，可以考虑两类方法都尝试，可能会带给我们不同角度的信息  
