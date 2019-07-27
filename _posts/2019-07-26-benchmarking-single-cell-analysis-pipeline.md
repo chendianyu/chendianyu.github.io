@@ -24,11 +24,39 @@ scRNA-seq 数据分析相关计算方法的快速发展为我们的工作带来�
 ![experiment_design](/img/2019-07-26-benchmarking-single-cell-analysis-pipeline/experiment_design.png)   
   
 # 质控指标检验
-利用 `scPipe` 包获得各个数据集的一系列质控指标，发现来自不同平台的数据在**外显子比对率和每个细胞总 UMI 数方面表现出一致的高质量，但在内含子比对率上呈现较大差异（下图）**。利用 scran 标准化，并绘制 PCA 图，可以看到显示的结构与预期的比较一致。不同数据集 doublet 率不同  
+利用 `scPipe` 包获得各个数据集的一系列质控指标，发现来自不同平台的数据在**外显子比对率和每个细胞总 UMI 数方面表现出一致的高质量，但在内含子比对率上呈现较大差异（下图）**。利用 scran 标准化，并绘制 PCA 图，可以看到显示的结构与预期的比较一致。另外不同数据集 doublet 率不同  
 ![qc_metric](/img/2019-07-26-benchmarking-single-cell-analysis-pipeline/qc_metric.png)  
   
 整个 workflow 如下图所示，经过预处理和初步质控，每个数据集被不同的方法组合分析，包括8种标准化方法，3种填补方法，7种聚类方法，5种轨迹分析方法以及6种数据整合方法  
 
 ![workflow](/img/2019-07-26-benchmarking-single-cell-analysis-pipeline/workflow.png)  
   
-# 标准化和填补方法比较  
+# 标准化和填补方法的比较  
+选择的标准化方法共8种，包括：  
+* 主要针对 bulk 开发的：trimmed mean of M-values (TMM), count-per-million and DESeq2  
+* 针对 scRNA-seq 的：scone, BASiCS, SCnorm, Linnorm and scran  
+  
+填补方法有3种：kNN-smoothing, DrImpute and SAVER。总计数据集+标准化+推断的组合为438个  
+采用2种指标评估方法的优劣：  
+* silhouette width of cluster (for all datasets)  
+* Pearson correlation coefficient of normalized gene expression within each group (for RNA mixture data)  
+  
+发现**除了 TMM，所有标准化方法均能提高 silhouette width，且针对 scRNA-seq 数据开发的方法表现更好**，不过 DESeq2 也给出了比较好的结果。在所有方法中，**Linnorm 表现最佳，scran 和 scone 紧随其后**  
+RNA mixture 实验中的“拟细胞”使用不同数量的初始 RNA 来模拟 droupout，使得它成为比较填补方法的理想数据集。通常，**填补方法会导致组内相关性提升，但会因标准化方法的不同产生差异**。kNN-smoothing 和 DrImpute 与不同标准化方法的组合比较得到的结果比较一致，而 SAVER 变化较大  
+填补可能导致出现伪造的细胞，为了研究该情况，作者选择了 RNA mixture 数据集中仅含 H2228 或 HCC827 细胞的样本，比较相关性。整体来看，**同一组内，样本间相关性随着 mRNA 含量减少而降低（下图g），但通过填补后，相关性会提升（下图h，i和j）**。3种填补方法都能够清晰地区分出两组细胞，但是 kNN-smoothing 会引入一个假的组内关联结构（下图h），而且额外的分支与 RNA 含量相关，表明 **kNN-smoothing 对 droupout 敏感**  
+  
+# 聚类方法的比较
+作者选取了5种代表性的聚类方法用于所有的数据集，包括：  
+* RaceID3  
+* RCA  
+* Seurat  
+* clusterExperiment  
+* SC3  
+  
+为了评估不同聚类方法的表现，计算以下2个指标，用于评估是否存在过聚类或低聚类：  
+* entropy of cluster accuracy (ECA)  
+* entropy of cluster purity (ECP)  
+  
+其中具有较低的 ECP 和较低的 ECA 值对应最佳的聚类结果。这两项指标的与 adjusted Rand index（ARI）具有较好的一致性，而后者是一种常用的衡量聚类效果的方法。结果显示**默认的参数设置下，没有哪一种方法在所有实验设计中都能表现最优**。总的来说，**Seurat 能够较好地平衡过聚类和低聚类之间的关系**，**RaceID3 在相对更复杂的细胞混合数据集中表现更佳**。不过由于该类数据集存在连续性的群体结构，使得分支间的分离度相较其他数据集更小，**导致所有的方法在该数据集上的准确性都要比在其他数据集上差**  
+在单细胞数据集上，基于基因型信息得到的分支数量可能低估了实际值，这些细胞系中可能存在具有微小差异的亚分支，所以那些在该数据集上过聚类的方法可能是捕获到了真实的生物学信号  
+作者还通过线性模型拟合2323种分析组合（数据集+标准化+填补+聚类）
