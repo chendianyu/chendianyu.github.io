@@ -69,4 +69,22 @@ RNA mixture 实验中的“拟细胞”使用不同数量的初始 RNA 来模拟
 * TSCAN  
 * DPT  
   
-mixture 数据集通过改变 cell 或 RNA 比例模拟出“轨迹”。为简单起见，将 H2228 作为轨迹的根，比较各方法得到的拟时序与实际之间的相关性，此外还计算了每条轨迹的覆盖率，即有多少比例的细胞是被分配到正确的轨迹上。总计683种分析组合（标准化+填补+轨迹分析）被用于各个数据集。此外，利用线性模型量化每种方法的平均表现，发现根据2项指标，Slingshot 和 Monocle2 的结果足够 robust，且产生的轨迹有对应的生物学意义，不过 Slingshot 偶尔会给出额外的轨迹。相反，SLICER 能将所有细胞放置在正确的路径上，但是没办法将它们排好序或者恢复出预想的结构。
+mixture 数据集通过改变 cell 或 RNA 比例模拟出“轨迹”。为简单起见，将 H2228 作为轨迹的根，比较各方法得到的拟时序与实际之间的相关性，此外还计算了每条轨迹的覆盖率，即有多少比例的细胞是被分配到正确的轨迹上。总计683种分析组合（标准化+填补+轨迹分析）被用于各个数据集。此外，利用线性模型量化每种方法的平均表现，发现根据2项指标，Slingshot 和 Monocle2 的结果足够 robust，且产生的轨迹有对应的生物学意义，不过 Slingshot 偶尔会给出额外的轨迹。相反，SLICER 能将所有细胞放置在正确的路径上，但是没办法将它们排好序或者恢复出预想的结构。虽然 Slingshot 和 Monocle2 表现差不多，但是它们放置细胞的方式存在差异。Slingshot 自己不进行降维，而 Monocle2 利用 DDR-tree 降维且倾向于将细胞放置在树的节点上而不是节点间，这一特征可能更适应实际数据只能够位于中间态的细胞数量较少的情况，但是这个前提也不总是成立，所以在解释结果的时候需要注意  
+  
+# 数据整合方法的比较  
+作者比较了5种方法用于单细胞和 RNA mixture 数据集，包括：  
+* MNNs  
+* Scanorama  
+* scMerge  
+* Seurat  
+* MINT  
+  
+其中5个细胞系混合的 CEL-seq2 数据集由于 doublet 率过高被排除。469种组合（标准化+填补+整合）应用于两组实验设计。与预期的一样，直接把独立的数据集放在一起时，PCA 图上可以观察到不同 protocol 之间明显的分离，而数据整合方法能够不同程度地消除这些效应。MNNs，Scanorama 和 scMerge 会返回校正批次之后的表达矩阵，可用于其他下游分析工具，而 Seurat 和 MINT 输出的是数据在低维空间的表示。通过计算 protocol（batch）和已知的细胞系或混合物组信息的 silhouette width 来评估各方法的表现。由于 Seurat 使用 t-SNE 降维，导致距离信息未能保留，因此使用 kBET 量化残留的批次效应差异。在单细胞数据集上，大部分方法表现差不多，除了 Seurat 的 kBET acceptance rate 值较低；而在囊括了更多组别，且每组细胞数量更少的 RNA mixture 实验中，各方法的表现差异较大，其中 MNNs 在 silhouette width distance 上最好，而 Seurat 在 kBET acceptance rate 上最高。除了 silhouette width 和 kBET acceptance rate 外，还对整合后的 RNA mixture 数据进行了聚类，发现除了 Seurat，大部分方法在正确标准化和填补之后，具有较高的 ARI，给出了正确地分支数量，表明它们能够保留好生物学信号  
+  
+# Discussion  
+通过各式各样的组合，作者对数据分析各步骤的不同方法的表现进行比较，发现各方法在不同数据集上的表现存在差异，没有一个适用于任何情形的方法，但是像标准化和填补中的 scran，Linnorm，DrImpute 和 SAVER，聚类中的 Seurat，轨迹分析中的 Monocle2 和 Slingshot，以及数据集整合中的 MNNs 始终能给出令人满意的结果。一些标准化和填补方法的组合，如 Linnorm+SAVER，其大部分下游分析结果都比较好。**各方法处理不同输入的能力也存在差异**，像 Linnorm 和 SC3，不管输入数据是什么，结果都相对稳定，而 SAVER 则对输入比较敏感  
+通过比较各方法组合在不同任务中的结果，作者发现一系列关于不同预处理方法对下游分析的适用性的有趣趋势，比如虽然填补能够提升聚类和轨迹分析的表现，但是会导致数据整合分析中不同批次数据混合效果较差  
+一些综合性方法能够整合多种算法来提升表现，但是并不总是比单一方法来得好，比如 SC3 和 clusterExperiment 并没有超过其他聚类方法，scone 标准化在不同数据集给出的结果也很混杂  
+  
+# REF
+1. Benchmarking single cell RNA-sequencing analysis pipelines using mixture control experiments. Nat Methods, 2019, 16(6):479-487. doi: 10.1038/s41592-019-0425-8. Epub 2019 May 27.
